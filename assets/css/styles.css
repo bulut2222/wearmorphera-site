@@ -1129,15 +1129,25 @@ img{max-width:100%; display:block}
   .header__cta { display: none !important; }
 
   /* Sosyal Medya Hesaplarımız paneli (aşağıdan açılan sheet gibi) */
-  .social-panel{
+   /* Panel default kapalı */
+  .social-panel { 
+    display: none;               /* varsayılan kapalı */
     position: relative;
-    display: grid; grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
     gap: 10px; margin-top: 10px; padding: 12px;
-    border-radius: 14px;
-    background: #fff;
+    border-radius: 14px; background: #fff;
     border: 1px solid var(--stroke);
     box-shadow: 0 10px 24px rgba(15,23,42,.12);
   }
+
+  /* Sadece gizli DEĞİLSE görünür yap */
+  .social-panel:not([hidden]) {
+    display: grid !important;
+  }
+
+  /* Mobilde üst sıradaki json ikonları yine gizli */
+  .header__cta { display: none !important; }
+}
   .social-panel a{
     display: block; text-align: center; padding: 10px 12px; border-radius: 10px;
     border:1px solid var(--stroke);
@@ -1154,3 +1164,5 @@ img{max-width:100%; display:block}
 @media (max-width:480px){
   .kpi{ grid-template-columns: 1fr; }
 }
+/* hidden her zaman kazansın */
+[hidden] { display: none !important; }
