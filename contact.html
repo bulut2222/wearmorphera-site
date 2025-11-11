@@ -59,7 +59,87 @@
         yol arkadaşlığı yapar. Daha fazlasını başarmak için sürekli dener, ölçer, iyileştirir.
       </p>
     </div>
+<!-- Başlık -->
+<h3 class="subhead">Sosyal Medya’da Takip Edin</h3>
 
+<!-- 6 adet sosyal medya JSON ikonu -->
+<div id="contactSocials" class="social-grid" aria-label="Sosyal medya bağlantıları"></div>
+
+<!-- İLETİŞİM ALANI -->
+<section class="contact-stack">
+  <!-- Üst bilgilendirme çipleri -->
+  <div class="info-chips">
+    <div class="chip">
+      <strong>Bizimle çalışmak istersen:</strong>
+      <span>Yeni bir ajansız ve iddialıyız. İhtiyacını yaz, hızlıca dönüş yapalım.</span>
+      <a href="mailto:wearemorphera@hotmail.com">wearemorphera@hotmail.com</a>
+    </div>
+    <div class="chip">
+      <strong>Ekibe katılmak istersen:</strong>
+      <span>Portfolyonu/CV’ni ilet, uygun rol olursa seni arayalım.</span>
+      <a href="mailto:info@ahtapotsm.com">info@ahtapotsm.com</a>
+    </div>
+  </div>
+
+  <!-- Form + Sağ bilgi kartı -->
+  <div class="contact-cards">
+    <form id="morphContact" class="form-modern" novalidate>
+      <div class="grid2">
+        <label class="fld">
+          <span>Adınız Soyadınız *</span>
+          <input required name="name" autocomplete="name" />
+        </label>
+        <label class="fld">
+          <span>E-posta Adresiniz *</span>
+          <input required type="email" name="email" autocomplete="email" />
+        </label>
+      </div>
+
+      <div class="grid2">
+        <label class="fld">
+          <span>Telefonunuz *</span>
+          <input required type="tel" name="phone" autocomplete="tel" />
+        </label>
+        <label class="fld">
+          <span>Firma / Marka Adı</span>
+          <input name="company" />
+        </label>
+      </div>
+
+      <label class="fld">
+        <span>Konu / Kısaca Hedefiniz</span>
+        <input name="subject" />
+      </label>
+
+      <label class="fld">
+        <span>Mesajınız *</span>
+        <textarea required name="message" rows="6"></textarea>
+      </label>
+
+      <div class="row end">
+        <small class="muted">KVKK ve Çerez Politikası’nı kabul ediyorum.</small>
+        <button class="btn" type="submit">Formu Gönder</button>
+      </div>
+
+      <p id="formToast" class="form-toast" hidden>Teşekkürler! En kısa sürede dönüş yapacağız. ✅</p>
+    </form>
+
+    <aside class="contact-card">
+      <h4 class="card-title">Biz Nerede’yiz?</h4>
+      <ul class="contact-list">
+        <li><span class="ico">📍</span><b>Adres:</b> Salihli / Manisa</li>
+        <li><span class="ico">✉️</span><b>E-posta:</b> <a href="mailto:wearemorphera@hotmail.com">wearemorphera@hotmail.com</a></li>
+        <li><span class="ico">☎️</span><b>Telefon:</b> (---) --- -- --</li>
+        <li><span class="ico">🕘</span><b>Çalışma:</b> Hafta içi 09:00–18:00</li>
+      </ul>
+
+      <div class="mini-badge">
+        <span>WeAreMorphera</span>
+        <small>Akıllı strateji • Üretim • Performans</small>
+      </div>
+    </aside>
+  </div>
+</section>
     <!-- 6 adet sosyal medya JSON ikonu -->
     <div id="contactSocials" class="social-grid" aria-label="Sosyal medya bağlantıları"></div>
   </div>
@@ -127,5 +207,16 @@ document.addEventListener('DOMContentLoaded', function () {
 
 <script src="assets/js/main.js" defer></script>
 <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+<script>
+document.getElementById('morphContact')?.addEventListener('submit', (e)=>{
+  e.preventDefault();
+  const f = e.currentTarget;
+  if (!f.checkValidity()) { f.reportValidity(); return; }
+  const toast = document.getElementById('formToast');
+  toast.hidden = false;
+  toast.scrollIntoView({ behavior:'smooth', block:'center' });
+  f.reset();
+});
+</script>
 </body>
 </html>
