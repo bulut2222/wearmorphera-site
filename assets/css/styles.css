@@ -1157,3 +1157,49 @@ img{max-width:100%; display:block}
 
 /* hidden her zaman kazansın — mümkünse dosyanın en üstüne al */
 [hidden]{ display:none !important; }
+/* ==== MOBILE NAV HOTFIX (<=980px) ==== */
+@media (max-width:980px){
+
+  /* Alt sıra: brand + nav aynı satır, nav yatay ve ortalı */
+  .header__row--bottom{ 
+    display:flex; align-items:center; justify-content:center; 
+    flex-wrap:wrap; /* menü taşarsa ikinci satıra aksın */
+    gap:8px;
+  }
+
+  /* Off-canvas'ı tamamen kapat ve yatay zorla */
+  .header__row--bottom .nav{
+    position: static !important;
+    inset: auto !important;
+    transform: none !important;
+    width: auto; height: auto;
+    background: transparent !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+
+    display: flex !important;
+    flex-direction: row !important;   /* << yatay zorla */
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    gap: 8px !important;
+  }
+
+  .header__row--bottom .nav a{
+    display:inline-flex !important;
+    height:40px; padding:0 12px; margin:4px;
+    white-space:nowrap;
+    flex:0 0 auto;
+  }
+
+  /* WeAreMorphera “pill”i daha yukarıda kalsın */
+  .header__row--bottom .brand{
+    order:1;                      /* solda/üstte */
+    align-self:flex-start;
+    margin-top:-6px;              /* biraz yukarı çek */
+    margin-right:12px;
+  }
+  .header__row--bottom .nav{ order:2; flex-basis:100% } /* menü, brand’in altına ortalı */
+
+  /* Hero başlığı alta çok itmesin */
+  .hero--light{ padding-top: 68px; }  /* önce 100px’ti */
+}
