@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="tr" data-theme="light">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ekibimiz — We Are Morphera</title>
+  <meta name="description" content="We Are Morphera ekibi: kurucular ve çekirdek kadro.">
+  <link rel="stylesheet" href="assets/css/styles.css?v=4" />
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="container header__inner">
+      <a class="brand" href="index.html#top" aria-label="WeAreMorphera anasayfa">
+        <span class="brand__dot" aria-hidden="true"></span>
+        <span>WeAreMorphera</span>
+      </a>
+
+      <nav class="nav" id="nav" aria-label="Ana menü">
+        <a href="index.html#services">Hizmetler</a>
+        <a class="is-active" href="team.html" aria-current="page">Ekibimiz</a>
+        <a href="index.html#process">Süreç</a>
+        <a href="index.html#plans">Paketler</a>
+        <a href="index.html#work">Portföy</a>
+        <a href="index.html#blog">Blog</a>
+        <a href="index.html#contact" class="btn btn--ghost">İletişim</a>
+      </nav>
+
+      <div class="header__actions">   
+      </div>
+    </div>
+  </header>
+
+  <!-- Başlık -->
+<section class="section section--tight team-hero">
+  <div class="container section-title">
+    <h1 class="team-title" id="teamTitle" aria-label="Ekibimiz">
+      <span class="title-box">
+        <span class="team-title__text">EKİBİMİZ</span>
+      </span>
+    </h1>
+    <p class="subtitle hero-subtitle">
+      Yazılım, e-ticaret ve sosyal medya <u>performans</u>ını aynı çatı altında yönetiyoruz.
+    </p>
+  </div>
+</section>
+
+
+<section class="section team-body">
+  <div class="container team-grid">
+    <!-- kartlar -->
+  </div>
+</section>
+
+  <!-- Grid -->
+  <section class="section">
+    <div class="container team-grid">
+
+     <!-- Büşra -->
+<article class="member-card">
+  <figure class="member-photo">
+    <img src="assets/img/team/busra.jpg" alt="Büşra — Co-Founder & CEO · Growth Lead" loading="lazy" />
+    <span class="member-badge">BÜŞRA</span>   <!-- ROZET BURAYA -->
+  </figure>
+  <p class="member-title">Co-Founder & CEO · Growth Lead</p>
+  <p class="member-meta">E-ticaret & sosyal medya büyümesi, kampanya stratejisi, kreatif üretim.</p>
+</article>
+
+<!-- Emine -->
+<article class="member-card">
+  <figure class="member-photo">
+    <img src="assets/img/team/emine.jpg" alt="Emine — E-Commerce & Social Media Specialist" loading="lazy" />
+    <span class="member-badge">EMİNE</span>
+  </figure>
+  <p class="member-title">E-Commerce & Social Media Specialist</p>
+  <p class="member-meta">Mağaza yönetimi, ürün içerikleri, yorum/DM operasyonu.</p>
+</article>
+
+<!-- Bulut -->
+<article class="member-card">
+  <figure class="member-photo">
+    <img src="assets/img/team/bulut.jpg" alt="Bulut Keleş — Co-Founder & CTO · Lead Developer" loading="lazy" />
+    <span class="member-badge">BULUT</span>
+  </figure>
+  <p class="member-title">Co-Founder & CTO · Lead Developer</p>
+  <p class="member-meta">Uygulama geliştirme, otomasyon & entegrasyonlar, veri ve raporlama.</p>
+</article>
+
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer__inner">
+      <div class="brand">
+        <span class="brand__dot" aria-hidden="true"></span>
+        <div>
+          <strong>WeAreMorphera</strong><br>
+          <small class="muted">wearemorphera.com</small>
+        </div>
+      </div>
+      <div class="footer__links">
+        <a href="#">KVKK</a>
+        <a href="#">Çerez Politikası</a>
+        <a href="#">Hizmet Koşulları</a>
+        <span>© <span id="year"></span> WeAreMorphera</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/js/main.js"></script>
+  <script>
+    // Başlık animasyonu (görünce tetiklenir)
+    const t = document.getElementById('teamTitle');
+    const io = new IntersectionObserver(([e]) => {
+      if (e.isIntersecting) { t.classList.add('is-in'); io.disconnect(); }
+    }, { threshold: .6 });
+    io.observe(t);
+
+    // Aktif menü
+    document.querySelectorAll('.nav a').forEach(a => {
+      if (a.href === location.href) a.classList.add('is-active');
+    });
+  </script>
+</body>
+</html>
