@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="tr" data-theme="light">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>İletişim – We Are Morphera</title>
+  <meta name="description" content="WeAreMorphera iletişim ve sosyal bağlantılar.">
+  <link rel="stylesheet" href="assets/css/styles.css?v=3" />
+</head>
+<body>
+
+<!-- Header (aynı yapı) -->
+<header class="header">
+  <div class="container header__inner">
+
+    <div class="header__row header__row--top">
+      <a class="brand" href="index.html#top" aria-label="WeAreMorphera anasayfa">
+        <span class="brand__dot" aria-hidden="true"></span>
+        <span>WeAreMorphera</span>
+      </a>
+
+      <!-- masaüstünde ikonlar -->
+      <div class="header__cta only-desktop" id="socials" aria-label="Sosyal bağlantılar">
+        <a class="lottie-icon" id="iconTikTok"     href="https://www.tiktok.com/@seninhesabin"    target="_blank" aria-label="TikTok"></a>
+        <a class="lottie-icon" id="iconInstagram"  href="https://www.instagram.com/seninhesabin" target="_blank" aria-label="Instagram"></a>
+        <a class="lottie-icon" id="iconYouTube"    href="https://www.youtube.com/@seninhesabin"  target="_blank" aria-label="YouTube"></a>
+        <a class="lottie-icon" id="iconFacebook"   href="https://www.facebook.com/seninhesabin"  target="_blank" aria-label="Facebook"></a>
+        <a class="lottie-icon" id="iconX"          href="https://x.com/seninhesabin"             target="_blank" aria-label="X"></a>
+        <a class="lottie-icon" id="iconNsosyal"    href="https://nsosyal.com/@seninhesabin"      target="_blank" aria-label="NSosyal"></a>
+      </div>
+
+      <!-- mobil açılır panel -->
+      <div id="socialPanel" class="social-panel" hidden></div>
+    </div>
+
+    <div class="header__row header__row--bottom">
+      <nav class="nav" id="nav" aria-label="Ana menü">
+        <a href="index.html#services">Hizmetler</a>
+        <a href="team.html">Ekibimiz</a>
+        <a href="index.html#process">Süreç</a>
+        <a href="index.html#plans">Paketler</a>
+        <a href="index.html#work">Portföy</a>
+        <a href="index.html#blog">Blog</a>
+        <a href="contact.html" class="btn btn--ghost is-active">İletişim</a>
+      </nav>
+    </div>
+
+  </div>
+</header>
+
+<!-- SAYFA İÇERİĞİ -->
+<section class="section section--alt">
+  <div class="container">
+    <!-- WeAreMorphera ile büyüme (senin istediğin metin) -->
+    <div class="contact-hero">
+      <div class="contact-hero__title">WeAreMorphera ile büyüme</div>
+      <p class="contact-hero__lead">
+        Reklam ajansımız; hedeflerine odaklanan markalara akıllı strateji, üretim ve performansla
+        yol arkadaşlığı yapar. Daha fazlasını başarmak için sürekli dener, ölçer, iyileştirir.
+      </p>
+    </div>
+
+    <!-- 6 adet sosyal medya JSON ikonu -->
+    <div id="contactSocials" class="social-grid" aria-label="Sosyal medya bağlantıları"></div>
+  </div>
+</section>
+
+<!-- Footer (aynı) -->
+<footer class="footer">
+  <div class="container footer__inner">
+    <div class="brand">
+      <span class="brand__dot" aria-hidden="true"></span>
+      <div>
+        <strong>WeAreMorphera</strong><br>
+        <small class="muted">wearemorphera.com</small>
+      </div>
+    </div>
+    <div class="footer__links">
+      <a href="#">KVKK</a>
+      <a href="#">Çerez Politikası</a>
+      <a href="#">Hizmet Koşulları</a>
+      <span>© <span id="year"></span> WeAreMorphera</span>
+    </div>
+  </div>
+</footer>
+
+<!-- Lottie + JS (mevcut dosyalar) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.10.2/lottie.min.js" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const BASE = 'assets/img/json/';
+
+  // Basit Lottie yükleyici
+  function initLottie(id, file) {
+    const el = document.getElementById(id);
+    if (!el || !window.lottie) return;
+    lottie.loadAnimation({
+      container: el,
+      renderer: 'svg',
+      loop: true,
+      autoplay: true,
+      path: BASE + file,
+      rendererSettings: { progressiveLoad: true }
+    });
+  }
+
+  // İkon listesi (6 adet)
+  const ICONS = [
+    { id:'cTikTok',    file:'tiktok.json',    href:'https://www.tiktok.com/@seninhesabin',  label:'TikTok' },
+    { id:'cInstagram', file:'instagram.json', href:'https://www.instagram.com/seninhesabin',label:'Instagram' },
+    { id:'cYouTube',   file:'youtube.json',   href:'https://www.youtube.com/@seninhesabin', label:'YouTube' },
+    { id:'cFacebook',  file:'facebook.json',  href:'https://www.facebook.com/seninhesabin', label:'Facebook' },
+    { id:'cX',         file:'x.json',         href:'https://x.com/seninhesabin',            label:'X' },
+    { id:'cNsosyal',   file:'nsosyal.json',   href:'https://nsosyal.com/@seninhesabin',      label:'NSosyal' }
+  ];
+
+  // Grid'i doldur
+  const wrap = document.getElementById('contactSocials');
+  if (wrap) {
+    wrap.innerHTML = ICONS.map(i =>
+      `<a class="lottie-icon" id="${i.id}" href="${i.href}" target="_blank" rel="noopener" aria-label="${i.label}"></a>`
+    ).join('');
+    ICONS.forEach(i => initLottie(i.id, i.file));
+  }
+});
+</script>
+
+<script src="assets/js/main.js" defer></script>
+<script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+</body>
+</html>

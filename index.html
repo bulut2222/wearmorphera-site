@@ -18,7 +18,6 @@
         <span class="brand__dot" aria-hidden="true"></span>
         <span>WeAreMorphera</span>
       </a>
-  <div class="header__cta only-mobile" id="socialsMobile"></div>
       <a href="#socials" class="social-cta only-desktop" id="openSocial" aria-label="Sosyal Medya Hesaplarımız">
         <span class="social-cta__label">Sosyal Medya Hesaplarımız</span>
         <span class="social-cta__arrow" aria-hidden="true">
@@ -51,7 +50,7 @@
         <a href="#plans">Paketler</a>
         <a href="#work">Portföy</a>
         <a href="#blog">Blog</a>
-        <a href="#contact" class="btn btn--ghost">İletişim</a>
+        <a href="contact.html" class="btn btn--ghost" rel="noopener">İletişim</a>
       </nav>
     </div>
 
@@ -265,35 +264,50 @@
   </section>
 
   <!-- Contact -->
-  <section id="contact" class="section section--alt">
-    <div class="container">
-      <div class="section-title">
-        <span class="eyebrow">Hızlı başlangıç</span>
-        <h2 class="h2">Ücretsiz 15 dk Keşif + Mini Denetim</h2>
-        <p class="subtitle">6 alanlı hızlı form—hedefler ve bütçe aralığı ile.</p>
-      </div>
+ <section id="contact" class="section section--alt">
+  <div class="container">
 
-      <form id="leadForm" class="form">
-        <input required placeholder="İsim Soyisim" name="name" />
-        <input required type="email" placeholder="E-posta" name="email" />
-        <input placeholder="Marka/URL" name="brand" />
-        <input placeholder="Hedef (Kısa)" name="goal" />
-        <select name="budget">
-          <option>Bütçe Aralığı</option>
-          <option>10-25K TL</option>
-          <option>25-60K TL</option>
-          <option>60K+ TL</option>
-        </select>
-        <input placeholder="Telefon" name="phone" />
-        <textarea placeholder="Not" name="note"></textarea>
-
-        <div class="row end">
-          <small class="muted">Formu göndererek KVKK ve Çerez politikasını kabul etmiş olursunuz.</small>
-          <button class="btn" type="submit">Formu Gönder</button>
-        </div>
-      </form>
+    <!-- yeni: iletişim başlığı + açıklama -->
+    <div class="section-title">
+      <span class="eyebrow">Hızlı başlangıç</span>
+      <h2 class="h2">Ücretsiz 15 dk Keşif + Mini Denetim</h2>
+      <p class="subtitle">6 alanlı hızlı form—hedefler ve bütçe aralığı ile.</p>
     </div>
-  </section>
+
+    <!-- YENİ: ajans mesajı (animasyonlu) -->
+    <div class="contact-hero">
+      <div class="contact-hero__title">WeAreMorphera ile büyüme</div>
+      <p class="contact-hero__lead">
+        Reklam ajansımız; hedeflerine odaklanan markalara akıllı strateji, üretim ve performansla
+        yol arkadaşlığı yapar. Daha fazlasını başarmak için sürekli dener, ölçer, iyileştirir.
+      </p>
+    </div>
+
+    <!-- YENİ: sosyal ikonlar grid (mobil + desktop burada da görünür) -->
+    <div id="contactSocials" class="social-grid" aria-label="Sosyal medya bağlantıları"></div>
+
+    <!-- mevcut form (dokunma) -->
+    <form id="leadForm" class="form">
+      <input required placeholder="İsim Soyisim" name="name" />
+      <input required type="email" placeholder="E-posta" name="email" />
+      <input placeholder="Marka/URL" name="brand" />
+      <input placeholder="Hedef (Kısa)" name="goal" />
+      <select name="budget">
+        <option>Bütçe Aralığı</option>
+        <option>10-25K TL</option>
+        <option>25-60K TL</option>
+        <option>60K+ TL</option>
+      </select>
+      <input placeholder="Telefon" name="phone" />
+      <textarea placeholder="Not" name="note"></textarea>
+
+      <div class="row end">
+        <small class="muted">Formu göndererek KVKK ve Çerez politikasını kabul etmiş olursunuz.</small>
+        <button class="btn" type="submit">Formu Gönder</button>
+      </div>
+    </form>
+  </div>
+</section>
 
   <!-- Footer -->
   <footer class="footer">
@@ -326,7 +340,15 @@ document.addEventListener('DOMContentLoaded', function () {
   const socialCta = document.getElementById('openSocial');
   const isMobile  = () => window.matchMedia('(max-width:980px)').matches;
 
-  /* --- Lottie ikonları (masaüstü) --- */
+  // Eğer bu sayfa contact.html ise CTA'yı grid'e yönlendir
+  if (socialCta) {
+    try {
+      const onContact = location.pathname.toLowerCase().includes('contact.html');
+      if (onContact) socialCta.setAttribute('href', '#contactSocials');
+    } catch(e){}
+  }
+
+  // --- Lottie init (mevcut) ---
   function initLottie(id, jsonFile, opts = {}) {
     const el = document.getElementById(id);
     if (!el) return;
@@ -338,7 +360,7 @@ document.addEventListener('DOMContentLoaded', function () {
     el.addEventListener('mouseleave', () => anim.setSpeed(1.0));
   }
 
-  // Desktop ikonlarını başlat
+  // Desktop header ikonları (mevcut)
   initLottie('iconTikTok',    'tiktok.json');
   initLottie('iconInstagram', 'instagram.json', { assetsPath: BASE });
   initLottie('iconYouTube',   'youtube.json');
@@ -346,29 +368,28 @@ document.addEventListener('DOMContentLoaded', function () {
   initLottie('iconX',         'x.json');
   initLottie('iconNsosyal',   'nsosyal.json');
 
-  // --- Mobil ikonları üret ve lottie başlat ---
-  function renderMobileIcons(){
-    const mob = document.getElementById('socialsMobile');
-    if(!mob) return;
+  // === YENİ: İletişim sayfasına ikonları bas ===
+  const CONTACT_ICONS = [
+    { id:'cTikTok',    file:'tiktok.json',    href:'https://www.tiktok.com/@seninhesabin',  label:'TikTok' },
+    { id:'cInstagram', file:'instagram.json', href:'https://www.instagram.com/seninhesabin',label:'Instagram' },
+    { id:'cYouTube',   file:'youtube.json',   href:'https://www.youtube.com/@seninhesabin', label:'YouTube' },
+    { id:'cFacebook',  file:'facebook.json',  href:'https://www.facebook.com/seninhesabin', label:'Facebook' },
+    { id:'cX',         file:'x.json',         href:'https://x.com/seninhesabin',            label:'X' },
+    { id:'cNsosyal',   file:'nsosyal.json',   href:'https://nsosyal.com/@seninhesabin',      label:'NSosyal' },
+  ];
 
-    const mobileIcons = [
-      { id:'iconTikTok_m',    file:'tiktok.json',    href:'https://www.tiktok.com/@seninhesabin',  label:'TikTok' },
-      { id:'iconInstagram_m', file:'instagram.json', href:'https://www.instagram.com/seninhesabin',label:'Instagram' },
-      { id:'iconYouTube_m',   file:'youtube.json',   href:'https://www.youtube.com/@seninhesabin', label:'YouTube' },
-      { id:'iconFacebook_m',  file:'facebook.json',  href:'https://www.facebook.com/seninhesabin', label:'Facebook' },
-      { id:'iconX_m',         file:'x.json',         href:'https://x.com/seninhesabin',            label:'X' },
-      { id:'iconNsosyal_m',   file:'nsosyal.json',   href:'https://nsosyal.com/@seninhesabin',      label:'NSosyal' },
-    ];
-
-    mob.innerHTML = mobileIcons.map(i =>
+  function renderContactIcons(){
+    const wrap = document.getElementById('contactSocials');
+    if(!wrap || wrap.dataset.ready) return;
+    wrap.innerHTML = CONTACT_ICONS.map(i =>
       `<a class="lottie-icon" id="${i.id}" href="${i.href}" target="_blank" aria-label="${i.label}"></a>`
     ).join('');
-
-    mobileIcons.forEach(i => initLottie(i.id, i.file, { assetsPath: BASE }));
+    CONTACT_ICONS.forEach(i => initLottie(i.id, i.file, { assetsPath: BASE }));
+    wrap.dataset.ready = '1';
   }
-  renderMobileIcons();
+  renderContactIcons(); // hem mobil hem desktop için
 
-  /* --- Mobil Sosyal Paneli --- */
+  // --- (mevcut) mobil sosyal panel davranışı kalsın; desktop’ta #socials’a kaydırır ---
   const items = [
     {name:'TikTok',    url:'https://www.tiktok.com/@seninhesabin',  json:'https://assets1.lottiefiles.com/packages/lf20_dyisryxt.json'},
     {name:'Instagram', url:'https://www.instagram.com/seninhesabin', json:'https://assets2.lottiefiles.com/packages/lf20_7wwm6n5x.json'},
@@ -404,7 +425,7 @@ document.addEventListener('DOMContentLoaded', function () {
         panel.hidden = !panel.hidden;
         if (!panel.hidden) setTimeout(()=>document.addEventListener('click', closePanel),0);
       }
-      // desktop’ta href zaten #socials’a kaydırır
+      // desktop: link zaten #socials’a kaydırır
     });
 
     window.addEventListener('resize', ()=>{ if (!isMobile() && panel) panel.hidden = true; });
