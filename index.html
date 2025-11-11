@@ -322,6 +322,11 @@
 <script>
 document.addEventListener('DOMContentLoaded', function () {
   const BASE = 'assets/img/json/';
+  const panel     = document.getElementById('socialPanel');
+  const socialCta = document.getElementById('openSocial');
+  const isMobile  = () => window.matchMedia('(max-width:980px)').matches;
+
+  /* --- Lottie ikonları (masaüstü) --- */
   function initLottie(id, jsonFile, opts = {}) {
     const el = document.getElementById(id);
     if (!el) return;
@@ -338,7 +343,8 @@ document.addEventListener('DOMContentLoaded', function () {
   initLottie('iconFacebook',  'facebook.json');
   initLottie('iconX',         'x.json');
   initLottie('iconNsosyal',   'nsosyal.json');
-    // === Sosyal paneli JSON ikonlarla oluştur ===
+
+  /* --- Mobil Sosyal Paneli --- */
   const items = [
     {name:'TikTok',    url:'https://www.tiktok.com/@seninhesabin',  json:'https://assets1.lottiefiles.com/packages/lf20_dyisryxt.json'},
     {name:'Instagram', url:'https://www.instagram.com/seninhesabin', json:'https://assets2.lottiefiles.com/packages/lf20_7wwm6n5x.json'},
@@ -348,7 +354,6 @@ document.addEventListener('DOMContentLoaded', function () {
     {name:'NSosyal',   url:'https://nsosyal.com/@seninhesabin',      json:'https://assets1.lottiefiles.com/packages/lf20_2ksjqr4s.json'}
   ];
 
-  const openBtn = document.getElementById('openSocial');
   function renderSocialPanel(){
     if (!panel || panel.dataset.ready) return;
     panel.innerHTML = items.map(i => `
@@ -357,43 +362,33 @@ document.addEventListener('DOMContentLoaded', function () {
         <span>${i.name}</span>
       </a>
     `).join('');
-    panel.dataset.ready = "1";
+    panel.dataset.ready = '1';
   }
-
-  if(openBtn && panel){
-    openBtn.addEventListener('click', (e)=>{
-      // panel sadece mobilde açılsın istiyorsan şu satırı bırak:
-      if(!isMobile()) return;
-      e.preventDefault();
-      renderSocialPanel();
-      panel.hidden = !panel.hidden;
-      if(!panel.hidden){
-        setTimeout(()=>document.addEventListener('click', closePanel),0);
-      }
-    });
-  }
-  const socialCta = document.querySelector('.social-cta');
-  const panel = document.getElementById('socialPanel');
-
-  // sadece mobilde çalışsın
-  const isMobile = () => window.matchMedia('(max-width:980px)').matches;
 
   function closePanel(e){
-    if(!panel || panel.hidden) return;
-    if(e && (panel.contains(e.target) || socialCta.contains(e.target))) return;
-    panel.hidden = true; document.removeEventListener('click', closePanel);
+    if (!panel || panel.hidden) return;
+    if (e && (panel.contains(e.target) || (socialCta && socialCta.contains(e.target)))) return;
+    panel.hidden = true;
+    document.removeEventListener('click', closePanel);
   }
 
-  if(socialCta && panel){
+  /* --- Tek tıklama davranışı --- */
+  if (socialCta){
     socialCta.addEventListener('click', (e)=>{
-      if(!isMobile()) return;      // desktop'ta paneli kullanma
-      e.preventDefault();
-      panel.hidden = !panel.hidden;
-      if(!panel.hidden){ setTimeout(()=>document.addEventListener('click', closePanel),0); }
+      if (isMobile()){
+        e.preventDefault();
+        renderSocialPanel();
+        panel.hidden = !panel.hidden;
+        if (!panel.hidden) setTimeout(()=>document.addEventListener('click', closePanel),0);
+      } else {
+        // masaüstünde sadece ikon sırasına iner
+        // (href="#socials" zaten scroll'u yapıyor; preventDefault yok)
+      }
     });
-    window.addEventListener('resize', ()=>{ if(!isMobile()) panel.hidden = true; });
-  }
 
+    // ekran genişleyince mobil paneli kapat
+    window.addEventListener('resize', ()=>{ if (!isMobile() && panel) panel.hidden = true; });
+  }
 });
 </script>
 <script src="assets/js/main.js" defer></script>
