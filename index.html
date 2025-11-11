@@ -23,7 +23,15 @@
           </svg>
         </span>
       </a>
-
+<!-- MOBIL SOSYAL MENÜ (dropdown / sheet) -->
+<div id="socialPanel" class="social-panel" hidden>
+  <a href="https://www.tiktok.com/@seninhesabin"   target="_blank">TikTok</a>
+  <a href="https://www.instagram.com/seninhesabin" target="_blank">Instagram</a>
+  <a href="https://www.youtube.com/@seninhesabin"  target="_blank">YouTube</a>
+  <a href="https://www.facebook.com/seninhesabin"  target="_blank">Facebook</a>
+  <a href="https://x.com/seninhesabin"             target="_blank">X (Twitter)</a>
+  <a href="https://nsosyal.com/@seninhesabin"      target="_blank">NSosyal</a>
+</div>
       <!-- Sosyal ikonlar -->
       <div class="header__cta" id="socials" aria-label="Sosyal bağlantılar">
         <a class="lottie-icon" id="iconTikTok"     href="https://www.tiktok.com/@seninhesabin"    target="_blank" aria-label="TikTok"></a>
@@ -336,6 +344,28 @@ document.addEventListener('DOMContentLoaded', function () {
   initLottie('iconFacebook',  'facebook.json');
   initLottie('iconX',         'x.json');
   initLottie('iconNsosyal',   'nsosyal.json');
+  const socialCta = document.querySelector('.social-cta');
+  const panel = document.getElementById('socialPanel');
+
+  // sadece mobilde çalışsın
+  const isMobile = () => window.matchMedia('(max-width:980px)').matches;
+
+  function closePanel(e){
+    if(!panel || panel.hidden) return;
+    if(e && (panel.contains(e.target) || socialCta.contains(e.target))) return;
+    panel.hidden = true; document.removeEventListener('click', closePanel);
+  }
+
+  if(socialCta && panel){
+    socialCta.addEventListener('click', (e)=>{
+      if(!isMobile()) return;      // desktop'ta paneli kullanma
+      e.preventDefault();
+      panel.hidden = !panel.hidden;
+      if(!panel.hidden){ setTimeout(()=>document.addEventListener('click', closePanel),0); }
+    });
+    window.addEventListener('resize', ()=>{ if(!isMobile()) panel.hidden = true; });
+  }
+
 });
 </script>
 <script src="assets/js/main.js" defer></script>

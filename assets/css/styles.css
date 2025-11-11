@@ -1104,3 +1104,53 @@ img{max-width:100%; display:block}
   .header__cta{ gap:10px; }
   .lottie-icon{ width:32px; height:32px; }
 }
+/* ==== MOBILE FIX PACK (<=980px) ==== */
+@media (max-width:980px){
+
+  /* Header iki satır kalsın; nav görünür ve sarmalansın */
+  .header__row--bottom { padding-top: 6px; }
+  .nav{
+    position: static !important;
+    transform: none !important;
+    inset: auto !important;
+    width: auto; height: auto;
+    background: transparent;
+    box-shadow: none;
+    padding: 0;
+    display: flex; flex-wrap: wrap; justify-content: center; gap: 8px;
+    overflow: visible;           /* sağa taşıp kaybolmasın */
+  }
+  .nav a{
+    height: 40px; padding: 0 12px; margin: 4px;
+    white-space: nowrap;
+  }
+
+  /* Sosyal ikon sırası mobilde gizli, yerine menü butonu paneli açar */
+  .header__cta { display: none !important; }
+
+  /* Sosyal Medya Hesaplarımız paneli (aşağıdan açılan sheet gibi) */
+  .social-panel{
+    position: relative;
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 10px; margin-top: 10px; padding: 12px;
+    border-radius: 14px;
+    background: #fff;
+    border: 1px solid var(--stroke);
+    box-shadow: 0 10px 24px rgba(15,23,42,.12);
+  }
+  .social-panel a{
+    display: block; text-align: center; padding: 10px 12px; border-radius: 10px;
+    border:1px solid var(--stroke);
+    background: linear-gradient(180deg,#fff,#fff);
+    font-weight: 700;
+  }
+
+  /* Hero ve KPI’lar mobilde daha sıkı */
+  .hero--light{ padding: 72px 0 36px; }
+  .kpi{ grid-template-columns: repeat(2,1fr); }
+}
+
+/* 480px altında KPI tek sütun daha okunaklı */
+@media (max-width:480px){
+  .kpi{ grid-template-columns: 1fr; }
+}
