@@ -1155,3 +1155,75 @@ img{max-width:100%; display:block}
   /* Hero başlığı alta çok itmesin */
   .hero--light{ padding-top: 68px; }  /* önce 100px’ti */
 }
+/* === HERO BAND SIRALAMA + GRID === */
+.hero-band__stack{
+  display:grid;
+  grid-template-columns:repeat(3, minmax(0,1fr));
+  gap:12px;
+  justify-items:center;
+  align-items:center;
+  padding-top:8px;
+}
+
+/* 1) brand en üst ve tam satır */
+.brand-pill{ grid-column:1 / -1; margin-top:2px; }
+
+/* 2) sosyal CTA hemen altında, tam satır */
+.social-cta{ grid-column:1 / -1; margin-top:6px; }
+
+/* 3) menü butonları 3 sütun akış */
+.hero-links{
+  grid-column:1 / -1;
+  display:grid;
+  grid-template-columns:repeat(3, max-content);
+  gap:12px 14px;
+  justify-content:center;
+}
+.hero-links a{ white-space:nowrap; }
+
+/* Mobilde 3 sütun, çok dar ise 2 sütuna düş */
+@media (max-width:720px){
+  .hero-links{
+    grid-template-columns:repeat(3, 1fr);
+  }
+  .hero-links a{ justify-self:center; }
+}
+
+/* CTA ve brand’i biraz yukarıda tut */
+.hero-band{ padding-top:6px; }
+.social-panel{
+  grid-column:1 / -1;
+  display:grid; grid-template-columns:repeat(2, minmax(0,1fr));
+  gap:12px; margin-top:10px; padding:14px;
+  border-radius:14px; background:#fff; border:1px solid var(--stroke);
+  box-shadow:0 10px 24px rgba(15,23,42,.12);
+  z-index: 5;
+}
+.social-panel[hidden]{ display:none !important; }
+
+.social-item{
+  display:flex; align-items:center; gap:10px;
+  padding:10px 12px; border-radius:12px;
+  border:1px solid var(--stroke); background:#fff; font-weight:700;
+  box-shadow:0 4px 12px rgba(2,6,23,.05);
+}
+.lottie-icon{ width:36px; height:36px; }
+/* === HOTFIX: Header spacing/alignment (desktop solda, mobil ortalı) === */
+.header__row--top{
+  display:flex !important;
+  align-items:center !important;
+  justify-content:flex-start !important;  /* desktop: sola */
+  gap:18px !important;
+}
+.header__row--top .brand{ margin-right:14px !important; }
+
+@media (max-width:980px){
+  .header__row--top{
+    /* bazılarında column tanımlı—bunu sıfırlıyoruz */
+    flex-direction:row !important;
+    justify-content:center !important;     /* mobil: ortalı */
+    gap:12px !important;
+  }
+  .header__row--top .brand{ margin-right:0 !important; }
+  .social-cta{ width:auto !important; }
+}
