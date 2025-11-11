@@ -12,27 +12,26 @@
 <header class="header">
   <div class="container header__inner">
 
-    <!-- ROW#1: Top bar (Sosyal Medya Hesaplarımız + ikonlar) -->
+    <!-- TOP: Brand → Sosyal CTA → (Açılır Panel) -->
     <div class="header__row header__row--top">
-      <a href="#socials" class="social-cta" aria-label="Sosyal Medya Hesaplarımız">
+      <a class="brand" href="#top" aria-label="WeAreMorphera anasayfa">
+        <span class="brand__dot" aria-hidden="true"></span>
+        <span>WeAreMorphera</span>
+      </a>
+
+      <a href="#socials" class="social-cta" id="openSocial" aria-label="Sosyal Medya Hesaplarımız">
         <span class="social-cta__label">Sosyal Medya Hesaplarımız</span>
         <span class="social-cta__arrow" aria-hidden="true">
-          <!-- küçük ok için SVG -->
           <svg viewBox="0 0 24 24" width="20" height="20">
             <path d="M5 12h12M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </span>
       </a>
-<!-- MOBIL SOSYAL MENÜ (dropdown / sheet) -->
-<div id="socialPanel" class="social-panel" hidden>
-  <a href="https://www.tiktok.com/@seninhesabin"   target="_blank">TikTok</a>
-  <a href="https://www.instagram.com/seninhesabin" target="_blank">Instagram</a>
-  <a href="https://www.youtube.com/@seninhesabin"  target="_blank">YouTube</a>
-  <a href="https://www.facebook.com/seninhesabin"  target="_blank">Facebook</a>
-  <a href="https://x.com/seninhesabin"             target="_blank">X (Twitter)</a>
-  <a href="https://nsosyal.com/@seninhesabin"      target="_blank">NSosyal</a>
-</div>
-      <!-- Sosyal ikonlar -->
+
+      <!-- MOBİL AÇILIR PANEL (boş başlayacak, JS dolduracak) -->
+      <div id="socialPanel" class="social-panel" hidden></div>
+
+      <!-- Masaüstü header ikonları (lottie ile doluyor) -->
       <div class="header__cta" id="socials" aria-label="Sosyal bağlantılar">
         <a class="lottie-icon" id="iconTikTok"     href="https://www.tiktok.com/@seninhesabin"    target="_blank" aria-label="TikTok"></a>
         <a class="lottie-icon" id="iconInstagram"  href="https://www.instagram.com/seninhesabin" target="_blank" aria-label="Instagram"></a>
@@ -43,13 +42,8 @@
       </div>
     </div>
 
-    <!-- ROW#2: Brand + Nav (altta) -->
+    <!-- BOTTOM: Menü -->
     <div class="header__row header__row--bottom">
-      <a class="brand" href="#top" aria-label="WeAreMorphera anasayfa">
-        <span class="brand__dot" aria-hidden="true"></span>
-        <span>WeAreMorphera</span>
-      </a>
-
       <nav class="nav" id="nav" aria-label="Ana menü">
         <a href="#services">Hizmetler</a>
         <a href="team.html">Ekibimiz</a>
@@ -344,6 +338,40 @@ document.addEventListener('DOMContentLoaded', function () {
   initLottie('iconFacebook',  'facebook.json');
   initLottie('iconX',         'x.json');
   initLottie('iconNsosyal',   'nsosyal.json');
+    // === Sosyal paneli JSON ikonlarla oluştur ===
+  const items = [
+    {name:'TikTok',    url:'https://www.tiktok.com/@seninhesabin',  json:'https://assets1.lottiefiles.com/packages/lf20_dyisryxt.json'},
+    {name:'Instagram', url:'https://www.instagram.com/seninhesabin', json:'https://assets2.lottiefiles.com/packages/lf20_7wwm6n5x.json'},
+    {name:'YouTube',   url:'https://www.youtube.com/@seninhesabin',  json:'https://assets1.lottiefiles.com/packages/lf20_ikvz7qhc.json'},
+    {name:'Facebook',  url:'https://www.facebook.com/seninhesabin',  json:'https://assets6.lottiefiles.com/packages/lf20_8wREpI.json'},
+    {name:'X (Twitter)',url:'https://x.com/seninhesabin',            json:'https://assets5.lottiefiles.com/private_files/lf30_editor_dnb8qz.json'},
+    {name:'NSosyal',   url:'https://nsosyal.com/@seninhesabin',      json:'https://assets1.lottiefiles.com/packages/lf20_2ksjqr4s.json'}
+  ];
+
+  const openBtn = document.getElementById('openSocial');
+  function renderSocialPanel(){
+    if (!panel || panel.dataset.ready) return;
+    panel.innerHTML = items.map(i => `
+      <a class="social-item" href="${i.url}" target="_blank" rel="noopener">
+        <lottie-player src="${i.json}" class="lottie-icon" loop autoplay></lottie-player>
+        <span>${i.name}</span>
+      </a>
+    `).join('');
+    panel.dataset.ready = "1";
+  }
+
+  if(openBtn && panel){
+    openBtn.addEventListener('click', (e)=>{
+      // panel sadece mobilde açılsın istiyorsan şu satırı bırak:
+      if(!isMobile()) return;
+      e.preventDefault();
+      renderSocialPanel();
+      panel.hidden = !panel.hidden;
+      if(!panel.hidden){
+        setTimeout(()=>document.addEventListener('click', closePanel),0);
+      }
+    });
+  }
   const socialCta = document.querySelector('.social-cta');
   const panel = document.getElementById('socialPanel');
 
@@ -369,6 +397,7 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 </script>
 <script src="assets/js/main.js" defer></script>
+<script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
 
 </body>
 </html>
