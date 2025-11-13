@@ -1048,7 +1048,7 @@ img{max-width:100%; display:block}
   border-radius:12px; font-weight:700;
   color:hwb(0 100% 0%);
   background:
-    linear-gradient(#dc3b0a,hsl(240, 2%, 19%)) padding-box,
+    linear-gradient(#dc0a49,hsl(240, 2%, 19%)) padding-box,
     linear-gradient(120deg, rgba(5, 8, 221, 0.35), rgba(14,165,233,.35)) border-box;
   border:1px solid transparent;
   box-shadow:0 6px 14px #f7f7f5;
@@ -2262,4 +2262,25 @@ body.no-scroll {
 .quote-btn:hover .quote-btn__icon,
 .quote-btn:focus-visible .quote-btn__icon {
   transform: scale(1.02) translateY(-1px);  /* -1-px hatasını da düzelttim */
+}
+/* === MOBİL HEADER SIKIŞTIRMA (TAŞMAYI ENGELLE) === */
+@media (max-width: 480px) {
+
+  /* Logo biraz küçülsün */
+  .brand__logo {
+    width: 64px;
+    height: 64px;
+  }
+
+  /* WeAreMorphera yazısı daha küçük olsun */
+  .brand__text {
+    font-size: 1.4rem;
+  }
+
+  /* Teklif Al dairesi de küçülsün */
+  .quote-btn {
+    width: 64px !important;
+    height: 64px !important;
+    padding: 8px !important;
+  }
 }
