@@ -1832,8 +1832,8 @@ html[data-theme="dark"] .results-sub{
   height:119px;
   object-fit: contain;
   border-radius: 999px;
-  background: rgb(69, 67, 67);
-  padding: 4px;
+  background: rgba(50, 44, 3, 0.493);
+  padding: 3px;
 }
 
 /* WeAreMorphera yazısı – ışıltılı animasyonlu */
@@ -2282,5 +2282,25 @@ body.no-scroll {
     width: 64px !important;
     height: 64px !important;
     padding: 8px !important;
+  }
+}
+/* === DESKTOP HEADER TUNING (logo sola + küçültme) === */
+@media (min-width: 981px) {
+
+  /* Header içinde sol boşluğu azalt → logo daha sola yaklaşır */
+  .header .container {
+    padding-left: 8px;      /* istersen 0 da yapabilirsin */
+    padding-right: 20px;    /* sağ taraf aynı kalsın */
+  }
+
+  /* Logo boyutu masaüstünde biraz küçülsün */
+  .brand__logo {
+    width: 80px;
+    height: 80px;
+  }
+
+  /* WeAreMorphera yazısını da azıcık küçültelim */
+  .brand__text {
+    font-size: 1.5rem;
   }
 }
