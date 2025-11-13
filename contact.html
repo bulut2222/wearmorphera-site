@@ -68,18 +68,33 @@
 <!-- İLETİŞİM ALANI -->
 <section class="contact-stack">
   <!-- Üst bilgilendirme çipleri -->
-  <div class="info-chips">
-    <div class="chip">
+ <div class="info-chips">
+  <!-- Müşteri / marka ile çalışmak isteyenler -->
+  <div class="chip chip--with-icon">
+    <div class="chip__icon" id="chipClient"></div>
+    <div class="chip__content">
       <strong>Bizimle çalışmak istersen:</strong>
-      <span>Yeni bir ajansız ve iddialıyız. İhtiyacını yaz, hızlıca dönüş yapalım.</span>
-      <a href="mailto:wearemorphera@hotmail.com">wearemorphera@hotmail.com</a>
-    </div>
-    <div class="chip">
-      <strong>Ekibe katılmak istersen:</strong>
-      <span>Portfolyonu/CV’ni ilet, uygun rol olursa seni arayalım.</span>
-      <a href="mailto:info@ahtapotsm.com">info@ahtapotsm.com</a>
+      <span>
+        Markan için sosyal medya, reklam, e-ticaret ya da içerik üretimi desteği arıyorsan,
+        kısaca ihtiyacını yaz; sana en kısa sürede dönüş yapalım.
+      </span>
+      <a href="mailto:info@wearemorphera.com">info@wearemorphera.com</a>
     </div>
   </div>
+
+  <!-- Ekibe katılmak isteyenler -->
+  <div class="chip chip--with-icon">
+    <div class="chip__icon" id="chipTeam"></div>
+    <div class="chip__content">
+      <strong>Ekibe katılmak istersen:</strong>
+      <span>
+        Tasarım, içerik, performans pazarlama ya da yazılım tarafında üretim yapıyorsan;
+        CV veya portfolyonu gönder, uygun rol olduğunda seninle iletişime geçelim.
+      </span>
+      <a href="mailto:info@wearemorphera.com">info@wearemorphera.com</a>
+    </div>
+  </div>
+</div>
 
   <!-- Form + Sağ bilgi kartı -->
   <div class="contact-cards">
@@ -128,7 +143,7 @@
       <h4 class="card-title">Biz Nerede’yiz?</h4>
       <ul class="contact-list">
         <li><span class="ico">📍</span><b>Adres:</b> Salihli / Manisa</li>
-        <li><span class="ico">✉️</span><b>E-posta:</b> <a href="mailto:wearemorphera@hotmail.com">wearemorphera@hotmail.com</a></li>
+        <li><span class="ico">✉️</span><b>E-posta:</b> <a href="mailto:info@wearemorphera.com">info@wearemorphera.com</a></li>
         <li><span class="ico">☎️</span><b>Telefon:</b> (---) --- -- --</li>
         <li><span class="ico">🕘</span><b>Çalışma:</b> Hafta içi 09:00–18:00</li>
       </ul>
@@ -201,6 +216,17 @@ document.addEventListener('DOMContentLoaded', function () {
       `<a class="lottie-icon" id="${i.id}" href="${i.href}" target="_blank" rel="noopener" aria-label="${i.label}"></a>`
     ).join('');
     ICONS.forEach(i => initLottie(i.id, i.file));
+  }
+
+  // ---- Contact sayfasındaki chip Lottie'leri ----
+  const chipClientEl = document.getElementById('chipClient');
+  if (chipClientEl) {
+    initLottie('chipClient', 'team.json');
+  }
+
+  const chipTeamEl = document.getElementById('chipTeam');
+  if (chipTeamEl) {
+    initLottie('chipTeam', 'team1.json');
   }
 });
 </script>
