@@ -98,18 +98,12 @@
 
   <!-- Form + Sağ bilgi kartı -->
   <div class="contact-cards">
-    <form
-  id="morphContact"
-  name="contact"
-  method="POST"
-  data-netlify="true"
-  netlify-honeypot="bot-field"
-  class="form-modern"
->
-  <!-- bot alanı (gizli) -->
-  <input type="hidden" name="form-name" value="contact" />
-  <p style="display:none;">
-    <label>Bu alanı doldurmayın: <input name="bot-field" /></label>
+<form name="contact" netlify netlify-honeypot="bot-field" 
+      id="morphContact" class="form-modern" novalidate>
+
+  <input type="hidden" name="form-name" value="contact">
+  <p hidden>
+    <label>Don’t fill this out: <input name="bot-field"></label>
   </p>
 
   <div class="grid2">
