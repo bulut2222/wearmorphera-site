@@ -263,51 +263,80 @@
     </div>
   </section>
 
-  <!-- Contact -->
- <section id="contact" class="section section--alt">
-  <div class="container">
+    <!-- Contact / Ücretsiz Keşif -->
+  <section id="contact" class="section section--alt">
+    <div class="container">
 
-    <!-- yeni: iletişim başlığı + açıklama -->
-    <div class="section-title">
-      <span class="eyebrow">Hızlı başlangıç</span>
-      <h2 class="h2">Ücretsiz 15 dk Keşif + Mini Denetim</h2>
-      <p class="subtitle">6 alanlı hızlı form—hedefler ve bütçe aralığı ile.</p>
-    </div>
-
-    <!-- YENİ: ajans mesajı (animasyonlu) -->
-    <div class="contact-hero">
-      <div class="contact-hero__title">WeAreMorphera ile büyüme</div>
-      <p class="contact-hero__lead">
-        Reklam ajansımız; hedeflerine odaklanan markalara akıllı strateji, üretim ve performansla
-        yol arkadaşlığı yapar. Daha fazlasını başarmak için sürekli dener, ölçer, iyileştirir.
-      </p>
-    </div>
-
-    <!-- YENİ: sosyal ikonlar grid (mobil + desktop burada da görünür) -->
-    <div id="contactSocials" class="social-grid" aria-label="Sosyal medya bağlantıları"></div>
-
-    <!-- mevcut form (dokunma) -->
-    <form id="leadForm" class="form">
-      <input required placeholder="İsim Soyisim" name="name" />
-      <input required type="email" placeholder="E-posta" name="email" />
-      <input placeholder="Marka/URL" name="brand" />
-      <input placeholder="Hedef (Kısa)" name="goal" />
-      <select name="budget">
-        <option>Bütçe Aralığı</option>
-        <option>10-25K TL</option>
-        <option>25-60K TL</option>
-        <option>60K+ TL</option>
-      </select>
-      <input placeholder="Telefon" name="phone" />
-      <textarea placeholder="Not" name="note"></textarea>
-
-      <div class="row end">
-        <small class="muted">Formu göndererek KVKK ve Çerez politikasını kabul etmiş olursunuz.</small>
-        <button class="btn" type="submit">Formu Gönder</button>
+      <div class="section-title">
+        <span class="eyebrow">Ücretsiz deneme</span>
+        <h2 class="h2">Ücretsiz 15 dk Keşif + Mini Denetim</h2>
+        <p class="subtitle">
+          Markanın mevcut durumuna hızlı bir bakış, hedeflerin ve bütçe aralığın üzerinden geçip
+          3 maddelik aksiyon önerisi çıkarıyoruz.
+        </p>
       </div>
-    </form>
-  </div>
-</section>
+
+      <div class="trial-grid">
+        <!-- SOL KART: açıklama -->
+        <aside class="trial-card">
+          <h3>Bu görüşmede neler var?</h3>
+          <ul class="trial-points">
+            <li>Sosyal medya & mağaza hesaplarının hızlı taraması</li>
+            <li>Hedefler ve bütçe aralığına göre 3 maddelik yol haritası</li>
+            <li>İsteğe göre içerik, reklam veya e-ticaret odağı</li>
+          </ul>
+
+          <div class="trial-badge">
+            <strong>Ücretsiz mini denetim</strong>
+            <span>Yaklaşık 15–20 dk online toplantı, satış baskısı yok.</span>
+          </div>
+
+          <p class="muted" style="margin-top:10px;">
+            Formu doldurduktan sonra 24 saat içinde sana uygun 2–3 zaman aralığı ile dönüş yapıyoruz.
+          </p>
+        </aside>
+
+        <!-- SAĞ: FORM (Netlify'lı, contact formuyla aynı) -->
+        <form
+          name="contact"
+          method="POST"
+          netlify
+          netlify-honeypot="bot-field"
+          id="leadForm"
+          class="form"
+        >
+          <input type="hidden" name="form-name" value="contact" />
+
+          <p hidden>
+            <label>Don’t fill this out: <input name="bot-field" /></label>
+          </p>
+
+          <input required name="name" placeholder="İsim Soyisim *" />
+          <input required type="email" name="email" placeholder="E-posta *" />
+          <input name="brand" placeholder="Marka / Site URL" />
+          <input name="goal" placeholder="Hedef (kısa)" />
+
+          <select name="budget" required>
+            <option value="">Bütçe Aralığı *</option>
+            <option>10–25K TL</option>
+            <option>25–60K TL</option>
+            <option>60K+ TL</option>
+          </select>
+
+          <input name="phone" placeholder="Telefon" />
+
+          <textarea name="note" placeholder="Not / Özel talepler" style="grid-column:span 2;"></textarea>
+
+          <div class="row end" style="grid-column:span 2;">
+            <small class="muted">
+              Formu göndererek KVKK ve Çerez politikasını kabul etmiş olursunuz.
+            </small>
+            <button class="btn" type="submit">Formu Gönder</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
 
   <!-- Footer -->
   <footer class="footer">
