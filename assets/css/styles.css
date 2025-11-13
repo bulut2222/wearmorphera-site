@@ -1392,7 +1392,7 @@ img{max-width:100%; display:block}
   background:linear-gradient(90deg,var(--accent1),var(--accent2));
   -webkit-background-clip:text; background-clip:text; color:transparent;
   transform:translateY(-30px) scale(1.03);
-  box-shadow:0 10px 10px rgb(247, 3, 3);
+  box-shadow:0 10px 10px rgba(209, 121, 109, 0.771);
   
   
 }
@@ -1568,8 +1568,8 @@ img{max-width:100%; display:block}
 }
 
 .chip__icon{
-  width:120px;
-  height:120px;
+  width:199px;
+  height:199px;
   border-radius:141px;
   flex:0 0 auto;
   background:#f5f6d4;
