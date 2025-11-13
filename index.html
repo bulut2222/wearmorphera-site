@@ -297,43 +297,38 @@
         </aside>
 
         <!-- SAĞ: FORM (Netlify'lı, contact formuyla aynı) -->
-        <form
-          name="contact"
-          method="POST"
-          netlify
-          netlify-honeypot="bot-field"
-          id="leadForm"
-          class="form"
-        >
-          <input type="hidden" name="form-name" value="contact" />
+      <form id="leadForm" class="form">
+  <!-- 1. Satır -->
+  <input required placeholder="İsim Soyisim" name="name" />
+  <input required type="email" placeholder="E-posta" name="email" />
 
-          <p hidden>
-            <label>Don’t fill this out: <input name="bot-field" /></label>
-          </p>
+  <!-- 2. Satır -->
+  <!-- brand -> company -->
+  <input placeholder="Marka / Mağaza Adı" name="company" />
+  <!-- goal -> subject -->
+  <input placeholder="Hedef (Kısa)" name="subject" />
 
-          <input required name="name" placeholder="İsim Soyisim *" />
-          <input required type="email" name="email" placeholder="E-posta *" />
-          <input name="brand" placeholder="Marka / Site URL" />
-          <input name="goal" placeholder="Hedef (kısa)" />
+  <!-- 3. Satır -->
+  <select name="budget">
+    <option>Bütçe Aralığı</option>
+    <option>10–25K TL</option>
+    <option>25–60K TL</option>
+    <option>60K+ TL</option>
+  </select>
 
-          <select name="budget" required>
-            <option value="">Bütçe Aralığı *</option>
-            <option>10–25K TL</option>
-            <option>25–60K TL</option>
-            <option>60K+ TL</option>
-          </select>
+  <input placeholder="Telefon" name="phone" />
 
-          <input name="phone" placeholder="Telefon" />
+  <!-- note -> message -->
+  <textarea placeholder="Not / İhtiyaç Detayı" name="message"></textarea>
 
-          <textarea name="note" placeholder="Not / Özel talepler" style="grid-column:span 2;"></textarea>
+  <div class="row end">
+    <small class="muted">
+      Formu göndererek KVKK ve Çerez politikasını kabul etmiş olursunuz.
+    </small>
+    <button class="btn" type="submit">Formu Gönder</button>
+  </div>
+</form>
 
-          <div class="row end" style="grid-column:span 2;">
-            <small class="muted">
-              Formu göndererek KVKK ve Çerez politikasını kabul etmiş olursunuz.
-            </small>
-            <button class="btn" type="submit">Formu Gönder</button>
-          </div>
-        </form>
       </div>
     </div>
   </section>
