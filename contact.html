@@ -51,14 +51,7 @@
 <!-- SAYFA İÇERİĞİ -->
 <section class="section section--alt">
   <div class="container">
-    <!-- WeAreMorphera ile büyüme (senin istediğin metin) -->
-    <div class="contact-hero">
-      <div class="contact-hero__title">WeAreMorphera ile büyüme</div>
-      <p class="contact-hero__lead">
-        Reklam ajansımız; hedeflerine odaklanan markalara akıllı strateji, üretim ve performansla
-        yol arkadaşlığı yapar. Daha fazlasını başarmak için sürekli dener, ölçer, iyileştirir.
-      </p>
-    </div>
+  
 <!-- Başlık -->
 <h3 class="subhead">Sosyal Medya’da Takip Edin</h3>
 
@@ -151,18 +144,19 @@
     <aside class="contact-card">
       <h4 class="card-title">Biz Nerede’yiz?</h4>
       <ul class="contact-list">
-        <li><span class="ico">📍</span><b>Adres:</b> Salihli / Manisa</li>
-        <li><span class="ico">✉️</span><b>E-posta:</b> <a href="mailto:info@wearemorphera.com">WeAreMorphera İletişim</a></li>
-        <li><span class="ico">☎️</span><b>Telefon:</b> (---) --- -- --</li>
-        <li><span class="ico">🕘</span><b>Çalışma:</b> Hafta içi 09:00–18:00</li>
+        <li><span class="ico">📍</span><b>Adres:</b> Aksoy Mahallesi, Menderes Caddesi, No:105/B Salihli / Manisa</li>
+        <li><span class="ico">✉️</span><b>E-posta:</b> <a href="mailto:info@wearemorphera.com">info@wearemorphera.com</a></li>
+        <li><span class="ico">☎️</span><b>Telefon:</b> (505) 854 03 68</li>
+        <li><span class="ico">🕘</span><b>Çalışma:</b> Hafta içi 09:00–17:00 / Hafta sonu 11:00-15:00</li>
       </ul>
+
+      <!-- YENİ: navigation.json için Lottie kutusu -->
+      <div class="nav-lottie" id="navLottie"></div>
 
       <div class="mini-badge">
         <span>WeAreMorphera</span>
         <small>Akıllı strateji • Üretim • Performans</small>
       </div>
-    </aside>
-  </div>
 </section>
     <!-- 6 adet sosyal medya JSON ikonu -->
     <div id="contactSocials" class="social-grid" aria-label="Sosyal medya bağlantıları"></div>
@@ -236,6 +230,11 @@ document.addEventListener('DOMContentLoaded', function () {
   const chipTeamEl = document.getElementById('chipTeam');
   if (chipTeamEl) {
     initLottie('chipTeam', 'team1.json');
+  }
+  // YENİ: Çalışma saatleri altındaki navigation.json ikonu
+  const navLottieEl = document.getElementById('navLottie');
+  if (navLottieEl) {
+    initLottie('navLottie', 'navigation.json');
   }
 });
 </script>

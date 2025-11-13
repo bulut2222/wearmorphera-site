@@ -1391,6 +1391,10 @@ img{max-width:100%; display:block}
   font-weight:900; letter-spacing:.02em;
   background:linear-gradient(90deg,var(--accent1),var(--accent2));
   -webkit-background-clip:text; background-clip:text; color:transparent;
+  transform:translateY(-30px) scale(1.03);
+  box-shadow:0 10px 10px rgb(247, 3, 3);
+  
+  
 }
 
 .contact-stack{ margin-top:18px; display:flex; flex-direction:column; gap:16px; }
@@ -1534,6 +1538,20 @@ img{max-width:100%; display:block}
   display:block;
   font-size:15px;
 }
+/* Navigation Lottie (Çalışma saatlerinin altında) */
+.nav-lottie{
+  margin-top:12px;
+  width:170px;
+  height:170px;
+  border-radius:18px;
+  background:#d7ad6e;
+  border:1px solid var(--stroke);
+  box-shadow:0 8px 22px rgb(198, 64, 34);
+  overflow:hidden;
+  margin-left:auto;
+  margin-right:auto;     /* kartın ortasında dursun */
+}
+
 .mini-badge{
   margin-top:14px; padding:12px; border-radius:12px; text-align:center;
   background:linear-gradient(#fff,#fff) padding-box,
