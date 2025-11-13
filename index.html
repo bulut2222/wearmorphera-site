@@ -263,7 +263,7 @@
     </div>
   </section>
 
-    <!-- Contact / Ücretsiz Keşif -->
+       <!-- Contact / Ücretsiz Keşif -->
   <section id="contact" class="section section--alt">
     <div class="container">
 
@@ -296,48 +296,49 @@
           </p>
         </aside>
 
-        <!-- SAĞ: FORM (Netlify'lı, contact formuyla aynı) -->
-      <form
-  id="leadForm"
-  class="form"
-  name="lead"              <!-- form adı -->
-  method="POST"            <!-- mutlaka POST -->
-  data-netlify="true"      <!-- Netlify form yakalayıcı -->
-  data-netlify-honeypot="bot-field"
->
-  <!-- Netlify için gizli alan -->
-  <input type="hidden" name="form-name" value="lead" />
-  <p style="display:none;">
-    <label>Don’t fill this out: <input name="bot-field" /></label>
-  </p>
+        <!-- SAĞ: FORM (Netlify) -->
+        <form
+          id="leadForm"
+          class="form"
+          name="lead"
+          method="POST"
+          data-netlify="true"
+          data-netlify-honeypot="bot-field"
+        >
+          <!-- Netlify için gizli alan -->
+          <input type="hidden" name="form-name" value="lead" />
+          <p style="display:none;">
+            <label>Don’t fill this out: <input name="bot-field" /></label>
+          </p>
 
-  <!-- 1. Satır -->
-  <input required placeholder="İsim Soyisim" name="name" />
-  <input required type="email" placeholder="E-posta" name="email" />
+          <!-- 1. Satır -->
+          <input required placeholder="İsim Soyisim" name="name" />
+          <input required type="email" placeholder="E-posta" name="email" />
 
-  <!-- 2. Satır -->
-  <input placeholder="Marka / Mağaza Adı" name="company" />
-  <input placeholder="Hedef (Kısa)" name="subject" />
+          <!-- 2. Satır -->
+          <input placeholder="Marka / Mağaza Adı" name="company" />
+          <input placeholder="Hedef (Kısa)" name="subject" />
 
-  <!-- 3. Satır -->
-  <select name="budget">
-    <option>Bütçe Aralığı</option>
-    <option>10–25K TL</option>
-    <option>25–60K TL</option>
-    <option>60K+ TL</option>
-  </select>
+          <!-- 3. Satır -->
+          <select name="budget">
+            <option>Bütçe Aralığı</option>
+            <option>10–25K TL</option>
+            <option>25–60K TL</option>
+            <option>60K+ TL</option>
+          </select>
 
-  <input placeholder="Telefon" name="phone" />
+          <input placeholder="Telefon" name="phone" />
 
-  <textarea placeholder="Not / İhtiyaç Detayı" name="message"></textarea>
+          <!-- Not -->
+          <textarea placeholder="Not / İhtiyaç Detayı" name="message"></textarea>
 
-  <div class="row end">
-    <small class="muted">
-      Formu göndererek KVKK ve Çerez politikasını kabul etmiş olursunuz.
-    </small>
-    <button class="btn" type="submit">Formu Gönder</button>
-  </div>
-</form>
+          <div class="row end">
+            <small class="muted">
+              Formu göndererek KVKK ve Çerez politikasını kabul etmiş olursunuz.
+            </small>
+            <button class="btn" type="submit">Formu Gönder</button>
+          </div>
+        </form>
 
       </div>
     </div>
