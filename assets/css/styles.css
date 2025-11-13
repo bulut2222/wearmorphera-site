@@ -1813,64 +1813,85 @@ html[data-theme="dark"] .results-sub{
 }
 /* === Brand Logo & Header düzeni === */
 
+/* Üst satırı flex yap ve elemanları yan yana diz */
 .header__row--top {
   display: flex;
   align-items: center;
-  gap: 1.5rem;
+  width: 100%;
 }
 
 /* soldaki buton görünümündeki logo + isim */
-.brand.brand--pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.75rem;
-  padding: 0.35rem 0.95rem;
-  border-radius: 999px;
-  background: linear-gradient(135deg, #ff7a5f, #ffca68);
-  color: #1b1125;
-  font-weight: 600;
-  text-decoration: none;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.18);
+* Logo + WeAreMorphera tam solda dursun */
+.brand--pill {
+  margin-left: 0;      /* ortalamayı engelle */
+  margin-right: 1.5rem; /* sağa küçük boşluk */
 }
 
 .brand__logo {
-  width: 34px;
-  height: 34px;
+  width: 119px;
+  height:119px;
   object-fit: contain;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.85);
-  padding: 2px;
+  background: rgb(69, 67, 67);
+  padding: 4px;
 }
 
+/* WeAreMorphera yazısı – ışıltılı animasyonlu */
 .brand__text {
   white-space: nowrap;
+  font-size: 1.8rem;              /* yazı boyutu */
+  font-weight: 600;
+  letter-spacing: 0.05em;
+
+  /* gradient text */
+  background: linear-gradient(
+    120deg,
+    #eb0505,
+    #3eef12,
+    #0e0e0e,
+    #a5b4fc,
+    #ffffff
+  );
+  background-size: 250% 250%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+
+  /* hafif dış parlama */
+  text-shadow:
+    0 0 8px rgba(255, 255, 255, 0.65),
+    0 0 16px rgba(255, 160, 220, 0.5);
+
+  animation: morpheraShine 4s linear infinite;
 }
 
-/* teklif butonu */
-.quote-btn {
-  margin-left: auto; /* en sağa it */
-  border: none;
-  background: transparent;
-  padding: 0;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
+/* gradient akma + hafif nefes efekti */
+@keyframes morpheraShine {
+  0% {
+    background-position: 0% 50%;
+    text-shadow:
+      0 0 6px rgba(255, 255, 255, 0.6),
+      0 0 10px rgba(255, 160, 220, 0.4);
+    transform: translateY(0);
+  }
+  50% {
+    background-position: 100% 50%;
+    text-shadow:
+      0 0 10px rgba(255, 255, 255, 0.9),
+      0 0 20px rgba(255, 160, 220, 0.9);
+    transform: translateY(-1px);
+  }
+  100% {
+    background-position: 0% 50%;
+    text-shadow:
+      0 0 6px rgba(255, 255, 255, 0.6),
+      0 0 10px rgba(255, 160, 220, 0.4);
+    transform: translateY(0);
+  }
 }
 
-.quote-btn__icon {
-  width: 46px;
-  height: 46px;
-  object-fit: contain;
-  border-radius: 999px;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
-  transition: transform 0.18s ease, box-shadow 0.18s ease;
-}
 
-.quote-btn:hover .quote-btn__icon,
-.quote-btn:focus-visible .quote-btn__icon {
-  transform: translateY(-2px) scale(1.03);
-  box-shadow: 0 16px 30px rgba(0, 0, 0, 0.3);
-}
+
 
 /* === Modal (Hızlı Teklif) === */
 
@@ -2178,4 +2199,67 @@ body.no-scroll {
     margin-top: 24px;
     margin-bottom: 24px;
   }
+}
+/* === WM LOGO ÇERÇEVESİNİ KALDIR === */
+.brand.brand--pill {
+  background: none !important;   /* mavi kutu/gradient gitsin */
+  border: none !important;       /* beyaz kenarlık gitsin */
+  box-shadow: none !important;   /* gölge varsa sil */
+  padding: 0 !important;         /* iç boşlukları sıfırla */
+}
+
+/* Logo + yazı hizası */
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;                     /* logo ile WeAreMorphera yazısı arası boşluk */
+}
+
+/* Logo boyutu (isteğe göre oynatabilirsin) */
+.brand__logo {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;            /* tamamen yuvarlak kalsın */
+  display: block;
+}
+/* === TEKLİF AL DAİRESİ – KESİN ÇÖZÜM === */
+.quote-btn {
+  margin-left: auto !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  /* 🔼 Daireyi büyüttük */
+  width: 80px !important;
+  height: 80px !important;
+  aspect-ratio: 1 / 1 !important;
+
+  border-radius: 50% !important;
+  background: #ffffff !important;
+  border: none !important;
+  padding: 10px !important;   /* ister 10 bırakabilirsin */
+
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25) !important;
+  cursor: pointer !important;
+  transition: transform 0.25s ease, box-shadow 0.25s ease !important;
+}
+
+.quote-btn__icon {
+  /* 🔽 1000% yerine normal oran */
+  width: 100% !important;     
+  height: 100% !important;
+  object-fit: contain !important;
+  display: block !important;
+}
+
+/* hover */
+.quote-btn:hover,
+.quote-btn:focus-visible {
+  transform: translateY(-3px) scale(1.05) !important;
+  box-shadow: 0 14px 32px rgb(240, 237, 237) !important;
+}
+
+.quote-btn:hover .quote-btn__icon,
+.quote-btn:focus-visible .quote-btn__icon {
+  transform: scale(1.02) translateY(-1px);  /* -1-px hatasını da düzelttim */
 }
