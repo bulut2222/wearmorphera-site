@@ -94,11 +94,17 @@
   <!-- Services -->
   <section id="services" class="section">
     <div class="container">
-      <div class="section-title">
-        <span class="eyebrow">Neler yapıyoruz</span>
-        <h2 class="h2">Hizmetler</h2>
-        <p class="subtitle">İki ana kulvar ve modüler ek servislerle.</p>
-      </div>
+    <div class="section-title">
+  <div class="contact-hero">
+    <span class="eyebrow">Ücretsiz deneme</span>
+    <h2 class="contact-hero__title">Ücretsiz Dijital Büyüme Analizi</h2>
+    <p class="contact-hero__lead">
+      Sosyal medya ve mağaza hesaplarını hızlıca tarayıp,
+      hedeflerin ve bütçe aralığının üzerinden geçiyoruz.
+      Sonunda net, uygulanabilir bir aksiyon planı çıkarıyoruz.
+    </p>
+  </div>
+</div>
 
       <div class="cards grid2">
         <article class="card">
@@ -280,17 +286,40 @@
         <!-- SOL KART: açıklama -->
         <aside class="trial-card">
           <h3>Bu görüşmede neler var?</h3>
-          <ul class="trial-points">
-            <li>Sosyal medya & mağaza hesaplarının hızlı taraması</li>
-            <li>Hedefler ve bütçe aralığına göre 3 maddelik yol haritası</li>
-            <li>İsteğe göre içerik, reklam veya e-ticaret odağı</li>
-          </ul>
+         <ul class="trial-points">
+  <li class="trial-point">
+    <div id="trialSocial" class="trial-icon"></div>
+    <div class="trial-point__text">
+      Sosyal medya & mağaza hesaplarının hızlı taraması
+    </div>
+  </li>
+
+  <li class="trial-point">
+    <div id="trialGrowth" class="trial-icon"></div>
+    <div class="trial-point__text">
+      Hedefler ve bütçe aralığına göre 3 maddelik yol haritası
+    </div>
+  </li>
+
+  <li class="trial-point">
+    <div id="trialAds" class="trial-icon"></div>
+    <div class="trial-point__text">
+      İsteğe göre içerik, reklam veya e-ticaret odağı
+    </div>
+  </li>
+</ul>
 
           <div class="trial-badge">
             <strong>Ücretsiz mini denetim</strong>
             <span>Yaklaşık 15–20 dk online toplantı, satış baskısı yok.</span>
           </div>
+<div class="trial-customer">
+  <div id="trialCustomer" class="trial-icon"></div>
+</div>
 
+<p class="muted" style="margin-top:10px;">
+  Formu doldurduktan sonra 24 saat içinde sana uygun 2–3 zaman aralığı ile dönüş yapıyoruz.
+</p>
           <p class="muted" style="margin-top:10px;">
             Formu doldurduktan sonra 24 saat içinde sana uygun 2–3 zaman aralığı ile dönüş yapıyoruz.
           </p>
@@ -394,13 +423,19 @@ document.addEventListener('DOMContentLoaded', function () {
     el.addEventListener('mouseleave', () => anim.setSpeed(1.0));
   }
 
-  // Desktop header ikonları (mevcut)
+   // Desktop header ikonları (mevcut)
   initLottie('iconTikTok',    'tiktok.json');
   initLottie('iconInstagram', 'instagram.json', { assetsPath: BASE });
   initLottie('iconYouTube',   'youtube.json');
   initLottie('iconFacebook',  'facebook.json');
   initLottie('iconX',         'x.json');
   initLottie('iconNsosyal',   'nsosyal.json');
+
+  // === Contact: Ücretsiz deneme ikonları ===
+  initLottie('trialSocial',   'social.json',       { assetsPath: BASE });
+  initLottie('trialGrowth',   'growth.json',       { assetsPath: BASE });
+  initLottie('trialAds',      'adeverisement.json',{ assetsPath: BASE });
+  initLottie('trialCustomer', 'customer.json',     { assetsPath: BASE });
 
   // === YENİ: İletişim sayfasına ikonları bas ===
   const CONTACT_ICONS = [

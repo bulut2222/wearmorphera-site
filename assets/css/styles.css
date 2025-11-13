@@ -1454,17 +1454,39 @@ img{max-width:100%; display:block}
   padding:0;
   margin:0 0 12px;
 }
-.trial-points li{
+
+.trial-point{
   display:flex;
   align-items:flex-start;
-  gap:8px;
-  margin:6px 0;
+  gap:10px;
+  margin:8px 0;
 }
-.trial-points li::before{
-  content:"•";
-  color:var(--accent1);
-  font-weight:900;
-  margin-top:1px;
+
+.trial-point::before{
+  content:none; /* eski nokta/tik tamamen kapansın */
+}
+
+.trial-icon{
+  width:56px;
+  height:56px;
+  border-radius:14px;
+  background:#fff;
+  border:1px solid var(--stroke);
+  box-shadow:0 8px 18px rgba(15,23,42,.06);
+  overflow:hidden;
+  flex:0 0 auto;
+}
+
+.trial-point__text{
+  flex:1 1 auto;
+  font-size:14px;
+  line-height:1.5;
+}
+
+.trial-customer{
+  margin-top:10px;
+  display:flex;
+  justify-content:center;
 }
 
 .trial-badge{
