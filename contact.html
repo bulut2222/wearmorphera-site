@@ -98,46 +98,61 @@
 
   <!-- Form + Sağ bilgi kartı -->
   <div class="contact-cards">
-    <form id="morphContact" class="form-modern" novalidate>
-      <div class="grid2">
-        <label class="fld">
-          <span>Adınız Soyadınız *</span>
-          <input required name="name" autocomplete="name" />
-        </label>
-        <label class="fld">
-          <span>E-posta Adresiniz *</span>
-          <input required type="email" name="email" autocomplete="email" />
-        </label>
-      </div>
+    <form
+  id="morphContact"
+  name="contact"
+  method="POST"
+  data-netlify="true"
+  netlify-honeypot="bot-field"
+  class="form-modern"
+>
+  <!-- bot alanı (gizli) -->
+  <input type="hidden" name="form-name" value="contact" />
+  <p style="display:none;">
+    <label>Bu alanı doldurmayın: <input name="bot-field" /></label>
+  </p>
 
-      <div class="grid2">
-        <label class="fld">
-          <span>Telefonunuz *</span>
-          <input required type="tel" name="phone" autocomplete="tel" />
-        </label>
-        <label class="fld">
-          <span>Firma / Marka Adı</span>
-          <input name="company" />
-        </label>
-      </div>
+  <div class="grid2">
+    <label class="fld">
+      <span>Adınız Soyadınız *</span>
+      <input required name="name" autocomplete="name" />
+    </label>
+    <label class="fld">
+      <span>E-posta Adresiniz *</span>
+      <input required type="email" name="email" autocomplete="email" />
+    </label>
+  </div>
 
-      <label class="fld">
-        <span>Konu / Kısaca Hedefiniz</span>
-        <input name="subject" />
-      </label>
+  <div class="grid2">
+    <label class="fld">
+      <span>Telefonunuz *</span>
+      <input required type="tel" name="phone" autocomplete="tel" />
+    </label>
+    <label class="fld">
+      <span>Firma / Marka Adı</span>
+      <input name="company" />
+    </label>
+  </div>
 
-      <label class="fld">
-        <span>Mesajınız *</span>
-        <textarea required name="message" rows="6"></textarea>
-      </label>
+  <label class="fld">
+    <span>Konu / Kısaca Hedefiniz</span>
+    <input name="subject" />
+  </label>
 
-      <div class="row end">
-        <small class="muted">KVKK ve Çerez Politikası’nı kabul ediyorum.</small>
-        <button class="btn" type="submit">Formu Gönder</button>
-      </div>
+  <label class="fld">
+    <span>Mesajınız *</span>
+    <textarea required name="message" rows="6"></textarea>
+  </label>
 
-      <p id="formToast" class="form-toast" hidden>Teşekkürler! En kısa sürede dönüş yapacağız. ✅</p>
-    </form>
+  <div class="row end">
+    <small class="muted">KVKK ve Çerez Politikası’nı kabul ediyorum.</small>
+    <button class="btn" type="submit">Formu Gönder</button>
+  </div>
+
+  <p id="formToast" class="form-toast" hidden>
+    Teşekkürler! En kısa sürede dönüş yapacağız. ✅
+  </p>
+</form>
 
     <aside class="contact-card">
       <h4 class="card-title">Biz Nerede’yiz?</h4>
@@ -234,15 +249,16 @@ document.addEventListener('DOMContentLoaded', function () {
 <script src="assets/js/main.js" defer></script>
 <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
 <script>
-document.getElementById('morphContact')?.addEventListener('submit', (e)=>{
-  e.preventDefault();
-  const f = e.currentTarget;
-  if (!f.checkValidity()) { f.reportValidity(); return; }
-  const toast = document.getElementById('formToast');
-  toast.hidden = false;
-  toast.scrollIntoView({ behavior:'smooth', block:'center' });
-  f.reset();
-});
+  const form = document.getElementById('morphContact');
+  if (form) {
+    form.addEventListener('submit', function () {
+      // Netlify form normal şekilde POST edecek
+      const toast = document.getElementById('formToast');
+      if (toast) {
+        toast.hidden = false;
+      }
+    });
+  }
 </script>
 </body>
 </html>
