@@ -661,70 +661,61 @@ document.addEventListener('DOMContentLoaded', function () {
       </p>
     </header>
 
-    <form class="modal-form" name="contact" method="POST" data-netlify="true" data-netlify-honeypot="bot-field">
-  <input type="hidden" name="form-name" value="contact" />
-<input type="hidden" name="service" />
-<input type="hidden" name="budget" />
-      <p style="display:none;">
-        <label>Bot değil misin? <input name="bot-field" /></label>
-      </p>
+   <form
+  class="modal-form"
+  name="quick-quote-v2"
+  method="POST"
+  data-netlify="true"
+  data-netlify-honeypot="bot-field"
+>
+  <!-- Netlify form adı -->
+  <input type="hidden" name="form-name" value="quick-quote-v2" />
 
-      <div class="modal-form__grid">
-        <div class="field">
-          <label>Ad Soyad *</label>
-          <input name="name" required placeholder="Adınız Soyadınız" />
-        </div>
+  <p style="display:none;">
+    <label>Bot değil misin? <input name="bot-field" /></label>
+  </p>
 
-        <div class="field">
-          <label>E-posta *</label>
-          <input type="email" name="email" required placeholder="ornek@marka.com" />
-        </div>
+  <div class="modal-form__grid">
+    <div class="field">
+      <label>Ad Soyad *</label>
+      <input name="name" required placeholder="Adınız Soyadınız" />
+    </div>
 
-        <div class="field">
-          <label>Telefon</label>
-          <input name="phone" placeholder="05xx xxx xx xx" />
-        </div>
+    <div class="field">
+      <label>E-posta *</label>
+      <input type="email" name="email" required placeholder="ornek@marka.com" />
+    </div>
 
-        <div class="field">
-          <label>Marka / Mağaza Adı</label>
-          <input name="company" placeholder="WeAreMorphera, HerbalAccessory, vb." />
-        </div>
+    <div class="field">
+      <label>Telefon</label>
+      <input name="phone" placeholder="05xx xxx xx xx" />
+    </div>
 
-        <div class="field">
-          <label>İlgilendiğiniz alan</label>
-          <select name="service">
-            <option value="">Seçiniz</option>
-            <option>Sosyal Medya Yönetimi</option>
-            <option>Reklam Yönetimi (Meta / TikTok / Google)</option>
-            <option>E-ticaret & Pazaryeri</option>
-            <option>Marka Tasarımı & Web</option>
-            <option>Diğer / Karışık</option>
-          </select>
-        </div>
+    <div class="field">
+      <label>Marka / Mağaza Adı</label>
+      <input name="company" placeholder="WeAreMorphera, HerbalAccessory, vb." />
+    </div>
 
-        <div class="field">
-          <label>Bütçe Aralığı</label>
-          <select name="budget">
-            <option value="">Net değil / esnek</option>
-            <option>1.000 – 5.000 TL</option>
-            <option>5.000 – 20.000 TL</option>
-            <option>20.000 – 60.000+ TL</option>
-          </select>
-        </div>
-      </div>
+    <div class="field">
+      <label>İlgilendiğiniz alan</label>
+      <!-- ADINI DAHA NET YAPALIM: interest -->
+      <select name="interest">
+        <option value="">Seçiniz</option>
+        <option value="Sosyal Medya Yönetimi">Sosyal Medya Yönetimi</option>
+        <option value="Reklam Yönetimi">Reklam Yönetimi (Meta / TikTok / Google)</option>
+        <option value="E-ticaret & Pazaryeri">E-ticaret & Pazaryeri</option>
+        <option value="Marka Tasarımı & Web">Marka Tasarımı & Web</option>
+        <option value="Diğer / Karışık">Diğer / Karışık</option>
+      </select>
+    </div>
 
-      <div class="field field--full">
-        <label>Kısaca ihtiyacın *</label>
-        <textarea name="message" required placeholder="Hangi platformlar, hedefler, süre gibi detayları buraya yazabilirsin."></textarea>
-      </div>
+    <div class="field">
+      <label>Bütçe Aralığı</label>
+      <!-- ADINI DAHA NET YAPALIM: budget_range -->
+      <select name="budget_range">
+        <option value="Net değil / esnek">Net değil / esnek</option>
+        <option value="1.000 – 5.000 TL">1.000 –
 
-      <div class="modal__footer">
-        <small class="modal__legal">
-          Formu göndererek KVKK ve Çerez politikasını kabul etmiş olursunuz. Teklif sürecinde sadece sizinle iletişim için kullanılır.
-        </small>
-        <button class="btn btn--primary" type="submit">Teklifi Gönder</button>
-      </div>
-    </form>
   </div>
 </div>
 
