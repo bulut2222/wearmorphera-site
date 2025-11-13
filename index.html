@@ -661,7 +661,7 @@ document.addEventListener('DOMContentLoaded', function () {
       </p>
     </header>
 
-   <form
+    <form
   class="modal-form"
   name="quick-quote-v2"
   method="POST"
@@ -714,7 +714,26 @@ document.addEventListener('DOMContentLoaded', function () {
       <!-- ADINI DAHA NET YAPALIM: budget_range -->
       <select name="budget_range">
         <option value="Net değil / esnek">Net değil / esnek</option>
-        <option value="1.000 – 5.000 TL">1.000 –
+        <option value="1.000 – 5.000 TL">1.000 – 5.000 TL</option>
+        <option value="5.000 – 20.000 TL">5.000 – 20.000 TL</option>
+        <option value="20.000 – 60.000+ TL">20.000 – 60.000+ TL</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="field field--full">
+    <label>Kısaca ihtiyacın *</label>
+    <textarea name="message" required placeholder="Hangi platformlar, hedefler, süre gibi detayları buraya yazabilirsin."></textarea>
+  </div>
+
+  <div class="modal__footer">
+    <small class="modal__legal">
+      Formu göndererek KVKK ve Çerez politikasını kabul etmiş olursunuz.
+      Teklif sürecinde sadece sizinle iletişim için kullanılır.
+    </small>
+    <button class="btn btn--primary" type="submit">Teklifi Gönder</button>
+  </div>
+</form>
 
   </div>
 </div>
