@@ -1811,3 +1811,341 @@ html[data-theme="dark"] .results-sub{
     transform:translateY(1px);
   }
 }
+/* === Brand Logo & Header düzeni === */
+
+.header__row--top {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+/* soldaki buton görünümündeki logo + isim */
+.brand.brand--pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.35rem 0.95rem;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #ff7a5f, #ffca68);
+  color: #1b1125;
+  font-weight: 600;
+  text-decoration: none;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.18);
+}
+
+.brand__logo {
+  width: 34px;
+  height: 34px;
+  object-fit: contain;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.85);
+  padding: 2px;
+}
+
+.brand__text {
+  white-space: nowrap;
+}
+
+/* teklif butonu */
+.quote-btn {
+  margin-left: auto; /* en sağa it */
+  border: none;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.quote-btn__icon {
+  width: 46px;
+  height: 46px;
+  object-fit: contain;
+  border-radius: 999px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.quote-btn:hover .quote-btn__icon,
+.quote-btn:focus-visible .quote-btn__icon {
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 16px 30px rgba(0, 0, 0, 0.3);
+}
+
+/* === Modal (Hızlı Teklif) === */
+
+body.no-scroll {
+  overflow: hidden;
+}
+
+.modal {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.25s ease, visibility 0.25s ease;
+  z-index: 999;
+}
+
+.modal.is-open {
+  visibility: visible;
+  opacity: 1;
+}
+
+.modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at top left, #ff7a8a 0, rgba(255, 122, 138, 0.1) 35%),
+              radial-gradient(circle at bottom right, #4b2cff 0, rgba(75, 44, 255, 0.05) 40%),
+              rgba(5, 0, 20, 0.88);
+}
+
+/* cam efekti kutu */
+.modal__dialog {
+  position: relative;
+  z-index: 1;
+  max-width: 900px;
+  width: min(900px, 100% - 3rem);
+  padding: clamp(1.8rem, 2.5vw, 2.4rem);
+  border-radius: 24px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  backdrop-filter: blur(18px);
+  color: #ffffff;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.55);
+}
+
+.modal__close {
+  position: absolute;
+  top: 1rem;
+  right: 1.2rem;
+  border: none;
+  background: transparent;
+  color: #fff;
+  font-size: 1.8rem;
+  line-height: 1;
+  cursor: pointer;
+  opacity: 0.8;
+}
+
+.modal__close:hover {
+  opacity: 1;
+}
+
+.modal__header {
+  margin-bottom: 1.4rem;
+}
+
+.modal__eyebrow {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  opacity: 0.8;
+  margin-bottom: 0.4rem;
+}
+
+.modal__subtitle {
+  font-size: 0.95rem;
+  opacity: 0.9;
+  max-width: 36rem;
+}
+
+.modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+  margin-top: 0.5rem;
+}
+
+.modal-form__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.85rem 1rem;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.field label {
+  font-size: 0.8rem;
+  font-weight: 500;
+  opacity: 0.9;
+}
+
+.field input,
+.field select,
+.field textarea {
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.26);
+  background: rgba(5, 0, 25, 0.35);
+  padding: 0.6rem 0.75rem;
+  color: #fff;
+  font-size: 0.9rem;
+  outline: none;
+}
+
+.field input::placeholder,
+.field textarea::placeholder {
+  opacity: 0.75;
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+  border-color: #ffb96f;
+  box-shadow: 0 0 0 1px rgba(255, 185, 111, 0.4);
+}
+
+.field textarea {
+  min-height: 110px;
+  resize: vertical;
+}
+
+.field--full {
+  grid-column: 1 / -1;
+}
+
+.modal__footer {
+  margin-top: 0.2rem;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.modal__legal {
+  font-size: 0.75rem;
+  max-width: 26rem;
+  opacity: 0.8;
+}
+
+/* buton stili hero ile uyumlu olsun */
+.btn.btn--primary {
+  background: linear-gradient(135deg, #ff7a5f, #ffca68);
+  color: #1b1125;
+  border: none;
+}
+
+/* mobil uyum */
+@media (max-width: 720px) {
+  .modal__dialog {
+    padding: 1.4rem;
+  }
+
+  .modal-form__grid {
+    grid-template-columns: 1fr;
+  }
+}
+/* === Modal (Hızlı Teklif) === */
+
+body.no-scroll {
+  overflow: hidden;
+}
+
+.modal {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.25s ease, visibility 0.25s ease;
+  z-index: 999;
+}
+
+.modal.is-open {
+  visibility: visible;
+  opacity: 1;
+}
+
+.modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at top left, #ff7a8a 0, rgba(255, 122, 138, 0.1) 35%),
+              radial-gradient(circle at bottom right, #4b2cff 0, rgba(75, 44, 255, 0.05) 40%),
+              rgba(5, 0, 20, 0.88);
+}
+
+.modal__dialog {
+  position: relative;
+  z-index: 1;
+  max-width: 900px;
+  width: min(900px, 100% - 3rem);
+  padding: clamp(1.8rem, 2.5vw, 2.4rem);
+  border-radius: 24px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  backdrop-filter: blur(18px);
+  color: #ffffff;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.55);
+}
+
+.modal__close {
+  position: absolute;
+  top: 1rem;
+  right: 1.2rem;
+  border: none;
+  background: transparent;
+  color: #fff;
+  font-size: 1.8rem;
+  line-height: 1;
+  cursor: pointer;
+  opacity: 0.8;
+}
+
+.modal__close:hover {
+  opacity: 1;
+}
+
+/* form alanları vs. */
+.modal-form { display:flex; flex-direction:column; gap:1.1rem; margin-top:0.5rem; }
+.modal-form__grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:0.85rem 1rem; }
+.field { display:flex; flex-direction:column; gap:0.25rem; }
+.field label { font-size:0.8rem; font-weight:500; opacity:0.9; }
+.field input,
+.field select,
+.field textarea {
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.26);
+  background: rgba(5, 0, 25, 0.35);
+  padding: 0.6rem 0.75rem;
+  color: #fff;
+  font-size: 0.9rem;
+  outline: none;
+}
+.field textarea { min-height: 110px; resize: vertical; }
+.field--full { grid-column: 1 / -1; }
+
+.modal__footer {
+  margin-top: .2rem;
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:1rem;
+  flex-wrap:wrap;
+}
+
+.modal__legal {
+  font-size: .75rem;
+  max-width: 26rem;
+  opacity: .8;
+}
+
+.btn.btn--primary {
+  background: linear-gradient(135deg, #ff7a5f, #ffca68);
+  color: #1b1125;
+  border: none;
+}
+
+@media (max-width: 720px) {
+  .modal__dialog { padding: 1.4rem; }
+  .modal-form__grid { grid-template-columns:1fr; }
+}

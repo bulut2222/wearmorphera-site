@@ -13,33 +13,50 @@
   <div class="container header__inner">
 
     <!-- TOP: Brand → Sosyal CTA → (Açılır Panel) -->
-    <div class="header__row header__row--top">
-      <a class="brand" href="#top" aria-label="WeAreMorphera anasayfa">
-        <span class="brand__dot" aria-hidden="true"></span>
-        <span>WeAreMorphera</span>
-      </a>
-      <a href="#socials" class="social-cta only-desktop" id="openSocial" aria-label="Sosyal Medya Hesaplarımız">
-        <span class="social-cta__label">Sosyal Medya Hesaplarımız</span>
-        <span class="social-cta__arrow" aria-hidden="true">
-          <svg viewBox="0 0 24 24" width="20" height="20">
-            <path d="M5 12h12M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </span>
-      </a>
+   <div class="header__row header__row--top">
+  <!-- SOL: Logo + İsim (buton gibi) -->
+  <a class="brand brand--pill" href="#top" aria-label="WeAreMorphera anasayfa">
+    <img
+      src="assets/img/logo/morphera.png"
+      alt="WeAreMorphera Logo"
+      class="brand__logo"
+      loading="lazy"
+    />
+    <span class="brand__text">WeAreMorphera</span>
+  </a>
 
-      <!-- MOBİL AÇILIR PANEL (boş başlayacak, JS dolduracak) -->
-      <div id="socialPanel" class="social-panel" hidden></div>
+  <!-- ORTA: Sosyal CTA -->
+  <a href="#socials" class="social-cta only-desktop" id="openSocial" aria-label="Sosyal Medya Hesaplarımız">
+    <span class="social-cta__label">Sosyal Medya Hesaplarımız</span>
+    <span class="social-cta__arrow" aria-hidden="true">
+      <svg viewBox="0 0 24 24" width="20" height="20">
+        <path d="M5 12h12M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </span>
+  </a>
 
-      <!-- Masaüstü header ikonları (lottie ile doluyor) -->
-      <div class="header__cta only-desktop" id="socials" aria-label="Sosyal bağlantılar">
-        <a class="lottie-icon" id="iconTikTok"     href="https://www.tiktok.com/@busra_karaca00"    target="_blank" aria-label="TikTok"></a>
-        <a class="lottie-icon" id="iconInstagram"  href="https://www.instagram.com/herbal.bybusra/" target="_blank" aria-label="Instagram"></a>
-        <a class="lottie-icon" id="iconYouTube"    href="https://www.youtube.com/@herbalaccessory"  target="_blank" aria-label="YouTube"></a>
-        <a class="lottie-icon" id="iconFacebook"   href="https://www.facebook.com/karacagiyimaksesuar0345/"  target="_blank" aria-label="Facebook"></a>
-        <a class="lottie-icon" id="iconX"          href="https://x.com/seninhesabin"             target="_blank" aria-label="X"></a>
-        <a class="lottie-icon" id="iconNsosyal"    href="https://nsosyal.com/@seninhesabin"      target="_blank" aria-label="NSosyal"></a>
-      </div>
-    </div>
+  <!-- SAĞ: Sosyal ikonlar -->
+  <div class="header__cta only-desktop" id="socials" aria-label="Sosyal bağlantılar">
+    <a class="lottie-icon" id="iconTikTok" href="https://www.tiktok.com/@wearemorpheraagency" target="_blank" aria-label="TikTok"></a>
+    <a class="lottie-icon" id="iconInstagram" href="http://instagram.com/wearemorphera" target="_blank" aria-label="Instagram"></a>
+    <a class="lottie-icon" id="iconYouTube" href="https://www.youtube.com/@wemorphera" target="_blank" aria-label="YouTube"></a>
+    <a class="lottie-icon" id="iconFacebook" href="http://facebook.com/WeAreMorpheraDijitalAjans" target="_blank" aria-label="Facebook"></a>
+    <a class="lottie-icon" id="iconX" href="http://x.com/WeAreMorphera" target="_blank" aria-label="X"></a>
+    <a class="lottie-icon" id="iconNsosyal" href="https://sosyal.teknofest.app/@wearemorpherasosyalmedyaajansi" target="_blank" aria-label="NSosyal"></a>
+  </div>
+
+  <!-- EN SAĞ: Teklif butonu (png) -->
+  <button class="quote-btn" id="openQuote" type="button" aria-label="Hızlı Teklif Formu Aç">
+    <img
+      src="assets/img/logo/teklif.png"
+      alt="Teklif Al"
+      class="quote-btn__icon"
+      loading="lazy"
+    />
+  </button>
+</div>
+
 
 
     <!-- BOTTOM: Menü -->
@@ -527,12 +544,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // === YENİ: İletişim sayfasına ikonları bas ===
   const CONTACT_ICONS = [
-    { id:'cTikTok',    file:'tiktok.json',    href:'https://www.tiktok.com/@busra_karaca00',  label:'TikTok' },
-    { id:'cInstagram', file:'instagram.json', href:'https://www.instagram.com/herbal.bybusra/',label:'Instagram' },
-    { id:'cYouTube',   file:'youtube.json',   href:'https://www.youtube.com/@seninhesabin', label:'YouTube' },
-    { id:'cFacebook',  file:'facebook.json',  href:'https://www.facebook.com/seninhesabin', label:'Facebook' },
-    { id:'cX',         file:'x.json',         href:'https://x.com/seninhesabin',            label:'X' },
-    { id:'cNsosyal',   file:'nsosyal.json',   href:'https://nsosyal.com/@seninhesabin',      label:'NSosyal' },
+    { id:'cTikTok',    file:'tiktok.json',    href:'https://www.tiktok.com/@wearemorpheraagency',  label:'TikTok' },
+    { id:'cInstagram', file:'instagram.json', href:'http://instagram.com/wearemorphera',label:'Instagram' },
+    { id:'cYouTube',   file:'youtube.json',   href:'https://www.youtube.com/@wemorphera', label:'YouTube' },
+    { id:'cFacebook',  file:'facebook.json',  href:'http://facebook.com/WeAreMorpheraDijitalAjans', label:'Facebook' },
+    { id:'cX',         file:'x.json',         href:'http://x.com/WeAreMorphera',            label:'X' },
+    { id:'cNsosyal',   file:'nsosyal.json',   href:'https://sosyal.teknofest.app/@wearemorpherasosyalmedyaajansi',      label:'NSosyal' },
   ];
 
   function renderContactIcons(){
@@ -548,12 +565,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // --- (mevcut) mobil sosyal panel davranışı kalsın; desktop’ta #socials’a kaydırır ---
   const items = [
-    {name:'TikTok',    url:'https://www.tiktok.com/@busra_karaca00',  json:'https://assets1.lottiefiles.com/packages/lf20_dyisryxt.json'},
-    {name:'Instagram', url:'https://www.instagram.com/herbal.bybusra/', json:'https://assets2.lottiefiles.com/packages/lf20_7wwm6n5x.json'},
-    {name:'YouTube',   url:'https://www.youtube.com/@seninhesabin',  json:'https://assets1.lottiefiles.com/packages/lf20_ikvz7qhc.json'},
-    {name:'Facebook',  url:'https://www.facebook.com/seninhesabin',  json:'https://assets6.lottiefiles.com/packages/lf20_8wREpI.json'},
-    {name:'X (Twitter)',url:'https://x.com/seninhesabin',            json:'https://assets5.lottiefiles.com/private_files/lf30_editor_dnb8qz.json'},
-    {name:'NSosyal',   url:'https://nsosyal.com/@seninhesabin',      json:'https://assets1.lottiefiles.com/packages/lf20_2ksjqr4s.json'}
+    {name:'TikTok',    url:'https://www.tiktok.com/@wearemorpheraagency',  json:'https://assets1.lottiefiles.com/packages/lf20_dyisryxt.json'},
+    {name:'Instagram', url:'http://instagram.com/wearemorphera', json:'https://assets2.lottiefiles.com/packages/lf20_7wwm6n5x.json'},
+    {name:'YouTube',   url:'https://www.youtube.com/@wemorphera',  json:'https://assets1.lottiefiles.com/packages/lf20_ikvz7qhc.json'},
+    {name:'Facebook',  url:'http://facebook.com/WeAreMorpheraDijitalAjans',  json:'https://assets6.lottiefiles.com/packages/lf20_8wREpI.json'},
+    {name:'X (Twitter)',url:'http://x.com/WeAreMorphera',            json:'https://assets5.lottiefiles.com/private_files/lf30_editor_dnb8qz.json'},
+    {name:'NSosyal',   url:'https://sosyal.teknofest.app/@wearemorpherasosyalmedyaajansi',      json:'https://assets1.lottiefiles.com/packages/lf20_2ksjqr4s.json'}
   ];
 
   function renderSocialPanel(){
@@ -587,10 +604,127 @@ document.addEventListener('DOMContentLoaded', function () {
 
     window.addEventListener('resize', ()=>{ if (!isMobile() && panel) panel.hidden = true; });
   }
+     // === HIZLI TEKLİF MODALI ===
+    const openQuoteBtn = document.getElementById('openQuote');
+    const quoteModal = document.getElementById('quoteModal');
+    const closeQuoteBtn = document.getElementById('closeQuote');
+    const quoteBackdrop = quoteModal ? quoteModal.querySelector('.modal__backdrop') : null;
+
+    function openQuoteModal() {
+      if (!quoteModal) return;
+      quoteModal.classList.add('is-open');
+      document.body.classList.add('no-scroll');
+    }
+
+    function closeQuoteModal() {
+      if (!quoteModal) return;
+      quoteModal.classList.remove('is-open');
+      document.body.classList.remove('no-scroll');
+    }
+
+    if (openQuoteBtn && quoteModal) {
+      openQuoteBtn.addEventListener('click', function (e) {
+        e.preventDefault();
+        openQuoteModal();
+      });
+    }
+
+    if (closeQuoteBtn) {
+      closeQuoteBtn.addEventListener('click', closeQuoteModal);
+    }
+
+    if (quoteBackdrop) {
+      quoteBackdrop.addEventListener('click', closeQuoteModal);
+    }
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') {
+        closeQuoteModal();
+      }
+    });
 });
 </script>
 <script src="assets/js/main.js" defer></script>
 <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+<!-- HIZLI TEKLİF MODALI -->
+<div id="quoteModal" class="modal" aria-hidden="true">
+  <div class="modal__backdrop"></div>
+
+  <div class="modal__dialog" role="dialog" aria-modal="true" aria-labelledby="quoteTitle">
+    <button class="modal__close" type="button" id="closeQuote" aria-label="Pencereyi kapat">×</button>
+
+    <header class="modal__header">
+      <p class="modal__eyebrow">Hızlı Teklif Formu</p>
+      <h2 id="quoteTitle">Markan için net ve şeffaf teklif</h2>
+      <p class="modal__subtitle">
+        Kısaca ihtiyacını yaz; aynı gün içinde sana en uygun paket ve önerilerle dönüş yapalım.
+      </p>
+    </header>
+
+    <form class="modal-form" name="quick-quote" method="POST" data-netlify="true" data-netlify-honeypot="bot-field">
+      <input type="hidden" name="form-name" value="quick-quote" />
+      <p style="display:none;">
+        <label>Bot değil misin? <input name="bot-field" /></label>
+      </p>
+
+      <div class="modal-form__grid">
+        <div class="field">
+          <label>Ad Soyad *</label>
+          <input name="name" required placeholder="Adınız Soyadınız" />
+        </div>
+
+        <div class="field">
+          <label>E-posta *</label>
+          <input type="email" name="email" required placeholder="ornek@marka.com" />
+        </div>
+
+        <div class="field">
+          <label>Telefon</label>
+          <input name="phone" placeholder="05xx xxx xx xx" />
+        </div>
+
+        <div class="field">
+          <label>Marka / Mağaza Adı</label>
+          <input name="company" placeholder="WeAreMorphera, HerbalAccessory, vb." />
+        </div>
+
+        <div class="field">
+          <label>İlgilendiğiniz alan</label>
+          <select name="service">
+            <option value="">Seçiniz</option>
+            <option>Sosyal Medya Yönetimi</option>
+            <option>Reklam Yönetimi (Meta / TikTok / Google)</option>
+            <option>E-ticaret & Pazaryeri</option>
+            <option>Marka Tasarımı & Web</option>
+            <option>Diğer / Karışık</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Bütçe Aralığı</label>
+          <select name="budget">
+            <option value="">Net değil / esnek</option>
+            <option>1.000 – 5.000 TL</option>
+            <option>5.000 – 20.000 TL</option>
+            <option>20.000 – 60.000+ TL</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field field--full">
+        <label>Kısaca ihtiyacın *</label>
+        <textarea name="message" required placeholder="Hangi platformlar, hedefler, süre gibi detayları buraya yazabilirsin."></textarea>
+      </div>
+
+      <div class="modal__footer">
+        <small class="modal__legal">
+          Formu göndererek KVKK ve Çerez politikasını kabul etmiş olursunuz. Teklif sürecinde sadece sizinle iletişim için kullanılır.
+        </small>
+        <button class="btn btn--primary" type="submit">Teklifi Gönder</button>
+      </div>
+    </form>
+  </div>
+</div>
 
 </body>
 </html>
