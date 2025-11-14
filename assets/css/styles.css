@@ -721,6 +721,159 @@ img{max-width:100%; display:block}
 /* Başlık altında daha az boşluk */
 .section-title      { margin-bottom: 12px; }
 .team-title         { margin: 0 0 6px; }               /* “EKİBİMİZ” satırı daha yakın dursun */
+/* === SERVICE DETAIL PAGE === */
+
+.section--service {
+  padding-top: 80px;
+}
+
+.service-hero {
+  display: grid;
+  gap: 28px;
+}
+
+@media (min-width: 900px) {
+  .service-hero {
+    grid-template-columns: minmax(0, 3fr) minmax(0, 2.4fr);
+    align-items: center;
+  }
+}
+
+.service-hero__image {
+  border-radius: 26px;
+  overflow: hidden;
+  background: radial-gradient(circle at top left, rgb(243, 6, 6), rgba(14,9,35,0.96));
+  box-shadow: 0 4px 20px rgb(241, 120, 39);
+}
+
+.service-hero__image img {
+  width: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+/* === SERVICE HERO BAŞLIK BLOĞU (PRO STİL) === */
+
+.service-hero__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 14px;
+  border-radius: 999px;
+  text-transform: uppercase;
+  letter-spacing: 0.24em;
+  font-size: 11px;
+  font-weight: 600;
+
+  background: radial-gradient(circle at top left,
+              rgba(208, 26, 26, 0.893),
+              rgba(40, 24, 96, 0.95));
+  color: #e6ddff;
+  backdrop-filter: blur(10px);
+  box-shadow:
+    0 0 0 1px rgba(219, 9, 9, 0.06),
+    0 8px 24px rgba(0, 0, 0, 0.45);
+  margin-bottom: 10px;
+}
+
+/* Başlık */
+.service-hero__title {
+  margin: 0 0 10px;
+  font-weight: 500;
+  line-height: 1.15;
+  font-size: clamp(2.1rem, 2.4vw + 1.1rem, 3rem);
+
+  background: linear-gradient(110deg, #e02323, #aacb23, #f2b7ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  text-shadow:
+    0 0 18px rgba(243, 237, 237, 0.55),
+    0 0 32px rgba(165, 132, 255, 0.55);
+}
+
+/* Açıklama */
+.service-hero__lead {
+  font-size: 15px;
+  max-width: 580px;
+  margin-bottom: 18px;
+  line-height: 1.6;
+
+  color: rgba(9, 11, 35, 0.92);
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.45);
+  opacity: 0;
+  transform: translateY(10px);
+  animation: serviceLeadFade 0.8s ease forwards 0.08s;
+}
+
+@keyframes serviceLeadFade {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+.service-hero__bullets {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 12px;
+  font-size: 14px;
+}
+
+.service-hero__bullets li::before {
+  content: "•";
+  color: #ff7dd9;
+  margin-right: 6px;
+}
+
+.service-hero__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-size: 12px;
+}
+
+.service-hero__meta span {
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(155, 135, 255, 0.12);
+}
+
+/* Soru–cevap alanı */
+
+.service-faq {
+  margin-top: 40px;
+  display: grid;
+  gap: 22px;
+}
+
+@media (min-width: 900px) {
+  .service-faq {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.service-faq__item {
+  padding: 18px 18px 16px;
+  border-radius: 15px;
+  background: radial-gradient(circle at top left, rgb(198, 174, 174), rgba(214, 214, 228, 0.96));
+  box-shadow: 0 1px 15px rgb(57, 37, 27);
+  font-size: 14px;
+}
+
+.service-faq__item h2 {
+  font-size: 16px;
+  margin: 0 0 8px;
+}
+
+.service-faq__item p {
+  margin: 0 0 8px;
+}
+
+.service-faq__item ul {
+  padding-left: 18px;
+  margin: 0;
+}
 
 /* Alt yazıyı “sade ama tasarımlı” bir chip/pill gibi yapalım */
 .hero-subtitle{
@@ -2284,6 +2437,273 @@ body.no-scroll {
     padding: 8px !important;
   }
 }
+/* ===== HİZMETLER OVERLAY ===== */
+
+.services-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1400;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  font-family: inherit;
+}
+
+.services-overlay.is-open {
+  display: flex;
+}
+
+.services-overlay__backdrop {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at top left, rgba(255, 90, 190, 0.6), transparent),
+              radial-gradient(circle at bottom right, rgba(111, 120, 255, 0.7), transparent),
+              rgba(7, 7, 30, 0.85);
+  backdrop-filter: blur(14px);
+}
+
+.services-overlay__dialog {
+  position: relative;
+  max-width: 1300px;                /* GENİŞLİK BİRAZ BÜYÜDÜ */
+  width: min(1300px, 96vw);
+  max-height: 92vh;                 /* yükseklik de azıcık arttı */
+  margin: 0 auto;
+  padding: 32px 32px 34px;
+  border-radius: 30px;
+  background: radial-gradient(circle at top left, rgba(255, 255, 255, 0.16),
+                              rgba(10, 10, 40, 0.96));
+  box-shadow: 0 26px 80px rgba(0, 0, 0, 0.55);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  animation: services-pop-in 0.32s ease-out;
+}
+
+@keyframes services-pop-in {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.services-overlay__close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  font-size: 22px;
+  line-height: 1;
+  background: rgba(15, 15, 40, 0.85);
+  color: #fff;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.12);
+  transition: background 0.2s ease, transform 0.16s ease, box-shadow 0.2s ease;
+}
+
+.services-overlay__close:hover {
+  background: rgba(255, 255, 255, 0.12);
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+
+.services-overlay__header {
+  color: #f6feff;
+  padding-right: 0;
+  text-align: center;
+  margin-bottom: 18px;
+}
+
+.services-overlay__eyebrow,
+.services-overlay__subtitle {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* === PRO AJANS BAŞLIK TASARIMI === */
+.services-overlay__eyebrow {
+  font-size: 18px;
+  text-transform: uppercase;
+  letter-spacing: 0.75em;
+  opacity: 0.95;
+  margin-bottom: 10px;
+
+  background: linear-gradient(90deg, #7ad0ff, #d78dff, #ff92c8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  text-shadow:
+    0 0 12px rgba(118, 202, 255, 0.6),
+    0 0 22px rgba(234, 231, 235, 0.4),
+    0 0 38px rgba(255, 150, 210, 0.35);
+
+  animation: titleGlow 4s ease-in-out infinite alternate;
+  letter-spacing: 1rem;
+}
+
+@keyframes titleGlow {
+  0% {
+    text-shadow:
+      0 0 8px rgba(221, 227, 231, 0.4),
+      0 0 14px rgba(210, 122, 255, 0.3),
+      0 0 22px rgba(255, 150, 210, 0.2);
+    opacity: 0.9;
+  }
+  100% {
+    text-shadow:
+      0 0 18px rgba(118, 202, 255, 1),
+      0 0 35px rgba(210, 122, 255, 0.8),
+      0 0 55px rgba(255, 150, 210, 0.7);
+    opacity: 1;
+  }
+}
+
+/* ALT YAZI — Premium subtitle */
+.services-overlay__subtitle {
+  font-size: 15px;
+  max-width: 620px;
+  opacity: 0.8;
+
+  color: rgba(255,255,255,0.95);
+  text-align: center;
+
+  line-height: 1.55;
+  filter: drop-shadow(0 0 8px rgba(255,255,255,0.15));
+  animation: subtitleFade 0.9s ease forwards;
+  transform: translateY(6px);
+}
+
+@keyframes subtitleFade {
+  0% { opacity: 0; transform: translateY(12px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+
+/* GRID */
+
+.services-grid {
+  margin-top: 22px;
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr)); /* mobil: 1 kart */
+  gap: 24px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+/* Tablet & üstü: her satırda 3 kart */
+@media (min-width: 720px) {
+  .services-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+.service-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  border-radius: 22px;
+
+  /* ESKİ: padding: 18px 100px 20px;  ❌ çok yanlış */
+
+  padding: 22px 24px 26px;     /* ✔ doğru padding */
+  min-height: 260px;           /* ✔ kart artık dikey uzun */
+  background: radial-gradient(circle at top left,
+                               rgba(255, 255, 255, 0.12),
+                               rgba(15, 15, 40, 0.98));
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.45);
+  overflow: hidden;
+  cursor: pointer;
+  transition: 0.25s ease;
+}
+
+
+
+.service-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at top left, rgba(255, 98, 188, 0.35), transparent 60%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+
+
+
+/* Buraya sonra PNG'leri background-image ile vereceksin
+   .service-card:nth-child(1) .service-card__image { background-image:url(...); background-size:cover; }
+*/
+
+/* === SERVICE CARD CONTENT === */
+.service-card__body {
+  position: relative;
+  z-index: 1;
+}
+
+.service-card__tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 14px;
+  border-radius: 999px;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(5px);
+  margin-bottom: 4px;
+}
+
+.service-card h3 {
+  font-size: 15px;
+  margin: 2px 0 4px;
+}
+
+.service-card p {
+  font-size: 13px;
+  opacity: 0.88;
+}
+
+/* Hover / focus efekti */
+.service-card:hover,
+.service-card:focus-visible {
+  transform: translateY(-6px);
+  box-shadow: 0 22px 50px rgba(0, 0, 0, 0.65);
+  background: radial-gradient(circle at top left, rgba(255, 120, 210, 0.3), rgba(15, 15, 40, 0.98));
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+.service-card:hover::before,
+.service-card:focus-visible::before {
+  opacity: 1;
+}
+
+.service-card:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.8);
+  outline-offset: 2px;
+}
+
+/* Mobilde dialog biraz daha tam ekran dursun */
+@media (max-width: 640px) {
+  .services-overlay__dialog {
+    border-radius: 18px;
+    padding: 18px 16px 20px;
+    max-height: 90vh;
+  }
+
+  .services-overlay__header h2 {
+    font-size: 22px;
+  }
+
+  .services-overlay__subtitle {
+    font-size: 13px;
+  }
+}
+
 /* === DESKTOP HEADER TUNING (logo sola + küçültme) === */
 @media (min-width: 981px) {
 
@@ -2303,4 +2723,82 @@ body.no-scroll {
   .brand__text {
     font-size: 1.5rem;
   }
+}
+
+/* === SERVICE CARD IMAGES – PNG ARKA PLANLAR === */
+/* Sadece background-image veriyoruz, boyutlandırmayı alttaki genel blok yapıyor */
+
+/* 1 — Sosyal Medya Yönetimi */
+.services-grid .service-card:nth-child(1) .service-card__image {
+  background-image: url("assets/img/services/sosyal-medya.png");
+}
+
+/* 2 — Performans Reklam */
+.services-grid .service-card:nth-child(2) .service-card__image {
+  background-image: url("assets/img/services/performans-reklam.png");
+}
+
+/* 3 — E-Ticaret Yönetimi */
+.services-grid .service-card:nth-child(3) .service-card__image {
+  background-image: url("assets/img/services/eticaret-magaza-site.png");
+}
+
+/* 4 — Pazaryeri */
+.services-grid .service-card:nth-child(4) .service-card__image {
+  background-image: url("assets/img/services/pazaryeri-yonetimi.png");
+}
+
+/* 5 — Kurumsal Web Site */
+.services-grid .service-card:nth-child(5) .service-card__image {
+  background-image: url("assets/img/services/kurumsal-web-site.png");
+}
+
+/* 6 — Landing & Funnel */
+.services-grid .service-card:nth-child(6) .service-card__image {
+  background-image: url("assets/img/services/landing-funnel.png");
+}
+
+/* 7 — Marka Kimliği & Logo */
+.services-grid .service-card:nth-child(7) .service-card__image {
+  background-image: url("assets/img/services/marka-kimligi-logo.png");
+}
+
+/* 8 — Foto & Video Prodüksiyon */
+.services-grid .service-card:nth-child(8) .service-card__image {
+  background-image: url("assets/img/services/foto-video-produskiyon.png");
+}
+
+/* 9 — SEO & Blog */
+.services-grid .service-card:nth-child(9) .service-card__image {
+  background-image: url("assets/img/services/seo-blog-icerikleri.png");
+}
+
+/* 10 — Otomasyon & CRM */
+.services-grid .service-card:nth-child(10) .service-card__image {
+  background-image: url("assets/img/services/otomasyon-crm.png");
+}
+
+/* 11 — Danışmanlık & Eğitim */
+.services-grid .service-card:nth-child(11) .service-card__image {
+  background-image: url("assets/img/services/danismanlik-egitim.png");
+}
+
+/* 12 — Teknik Altyapı & Raporlama */
+.services-grid .service-card:nth-child(12) .service-card__image {
+  background-image: url("assets/img/services/teknik-alt-yapi-raporlama.png");
+}
+
+
+/* === SERVICE CARD IMAGE BASE STYLE === */
+/* Çizgi yok, görsel kartın içinde dolu duruyor */
+
+/* Kart içindeki PNG görsel alanı */
+.service-card__image {
+  width:100%;
+  aspect-ratio:3 /2;    /* TAM ORAN — artık taşma yok */
+  border-radius: 6px;
+  margin-bottom: 15;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }

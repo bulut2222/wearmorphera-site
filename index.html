@@ -476,6 +476,130 @@
       </div>
     </div>
   </section>
+<!-- HİZMETLER OVERLAY / MODAL -->
+<div id="servicesOverlay" class="services-overlay" aria-hidden="true">
+  <div class="services-overlay__backdrop"></div>
+
+  <div class="services-overlay__dialog" role="dialog" aria-modal="true" aria-labelledby="servicesTitle">
+    <button class="services-overlay__close" type="button" id="closeServices" aria-label="Pencereyi kapat">×</button>
+
+    <header class="services-overlay__header">
+  <p class="services-overlay__eyebrow">Neler yapıyoruz?</p>
+  
+</header>
+
+    <div class="services-grid">
+
+  <!-- 1 -->
+  <a href="service-sosyal-medya.html" class="service-card">
+    <div class="service-card__image"
+         style="background-image:url('assets/img/services/sosyal-medya.png');"></div>
+   
+  </a>
+
+  <!-- 2 -->
+  <a href="service-performans-reklam.html" class="service-card">
+    <div class="service-card__image"
+         style="background-image:url('assets/img/services/performans-reklam.png');"></div>
+  </a>
+
+  <!-- 3 -->
+  <a href="service-e-ticaret.html" class="service-card">
+    <div class="service-card__image"
+         style="background-image:url('assets/img/services/eticaret-magaza-site.png');"></div>
+  </a>
+
+  <!-- 4 -->
+  <a href="service-pazaryeri.html" class="service-card">
+    <div class="service-card__image"
+         style="background-image:url('assets/img/services/pazaryeri-yonetimi.png');"></div>
+    
+  </a>
+
+  <!-- 5 -->
+  <a href="service-web-site.html" class="service-card">
+    <div class="service-card__image"
+         style="background-image:url('assets/img/services/kurumsal-web-site.png');"></div>
+    
+  </a>
+
+  <!-- 6 -->
+  <a href="service-landing-funnel.html" class="service-card">
+    <div class="service-card__image"
+         style="background-image:url('assets/img/services/landing-funnel.png');"></div>
+   
+  </a>
+
+  <!-- 7 -->
+  <a href="service-marka-kimligi.html" class="service-card">
+    <div class="service-card__image"
+         style="background-image:url('assets/img/services/marka-kimligi-logo.png');"></div>
+    <div class="service-card__body">
+      <span class="service-card__tag">Marka</span>
+      <h3>Marka Kimliği & Logo</h3>
+      <p>Logo, renk paleti, tipografi ve mini marka kılavuzu.</p>
+    </div>
+  </a>
+
+  <!-- 8 -->
+  <a href="service-icerik-produksiyon.html" class="service-card">
+    <div class="service-card__image"
+         style="background-image:url('assets/img/services/foto-video-produksiyon.png');"></div>
+    <div class="service-card__body">
+      <span class="service-card__tag">Prodüksiyon</span>
+      <h3>Foto & Video Prodüksiyon</h3>
+      <p>Reels, vlog, ürün çekimi, kısa format dikey videolar.</p>
+    </div>
+  </a>
+
+  <!-- 9 -->
+  <a href="service-seo-blog.html" class="service-card">
+    <div class="service-card__image"
+         style="background-image:url('assets/img/services/seo-blog-icerikleri.png');"></div>
+    <div class="service-card__body">
+      <span class="service-card__tag">SEO</span>
+      <h3>SEO & Blog İçerikleri</h3>
+      <p>Arama görünürlüğü ve organik trafik için içerik planı.</p>
+    </div>
+  </a>
+
+  <!-- 10 -->
+  <a href="service-otomasyon.html" class="service-card">
+    <div class="service-card__image"
+         style="background-image:url('assets/img/services/otomasyon-crm.png');"></div>
+    <div class="service-card__body">
+      <span class="service-card__tag">Automation</span>
+      <h3>Otomasyon & CRM</h3>
+      <p>E-posta, WhatsApp, chatbot ve basit workflow otomasyonları.</p>
+    </div>
+  </a>
+
+  <!-- 11 -->
+  <a href="service-danismanlik.html" class="service-card">
+    <div class="service-card__image"
+         style="background-image:url('assets/img/services/danismanlik-egitim.png');"></div>
+    <div class="service-card__body">
+      <span class="service-card__tag">Advisory</span>
+      <h3>Danışmanlık & Eğitim</h3>
+      <p>Ekibine özel 1-1 veya grup oturumları, atölyeler.</p>
+    </div>
+  </a>
+
+  <!-- 12 -->
+  <a href="service-teknik-raporlama.html" class="service-card">
+    <div class="service-card__image"
+         style="background-image:url('assets/img/services/teknik-alt-yapi-raporlama.png');"></div>
+    <div class="service-card__body">
+      <span class="service-card__tag">Data</span>
+      <h3>Teknik Altyapı & Raporlama</h3>
+      <p>GA4, Tag Manager, Looker Studio panoları ve ölçümleme.</p>
+    </div>
+  </a>
+
+</div>
+
+  </div>
+</div>
 
   <!-- Footer -->
   <footer class="footer">
@@ -643,6 +767,48 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     });
 });
+ // === HİZMETLER OVERLAY ===
+  const servicesOverlay   = document.getElementById('servicesOverlay');
+  const closeServicesBtn  = document.getElementById('closeServices');
+  const servicesBackdrop  = servicesOverlay ? servicesOverlay.querySelector('.services-overlay__backdrop') : null;
+
+  // Hem menüdeki "Hizmetler" hem hero'daki "Hizmetleri Gör" butonu
+  const serviceTriggers = Array.from(
+    document.querySelectorAll('a[href="#services"]')
+  );
+
+  function openServicesOverlay() {
+    if (!servicesOverlay) return;
+    servicesOverlay.classList.add('is-open');
+    document.body.classList.add('no-scroll');
+  }
+
+  function closeServicesOverlay() {
+    if (!servicesOverlay) return;
+    servicesOverlay.classList.remove('is-open');
+    document.body.classList.remove('no-scroll');
+  }
+
+  serviceTriggers.forEach(function (el) {
+    el.addEventListener('click', function (e) {
+      e.preventDefault();
+      openServicesOverlay();
+    });
+  });
+
+  if (closeServicesBtn) {
+    closeServicesBtn.addEventListener('click', closeServicesOverlay);
+  }
+
+  if (servicesBackdrop) {
+    servicesBackdrop.addEventListener('click', closeServicesOverlay);
+  }
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') {
+      closeServicesOverlay();
+    }
+  });
 </script>
 <script src="assets/js/main.js" defer></script>
 <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
