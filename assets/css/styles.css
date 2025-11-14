@@ -99,16 +99,6 @@ img{max-width:100%; display:block}
   position: relative;
 }
 
-.hero-slider__viewport {
-  position: relative;
-  width: 100%;
-  border-radius: 26px;
-  overflow: hidden;
-  background:
-    radial-gradient(circle at top left, rgba(255, 255, 255, 0.15), rgba(8, 8, 30, 0.95));
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
-  aspect-ratio: 2 / 1; /* 2:1 oran */
-}
 
 .hero-slider__track {
   display: flex;
@@ -233,7 +223,7 @@ img{max-width:100%; display:block}
   background:
     radial-gradient(circle at top left, rgba(255, 255, 255, 0.15), rgba(8, 8, 30, 0.95));
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
-  aspect-ratio: 2 / 1; /* 2:1 oran – istediğin yatay görünüm */
+  aspect-ratio: 12 /1; /* 2:1 oran – istediğin yatay görünüm */
 }
 
 .hero-slider__track {
@@ -340,7 +330,12 @@ img{max-width:100%; display:block}
   }
 }
 /* HERO: Slider tam genişlik, text altta kalsın */
-
+.hero-stack{
+  display:flex;
+  flex-direction:column-reverse; /* önce slider, altında yazılar */
+  gap:var(--s5);
+  align-items:stretch;
+}
 
 .hero-stack .hero-slider{
   width:100%;
@@ -3584,11 +3579,12 @@ body.no-scroll {
   border-radius: 0;
 }
 .hero-slider__slide img {
-    object-fit: cover;
-    object-position: center top; /* üst tarafa hizala */
-    height: 100%;
-    width: 100%;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;   /* cover yerine contain */
+  background-color: #050516; /* kenarlarda boşluk olursa hoş dursun diye */
 }
+
 
 .hero-slider {
     height: 80vh; /* slider yüksekliğini azalt — 80vh → 75vh */
@@ -3648,7 +3644,7 @@ body.no-scroll {
 
   /* 2) Slider ile alttaki yazı arasındaki boşluğu azalt */
   .hero-section {
-    margin-bottom: 5px;    /* çok boşluk varsa 0–10px arası dene */
+    margin-bottom: px;    /* çok boşluk varsa 0–10px arası dene */
   }
 
   .hero-section + section { /* sliderdan hemen SONRA gelen section */
@@ -3656,12 +3652,19 @@ body.no-scroll {
     padding-top: 5px;      /* istersen bunu da 0 yapabilirsin */
   }
 }
-@media (max-width: 768px) {
-  .hero-stack{
-    gap:12px !important;
-  }
-
-  .hero-content{
-    margin-top:6px !important;
-  }
+.slider-image {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    background-color: #000; /* kenarlarda siyah bar olur */
+}
+.hero-slider__viewport {
+  position: relative;
+  width: 100%;
+  border-radius: 2px;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at top left, rgba(255, 255, 255, 0.15), rgba(8, 8, 30, 0.95));
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+  aspect-ratio: 8 /17; /* 2:1 oran – istediğin yatay görünüm */
 }
