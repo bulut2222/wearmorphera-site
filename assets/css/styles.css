@@ -3634,7 +3634,7 @@ body.no-scroll {
   }
 
   .hero .grid2 > div:first-child {
-    margin-top: 10px; /* üst boşluğu dengele */
+    margin-top: 50px; /* üst boşluğu dengele */
   }
 
   /* slider okları mobilde düzgün dursun */
