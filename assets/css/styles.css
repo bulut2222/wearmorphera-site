@@ -3661,3 +3661,12 @@ body.no-scroll {
     padding-top: 5px;      /* istersen bunu da 0 yapabilirsin */
   }
 }
+@media (max-width: 768px) {
+  .hero-stack{
+    gap:12px !important;
+  }
+
+  .hero-content{
+    margin-top:6px !important;
+  }
+}
