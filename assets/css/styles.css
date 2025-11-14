@@ -3653,11 +3653,11 @@ body.no-scroll {
 
   /* 2) Slider ile alttaki yazı arasındaki boşluğu azalt */
   .hero-section {
-    margin-bottom: 10px;    /* çok boşluk varsa 0–10px arası dene */
+    margin-bottom: 5px;    /* çok boşluk varsa 0–10px arası dene */
   }
 
   .hero-section + section { /* sliderdan hemen SONRA gelen section */
     margin-top: 0;
-    padding-top: 10px;      /* istersen bunu da 0 yapabilirsin */
+    padding-top: 5px;      /* istersen bunu da 0 yapabilirsin */
   }
 }
