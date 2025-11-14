@@ -2958,38 +2958,32 @@ body.no-scroll {
     font-size: 13px;
   }
 }
-/* === SPLASH EKRAN → SAĞ ALT İMZA === */
+/* === SAĞ ALT Buluş Yazılım İMZASI — Kart DIŞINDA === */
 .intro-splash__signature {
   position: absolute;
-  bottom: 24px;
-  right: 28px;
-  font-size: 14px;
-  letter-spacing: 0.12em;
-  color: #ffffffcc;
+  bottom: 32px;
+  right: 36px;
+
+  font-size: 15px;
   font-weight: 500;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
 
-  padding: 8px 14px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 12px;
-  backdrop-filter: blur(6px);
+  padding: 10px 18px;
+  color: #ffffffde;
 
-  box-shadow: 0 4px 20px rgba(0,0,0,0.35);
-  animation: signatureFade 1.4s ease-in-out forwards;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(10px);
+
+  box-shadow: 0 5px 25px rgba(0,0,0,0.35);
+
   opacity: 0;
+  animation: splashSignatureFade 1.2s ease forwards 0.5s;
 }
 
-@keyframes signatureFade {
-  0% { opacity: 0; transform: translateY(8px); }
-  60% { opacity: 0.3; }
-  100% { opacity: 1; transform: translateY(0); }
-}
-
-/* İmzaya hafif parıltı */
-.intro-splash__signature span {
-  background: linear-gradient(90deg, #ffffff, #cfcfff, #ffffff);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+@keyframes splashSignatureFade {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
