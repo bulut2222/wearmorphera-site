@@ -3647,13 +3647,13 @@ body.no-scroll {
 
   /* Slider container’ın alt boşluğu */
   .hero-slider--top {
-    margin-bottom: 8px !important; /* 32 px idi, çok azalttık */
+    margin-bottom: 2px !important; /* 32 px idi, çok azalttık */
     padding-bottom: 0 !important;
   }
 
   /* Slider’ın kendisi için ekstra nefes boşluğu */
   .hero-slider__viewport {
-    margin-bottom: 4px !important;
+    margin-bottom: 1px !important;
   }
 
   /* Alt yazı alanı */
