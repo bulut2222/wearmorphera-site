@@ -74,11 +74,47 @@
     <div class="container">
 
       <!-- Hero blok -->
-      <section class="service-hero">
-        <div class="service-hero__image">
-          <!-- PNG'yi buraya atacaksın: assets/img/services/sosyalmedya.png -->
-          <img src="assets/img/services/sosyalmedya.webp" alt="Sosyal medya yönetimi görseli" loading="lazy" />
-        </div>
+<section class="service-hero">
+
+  <div class="service-hero__slider" id="heroSlider">
+    <div class="hero-slide">
+      <img src="assets/img/services/sosyalmedya.webp"
+           alt="Sosyal medya yönetimi görseli "
+           loading="lazy" />
+    </div>
+
+    <div class="hero-slide">
+      <img src="assets/img/services/sosyalmedya1.webp"
+           alt="Sosyal medya yönetimi görseli 1"
+           loading="lazy" />
+    </div>
+
+    <div class="hero-slide">
+      <img src="assets/img/services/sosyalmedya2.webp"
+           alt="Sosyal medya yönetimi görseli 2"
+           loading="lazy" />
+    </div>
+     <div class="hero-slide">
+      <img src="assets/img/services/sosyalmedya3.webp"
+           alt="Sosyal medya yönetimi görseli 3"
+           loading="lazy" />
+    </div>
+     <div class="hero-slide">
+      <img src="assets/img/services/sosyalmedya4.webp"
+           alt="Sosyal medya yönetimi görseli 4"
+           loading="lazy" />
+    </div>
+
+    <!-- Pagination noktaları -->
+    <div class="hero-slider__dots" id="heroDots"></div>
+
+    <!-- Ok butonları -->
+    <button class="hero-slider__arrow hero-prev" type="button">‹</button>
+    <button class="hero-slider__arrow hero-next" type="button">›</button>
+  </div>
+
+
+
 
         <div class="service-hero__content">
           <p class="service-hero__eyebrow">Hizmet Detayı</p>
@@ -169,5 +205,59 @@
   </footer>
 
   <script src="assets/js/main.js" defer></script>
+  <script>
+  const slides = document.querySelectorAll(".hero-slide");
+  const dotsContainer = document.getElementById("heroDots");
+  let current = 0;
+
+  // DOT oluştur
+  slides.forEach((_, i) => {
+    const dot = document.createElement("span");
+    if (i === 0) dot.classList.add("active");
+    dot.onclick = () => goToSlide(i);
+    dotsContainer.appendChild(dot);
+  });
+
+  const dots = dotsContainer.querySelectorAll("span");
+
+  function showSlide(index) {
+    slides.forEach(s => s.classList.remove("active"));
+    dots.forEach(d => d.classList.remove("active"));
+
+    slides[index].classList.add("active");
+    dots[index].classList.add("active");
+  }
+
+  function nextSlide() {
+    current = (current + 1) % slides.length;
+    showSlide(current);
+  }
+
+  function prevSlide() {
+    current = (current - 1 + slides.length) % slides.length;
+    showSlide(current);
+  }
+
+  document.querySelector(".hero-next").onclick = nextSlide;
+  document.querySelector(".hero-prev").onclick = prevSlide;
+
+  // Otomatik geçiş (4 saniye)
+  let auto = setInterval(nextSlide, 4000);
+
+  // Hover olunca durdur
+  const slider = document.querySelector(".service-hero__slider");
+  slider.onmouseover = () => clearInterval(auto);
+  slider.onmouseleave = () => auto = setInterval(nextSlide, 4000);
+
+  // Dot tıklayınca
+  function goToSlide(index) {
+    current = index;
+    showSlide(current);
+  }
+
+  // İlk slide aktif
+  showSlide(0);
+</script>
+
 </body>
 </html>
