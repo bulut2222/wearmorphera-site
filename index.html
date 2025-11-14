@@ -766,6 +766,21 @@ document.addEventListener('DOMContentLoaded', function () {
         closeQuoteModal();
       }
     });
+      /* === INTRO SPLASH LOGİĞİ === */
+    /* === INTRO SPLASH LOGİĞİ – HER GİRİŞTE GÖSTER === */
+  const introSplash = document.getElementById('introSplash');
+
+  function hideIntroSplash() {
+    if (!introSplash) return;
+    introSplash.classList.add('is-hidden');
+  }
+
+  if (introSplash) {
+    // splash ne kadar kalsın? (ms)
+    // 4200 = 4.2 saniye. İstersen 5000 yap 5 sn olsun.
+    setTimeout(hideIntroSplash, 2000);
+  }
+
 });
  // === HİZMETLER OVERLAY ===
   const servicesOverlay   = document.getElementById('servicesOverlay');
@@ -905,6 +920,35 @@ document.addEventListener('DOMContentLoaded', function () {
   </div>
 </form>
 
+  </div>
+</div>
+<!-- INTRO SPLASH -->
+<div id="introSplash" class="intro-splash" aria-hidden="true">
+  <div class="intro-splash__glow"></div>
+  <div class="intro-splash__inner">
+    <div class="intro-splash__logo-pill">
+      <img
+        src="assets/img/logo/morphera.png"
+        alt="WeAreMorphera Logo"
+        class="intro-splash__logo"
+      />
+      <span class="intro-splash__brand">WeAreMorphera</span>
+    </div>
+
+    <h1 class="intro-splash__title">
+      Hoş geldiniz
+    </h1>
+
+    <p class="intro-splash__subtitle">
+      İçerik, performans ve e-ticaret tek orkestrasyonda.
+      Sizi ana sahneye alıyoruz…
+    </p>
+
+    <div class="intro-splash__progress">
+      <span class="intro-splash__dot"></span>
+      <span class="intro-splash__dot"></span>
+      <span class="intro-splash__dot"></span>
+    </div>
   </div>
 </div>
 
