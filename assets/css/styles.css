@@ -3634,11 +3634,30 @@ body.no-scroll {
   }
 
   .hero .grid2 > div:first-child {
-    margin-top: 50px; /* üst boşluğu dengele */
+    margin-top: 20px; /* üst boşluğu dengele */
   }
 
   /* slider okları mobilde düzgün dursun */
   .hero-slider__nav {
     top: 45%;
+  }
+}
+/* MOBİL DÜZENLEMELER */
+@media (max-width: 768px) {
+
+  /* 1) Slider’ın ÜSTTEKİ boşluğunu kaldır */
+  .hero-section {           /* slider’ın olduğu section’ın class’ı neyse onu yaz */
+    margin-top: 0;
+    padding-top: 0;
+  }
+
+  /* 2) Slider ile alttaki yazı arasındaki boşluğu azalt */
+  .hero-section {
+    margin-bottom: 10px;    /* çok boşluk varsa 0–10px arası dene */
+  }
+
+  .hero-section + section { /* sliderdan hemen SONRA gelen section */
+    margin-top: 0;
+    padding-top: 10px;      /* istersen bunu da 0 yapabilirsin */
   }
 }
