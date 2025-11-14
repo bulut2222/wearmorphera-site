@@ -340,12 +340,7 @@ img{max-width:100%; display:block}
   }
 }
 /* HERO: Slider tam genişlik, text altta kalsın */
-.hero-stack{
-  display:flex;
-  flex-direction:column-reverse; /* önce slider, altında yazılar */
-  gap:var(--s5);
-  align-items:stretch;
-}
+
 
 .hero-stack .hero-slider{
   width:100%;
