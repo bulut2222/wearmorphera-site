@@ -921,23 +921,23 @@ img{max-width:100%; display:block}
 .member-card{
   position:relative;
   background:var(--card);
-  border:10px solid var(--stroke);
-  border-radius:25px;
+  border:0px solid var(--stroke);
+  border-radius:15px;
   overflow:hidden;
-  box-shadow:0 10px 28px rgba(15,23,42,.06);
+  box-shadow:0 10px 28px rgb(224, 105, 105);
   transition:transform .18s ease, box-shadow .18s ease;
-  padding-bottom:16px;           /* kart yüksekliği için küçük nefes */
+  padding-bottom:0px;           /* kart yüksekliği için küçük nefes */
 }
 .member-card:hover{
   transform:translateY(-2px);
-  box-shadow:0 16px 42px rgba(15,23,42,.10);
+  box-shadow:0 16px 42px rgb(196, 201, 103);
 }
 
 /* Fotoğraf: dikey oran (portre) */
 .member-photo{
   margin:3;                      /* figure default margin fix */
   position:relative;
-  aspect-ratio: 4/5;           /* <<< DİKEY ORAN */
+  aspect-ratio: 5/7;           /* <<< DİKEY ORAN */
   overflow:hidden;
   border-radius:16px;
   background:#f3f6fb;
@@ -948,7 +948,7 @@ img{max-width:100%; display:block}
   transform:none; filter:none;
 }
 .member-card:hover .member-photo img{
-  transform:scale(1.05); filter:saturate(50%);
+  transform:scale(1.2); filter:saturate(50%);
 }
 
 /* Rozet: fotoğrafın içinde, sol-alt */
@@ -1292,7 +1292,7 @@ img{max-width:100%; display:block}
 .hero-subtitle::after{
   content:"";
   position:absolute; left:50%; bottom:0; transform:translateX(-50%);
-  width: min(420px, 80%);      /* genişlik: ekrana göre akışkan */
+  width: min(500px, 80%);      /* genişlik: ekrana göre akışkan */
   height: 6px; border-radius: 999px;
   background: linear-gradient(90deg,var(--accent1),var(--accent2));
   box-shadow: 0 6px 18px rgba(14,165,233,.25), 0 2px 8px rgba(99,102,241,.20);
@@ -1304,8 +1304,8 @@ img{max-width:100%; display:block}
 }
 
 /* Üst/alt boşluğu biraz sıkılaştır (başlık ve kartlar yaklaşsın) */
-.team-hero{ padding: var(--s5) 0 var(--s3); }
-.team-body{ padding: var(--s3) 0 var(--s5); }
+.team-hero{ padding: var(--s0) 0 var(--s3); }
+.team-body{ padding: var(--s0) 0 var(--s5); }
 
 /* Header sağ blok: tema butonu + menü butonu + sosyal ikonlar */
 .header__actions{
@@ -3333,7 +3333,7 @@ body.no-scroll {
 /* ========= BİZ KİMİZ – ZENGİN BLOK ========= */
 
 .about-us {
-  padding: 80px 0 90px;
+  padding: 10px 0 90px;
 }
 
 .about-us__shell {
@@ -3341,8 +3341,8 @@ body.no-scroll {
   border-radius: 30px;
   padding: 40px 38px;
   background:
-    radial-gradient(circle at top left, rgba(255, 210, 255, 0.55), transparent 55%),
-    radial-gradient(circle at bottom right, rgba(147, 151, 255, 0.45), transparent 55%),
+    radial-gradient(circle at top left, rgb(255, 229, 202), transparent 55%),
+    radial-gradient(circle at bottom right, rgba(192, 84, 84, 0.716), transparent 55%),
     #faf6ff;
   box-shadow: 0 20px 60px rgba(26, 7, 64, 0.16);
   display: grid;
@@ -3370,23 +3370,23 @@ body.no-scroll {
 
 .about-us__eyebrow {
   font-size: 11px;
-  letter-spacing: 0.28em;
+  letter-spacing: 1.0em;
   text-transform: uppercase;
-  color: #b08cff;
-  margin-bottom: 6px;
+  color: #000000;
+  margin-bottom: 0px;
 }
 
 .about-us__title {
-  font-size: 32px;
-  margin-bottom: 10px;
+  font-size: 25px;
+  margin-bottom: 5px;
   font-weight: 700;
-  background: linear-gradient(90deg, #8f45ff, #ff4fa9);
+  background: linear-gradient(90deg, #ff4545, #f7ff05);
   -webkit-background-clip: text;
   color: transparent;
 }
 
 .about-us__lead {
-  font-size: 17px;
+  font-size: 15px;
   line-height: 1.7;
   color: #2b223b;
   margin-bottom: 12px;
@@ -3410,7 +3410,7 @@ body.no-scroll {
   padding-left: 18px;
   margin-bottom: 6px;
   font-size: 14px;
-  color: #4a3d5a;
+  color: #5a3d3d;
 }
 
 .about-us__list li::before {
@@ -3425,7 +3425,7 @@ body.no-scroll {
 
 .about-us__closing {
   font-size: 14px;
-  color: #3a2f4c;
+  color: #4c352f;
   margin-top: 4px;
 }
 
@@ -3435,7 +3435,7 @@ body.no-scroll {
   z-index: 1;
   border-radius: 22px;
   padding: 20px 20px 22px;
-  background: radial-gradient(circle at top left, rgba(255, 255, 255, 0.9), rgba(233, 230, 255, 0.95));
+  background: radial-gradient(circle at top left, rgb(255, 255, 245), rgba(148, 107, 139, 0.797));
   box-shadow: 0 12px 32px rgba(109, 76, 182, 0.25);
   display: flex;
   flex-direction: column;
