@@ -251,8 +251,8 @@ img{max-width:100%; display:block}
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  width: 20px;
-  height: 20px;
+  width: 30px;
+  height: 30px;
   border-radius: 999px;
   border: none;
   background: rgba(49, 48, 47, 0.936);
