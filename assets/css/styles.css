@@ -3691,14 +3691,14 @@ body.no-scroll {
   justify-content: flex-start;
 
   padding: clamp(1.5rem, 4vw, 3rem);
-  color: #fff;
+  color: #e1e3ae;
 
   /* soldan hafif koyu → sağa doğru şeffaf */
   background: linear-gradient(
     90deg,
-    rgba(0, 0, 0, 0.75) 0%,
-    rgba(0, 0, 0, 0.45) 40%,
-    transparent 80%
+    rgba(0, 0, 0, 0.49) 100%,
+    rgba(77, 77, 67, 0.45) 10%,
+    transparent 110%
   );
 
   opacity: 0;
