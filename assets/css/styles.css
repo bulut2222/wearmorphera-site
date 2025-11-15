@@ -3668,3 +3668,90 @@ body.no-scroll {
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
   aspect-ratio: 8 /17; /* 2:1 oran – istediğin yatay görünüm */
 }
+/* HERO SLİDER GENEL */
+.hero-slider__slide {
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-slider__slide img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* OVERLAY KART */
+.hero-slide-overlay {
+  position: absolute;
+  inset: 0; /* top:0; right:0; bottom:0; left:0; */
+  z-index: 2;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+
+  padding: clamp(1.5rem, 4vw, 3rem);
+  color: #fff;
+
+  /* soldan hafif koyu → sağa doğru şeffaf */
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0.75) 0%,
+    rgba(0, 0, 0, 0.45) 40%,
+    transparent 80%
+  );
+
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(10px);
+  transition: opacity .4s ease, transform .4s ease;
+}
+
+.hero-slide-overlay__inner {
+  max-width: 640px;
+}
+
+.hero-slide-overlay h1 {
+  font-size: clamp(1.8rem, 3vw, 2.6rem);
+  line-height: 1.2;
+  margin-bottom: 0.75rem;
+}
+
+.hero-slide-overlay p {
+  font-size: 1rem;
+  line-height: 1.5;
+  margin-bottom: 1.25rem;
+  max-width: 38rem;
+}
+
+/* CTA butonunu biraz öne çıkaralım */
+.hero-overlay-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .4rem;
+}
+
+/* SADECE AKTİF SLIDE’DA GÖRÜNSÜN */
+.hero-slider__slide--with-overlay.is-active .hero-slide-overlay {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+/* Küçük ekranlarda yazıyı biraz sadeleştir / alta alabilirsin */
+@media (max-width: 780px) {
+  .hero-slide-overlay {
+    background: linear-gradient(
+      180deg,
+      rgba(0,0,0,0.75) 0%,
+      rgba(0,0,0,0.35) 40%,
+      transparent 90%
+    );
+    align-items: flex-end;
+  }
+
+  .hero-slide-overlay__inner {
+    max-width: 100%;
+  }
+}

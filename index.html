@@ -5,7 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>We Are Morphera — Full-service Growth</title>
   <meta name="description" content="Tek orkestrasyonda: içerik, performans, e-ticaret. We Are Morphera.">
-  <link rel="stylesheet" href="assets/css/styles.css?v=3" />
+  <link rel="stylesheet" href="assets/css/styles.css?v=5" />
+
 </head>
 <body>
   <!-- Header -->
@@ -86,9 +87,24 @@
     <div class="hero-slider hero-slider--top" aria-label="Öne çıkan görseller">
       <div class="hero-slider__viewport">
         <div class="hero-slider__track">
-          <div class="hero-slider__slide">
-            <img src="assets/img/anasayfa/anasayfa1.webp" alt="WeAreMorphera ana görsel 1" loading="lazy" />
-          </div>
+          <div class="hero-slider__slide hero-slider__slide--with-overlay">
+  <img src="assets/img/anasayfa/anasayfa1.webp" alt="WeAreMorphera ana görsel 1" loading="lazy" />
+
+  <div class="hero-slide-overlay">
+    <div class="hero-slide-overlay__inner">
+      <h1>Sosyal medyada markanızı zirveye taşıyalım</h1>
+      <p>
+        Instagram, TikTok, YouTube ve diğer tüm platformlarda; strateji, içerik,
+        reklam ve raporlama süreçlerini uçtan uca yönetip size hazır sonuçlar sunuyoruz.
+      </p>
+      <a href="service-sosyal-medya.html" class="btn hero-overlay-cta">
+        Daha fazlası
+      </a>
+    </div>
+  </div>
+</div>
+
+
           <div class="hero-slider__slide">
             <img src="assets/img/anasayfa/anasayfa2.webp" alt="WeAreMorphera ana görsel 2" loading="lazy" />
           </div>
@@ -772,11 +788,22 @@ document.addEventListener('DOMContentLoaded', function () {
     let autoTimer = null;
     const INTERVAL = 5500; // 5.5 sn'de bir geçiş
 
-    function goToSlide(index) {
+     function goToSlide(index) {
       const total = slides.length;
       currentIndex = (index + total) % total;
+
+      // Sliderı kaydır
       track.style.transform = `translateX(-${currentIndex * 100}%)`;
-      dots.forEach((dot, i) => dot.classList.toggle('is-active', i === currentIndex));
+
+      // Dot'ları güncelle
+      dots.forEach((dot, i) => {
+        dot.classList.toggle('is-active', i === currentIndex);
+      });
+
+      // Aktif slide'ı işaretle → overlay bununla açılacak
+      slides.forEach((slide, i) => {
+        slide.classList.toggle('is-active', i === currentIndex);
+      });
     }
 
     function nextSlide() {
