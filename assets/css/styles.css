@@ -3844,17 +3844,10 @@ body.no-scroll {
     min-height: 260px;           /* yazı + görsel için minimum alan */
   }
 
-@media (max-width: 768px) {
-
-  .hero-slider__slide {
-    min-height: 360px;      /* slider boyunu büyütür */
-  }
-
-  .hero-slider__slide img {
+.hero-slider__slide img {
     width: 100%;
-    height: 100%;
-    object-fit: cover;      /* tam oturur, büyür */
-  }
+    height: 120%;       /* default 100 → büyüttük */
+    object-fit: contain;
 }
   /* Overlay kutusunun konumu */
   .hero-slide-overlay {
