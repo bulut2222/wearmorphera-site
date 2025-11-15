@@ -3755,3 +3755,31 @@ body.no-scroll {
     max-width: 100%;
   }
 }
+/* === HERO SLIDER MOBİL DÜZELTME === */
+.hero-slider__slide {
+  position: relative;
+  overflow: hidden; /* Taşan kısımları kes */
+}
+
+.hero-slider__slide img {
+  width: 100%;
+  display: block;
+}
+
+/* Mobil görünüm için: görsel kartı tam doldursun */
+@media (max-width: 768px) {
+  .hero-slider__viewport {
+    height: 70vh;        /* İstersen 60vh / 65vh yapabilirsin */
+    max-height: 520px;   /* Çok uzamasın diye */
+  }
+
+  .hero-slider__track,
+  .hero-slider__slide {
+    height: 100%;
+  }
+
+  .hero-slider__slide img {
+    height: 100%;
+    object-fit: cover;   /* Görsel alanı tam doldursun, kırparak */
+  }
+}
