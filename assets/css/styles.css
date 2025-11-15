@@ -3873,7 +3873,7 @@ body.no-scroll {
 
   /* Açıklama (mobil) */
   .hero-slide-overlay__inner p {
-    font-size: 19px;
+    font-size: 17px;
     line-height: 1.5;
     max-width: 100%;             /* sağdan soldan taşma yok */
     margin-top: 10px;
