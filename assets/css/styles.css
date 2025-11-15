@@ -255,14 +255,14 @@ img{max-width:100%; display:block}
   height: 40px;
   border-radius: 999px;
   border: none;
-  background: rgba(5, 5, 20, 0.55);
+  background: rgba(49, 48, 47, 0.936);
   color: #fff;
-  font-size: 22px;
+  font-size: 30px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 1px 24px rgba(237, 169, 105, 0.984);
   backdrop-filter: blur(6px);
   transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
   z-index: 2;
@@ -3691,7 +3691,7 @@ body.no-scroll {
   justify-content: flex-start;
 
   padding: clamp(1.5rem, 4vw, 3rem);
-  color: #e1e3ae;
+  color: #f7f7f6;
 
   /* soldan hafif koyu → sağa doğru şeffaf */
   background: linear-gradient(
