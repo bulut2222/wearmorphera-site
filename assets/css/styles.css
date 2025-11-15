@@ -3846,8 +3846,8 @@ body.no-scroll {
 
   .hero-slider__slide img {
     width: 100%;
-    height: auto;                /* oran korunsun */
-    object-fit: contain;         /* görsel kesilmesin */
+   height: 100%;
+    object-fit: cover;   /* görseli büyütür, taşarsa kırpar */
   }
 
   /* Overlay kutusunun konumu */
