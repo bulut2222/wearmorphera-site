@@ -3245,11 +3245,12 @@ body.no-scroll {
 .service-hero__slider {
   position: relative;
   width: 100%;
-  height: 380px;
+  height: 444px;
   border-radius: 26px;
   overflow: hidden;
-  box-shadow: 0 4px 20px rgba(241, 120, 39, 0.45);
+  box-shadow: 0 4px 20px rgb(136, 50, 44);
   background: #0c0b1f;
+  margin-top: -40px; /* istersen -20 / -40 yap, gözünle ayarla */
 }
 
 /* === SLIDE’LAR === */
@@ -3296,7 +3297,7 @@ body.no-scroll {
 .hero-next { right: 18px; }
 
 .hero-slider__arrow:hover {
-  background: rgba(255,255,255,0.28);
+  background: rgba(255,255,255,0.25);
 }
 
 /* === PAGINATION DOTS === */
@@ -3782,4 +3783,7 @@ body.no-scroll {
     height: 100%;
     object-fit: cover;   /* Görsel alanı tam doldursun, kırparak */
   }
+}
+.hero-slide-overlay__inner {
+  margin-top: 120px;
 }

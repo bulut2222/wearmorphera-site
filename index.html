@@ -79,53 +79,112 @@
 
 
 
-  <!-- Hero -->
-   <!-- Hero -->
-  <section class="hero hero--light hero--full" id="top">
- <div class="container hero-stack">
-    <!-- ÜSTTE TAM GENİŞLİK SLIDER -->
-    <div class="hero-slider hero-slider--top" aria-label="Öne çıkan görseller">
-      <div class="hero-slider__viewport">
-        <div class="hero-slider__track">
-          <div class="hero-slider__slide hero-slider__slide--with-overlay">
-  <img src="assets/img/anasayfa/anasayfa1.webp" alt="WeAreMorphera ana görsel 1" loading="lazy" />
+ <!-- ÜSTTE TAM GENİŞLİK SLIDER -->
+<div class="hero-slider hero-slider--top" aria-label="Öne çıkan görseller">
+  <div class="hero-slider__viewport">
+    <div class="hero-slider__track">
 
+      <!-- 1. Slide (Sosyal Medya) -->
+      <div class="hero-slider__slide hero-slider__slide--with-overlay">
+        <img src="assets/img/anasayfa/anasayfa1.webp" alt="WeAreMorphera ana görsel 1" loading="lazy" />
+        <div class="hero-slide-overlay">
+          <div class="hero-slide-overlay__inner">
+            <h1>Sosyal medyada markanızı ve sayfanızı zirveye taşıyalım</h1>
+            <p>
+              Instagram, TikTok, YouTube ve diğer tüm platformlarda strateji, içerik,
+              reklam ve raporlama süreçlerini uçtan uca yönetip size hazır sonuçlar sunuyoruz.
+            </p>
+            <a href="service-sosyal-medya.html" class="btn hero-overlay-cta">
+              Daha fazlası
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. Slide – Performans Reklam Yönetimi -->
+      <div class="hero-slider__slide hero-slider__slide--with-overlay hero-slider__slide--p2">
+  <img src="assets/img/anasayfa/anasayfa2.webp" alt="Performans reklam yönetimi" loading="lazy" />
   <div class="hero-slide-overlay">
     <div class="hero-slide-overlay__inner">
-      <h1>Sosyal medyada markanızı ve sayfanızı zirveye taşıyalım</h1>
-      <p>
-        Instagram, TikTok, YouTube ve diğer tüm platformlarda; strateji, içerik,
-        reklam ve raporlama süreçlerini uçtan uca yönetip size hazır sonuçlar sunuyoruz.
-      </p>
-      <a href="service-sosyal-medya.html" class="btn hero-overlay-cta">
-        Daha fazlası
-      </a>
+      <p>Performans odaklı reklam yönetimi ile bütçenizi boşa harcamadan ölçülebilir sonuçlar elde edin.</p>
+      <a href="service-performans-reklam.html" class="btn hero-overlay-cta">Daha fazlası</a>
     </div>
   </div>
 </div>
 
 
-          
-        </div>
-
-        <!-- OKLAR -->
-        <button class="hero-slider__nav hero-slider__nav--prev" type="button" aria-label="Önceki görsel">
-          ‹
-        </button>
-        <button class="hero-slider__nav hero-slider__nav--next" type="button" aria-label="Sonraki görsel">
-          ›
-        </button>
-
-        <!-- DOTLAR -->
-        <div class="hero-slider__dots" aria-hidden="true">
-          <button class="hero-slider__dot is-active" type="button"></button>
-          <button class="hero-slider__dot" type="button"></button>
-          <button class="hero-slider__dot" type="button"></button>
-          <button class="hero-slider__dot" type="button"></button>
-          <button class="hero-slider__dot" type="button"></button>
+      <!-- 3. Slide – E-ticaret / Mağaza / Site Yönetimi -->
+      <div class="hero-slider__slide hero-slider__slide--with-overlay">
+        <img src="assets/img/anasayfa/anasayfa3.webp" alt="E-ticaret mağaza ve site yönetimi" loading="lazy" />
+        <div class="hero-slide-overlay">
+          <div class="hero-slide-overlay__inner">
+            <p>
+              E-ticaret mağazanız ve web siteniz için uçtan uca satış odaklı yönetim ve optimizasyon sağlıyoruz.
+            </p>
+            <a href="service-e-ticaret.html" class="btn hero-overlay-cta">
+              Daha fazlası
+            </a>
+          </div>
         </div>
       </div>
+
+      <!-- 4. Slide – Kurumsal Web Sitesi -->
+      <div class="hero-slider__slide hero-slider__slide--with-overlay">
+        <img src="assets/img/anasayfa/anasayfa4.webp" alt="Kurumsal web sitesi tasarımı" loading="lazy" />
+        <div class="hero-slide-overlay">
+          <div class="hero-slide-overlay__inner">
+            <p>
+              Markanıza yakışan, hızlı, modern ve güvenilir kurumsal web sitesi tasarlıyoruz.
+            </p>
+            <a href="service-web-site.html" class="btn hero-overlay-cta">
+              Daha fazlası
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5. Slide – Marka Kimliği (sadece buton) -->
+      <div class="hero-slider__slide hero-slider__slide--with-overlay">
+        <img src="assets/img/anasayfa/anasayfa5.webp" alt="Marka kimliği ve tasarım" loading="lazy" />
+        <div class="hero-slide-overlay">
+          <div class="hero-slide-overlay__inner">
+            <a href="service-marka-kimligi.html" class="btn hero-overlay-cta">
+              Daha fazlası
+            </a>
+          </div>
+        </div>
+      </div>
+
     </div>
+  </div>
+
+  <!-- DOTLAR: (önceki mesajda konuştuğumuz gibi burası slider'ın içinde olacak) -->
+  <div class="hero-slider__dots" aria-hidden="true">
+    <button class="hero-slider__dot" type="button"></button>
+    <button class="hero-slider__dot" type="button"></button>
+    <button class="hero-slider__dot" type="button"></button>
+    <button class="hero-slider__dot" type="button"></button>
+    <button class="hero-slider__dot" type="button"></button>
+  </div>
+
+  <!-- OKLAR: JS ile uyumlu class isimleri -->
+  <button class="hero-slider__nav hero-slider__nav--prev" aria-label="Önceki görsel" type="button">
+    ‹
+  </button>
+  <button class="hero-slider__nav hero-slider__nav--next" aria-label="Sonraki görsel" type="button">
+    ›
+  </button>
+</div>
+
+
+
+  
+
+  
+</div>
+</div>
+
+
 
    
   </section>
@@ -608,6 +667,7 @@
 <!-- …body sonu -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.10.2/lottie.min.js" defer></script>
 <script>
+  
 document.addEventListener('DOMContentLoaded', function () {
   const BASE = 'assets/img/json/';
   const panel     = document.getElementById('socialPanel');
