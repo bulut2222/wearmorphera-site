@@ -3787,3 +3787,45 @@ body.no-scroll {
 .hero-slide-overlay__inner {
   margin-top: 120px;
 }
+/* ================================
+   HERO SLIDE — GLOBAL YAZI AYARLARI
+   (Tüm slider yazılarını tek noktadan yönetirsin)
+================================ */
+
+/* Başlık */
+.hero-slide-overlay__inner h1 {
+  font-size: 40px;        /* Yazı boyutu */
+  font-weight: 600;       /* Kalınlık */
+  color: #f7f5f5;         /* Renk */
+  line-height: 1.2;
+  text-shadow: 0 5px 10px rgb(109, 159, 171); /* daha net görünür */
+}
+
+/* Açıklama metni */
+.hero-slide-overlay__inner p {
+  font-size: 30px;
+  font-weight: 400;
+  color: #c0deeb;
+  margin-top: 14px;
+  line-height: 1.5;
+  max-width: 620px;       /* satır uzunluğu daha estetik */
+  text-shadow: 0 2px 8px rgb(29, 188, 140);
+}
+
+/* Daha Fazlası butonu */
+.hero-overlay-cta {
+  margin-top: 15px;
+  font-size: 15px;
+  font-weight: 600;
+  padding: 14px 28px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #3700ff, #e70000);  
+  color: white;
+  box-shadow: 0 2px 14px rgb(239, 189, 7);
+  transition: 0.25s ease;
+}
+
+.hero-overlay-cta:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.35);
+}
