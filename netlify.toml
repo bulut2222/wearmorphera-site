@@ -6,3 +6,7 @@
   [headers.values]
     X-Frame-Options = "SAMEORIGIN"
     X-Content-Type-Options = "nosniff"
+[[redirects]]
+  from = "/service-sosyal-paketler.html"
+  to = "/404.html"
+  status = 404

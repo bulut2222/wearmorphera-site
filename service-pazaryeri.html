@@ -1,0 +1,389 @@
+<!doctype html>
+<html lang="tr" data-theme="light">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pazaryeri Yönetimi – We Are Morphera</title>
+  <meta name="description"
+        content="Trendyol, Hepsiburada, ÇiçekSepeti, Amazon, Etsy, Shopify gibi pazaryerlerinde mağaza açılışı, kurulum, ürün içerikleri, yorum yönetimi ve sipariş/stok takibi.">
+  <link rel="stylesheet" href="assets/css/styles.css?v=5" />
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="container header__inner">
+
+      <div class="header__row header__row--top">
+        <a class="brand brand--pill" href="index.html#top" aria-label="WeAreMorphera anasayfa">
+          <img
+            src="assets/img/logo/morphera.png"
+            alt="WeAreMorphera Logo"
+            class="brand__logo"
+            loading="lazy"
+          />
+          <span class="brand__text">WeAreMorphera</span>
+        </a>
+
+        <a href="index.html#socials"
+           class="social-cta only-desktop"
+           id="openSocial"
+           aria-label="Sosyal Medya Hesaplarımız">
+          <span class="social-cta__label">Sosyal Medya Hesaplarımız</span>
+          <span class="social-cta__arrow" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="20" height="20">
+              <path d="M5 12h12M13 6l6 6-6 6"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"/>
+            </svg>
+          </span>
+        </a>
+
+        <div class="header__cta only-desktop" id="socials" aria-label="Sosyal bağlantılar">
+          <a class="lottie-icon" id="iconTikTok" href="https://www.tiktok.com/@wearemorpheraagency" target="_blank" aria-label="TikTok"></a>
+          <a class="lottie-icon" id="iconInstagram" href="http://instagram.com/wearemorphera" target="_blank" aria-label="Instagram"></a>
+          <a class="lottie-icon" id="iconYouTube" href="https://www.youtube.com/@wemorphera" target="_blank" aria-label="YouTube"></a>
+          <a class="lottie-icon" id="iconFacebook" href="http://facebook.com/WeAreMorpheraDijitalAjans" target="_blank" aria-label="Facebook"></a>
+          <a class="lottie-icon" id="iconX" href="http://x.com/WeAreMorphera" target="_blank" aria-label="X"></a>
+          <a class="lottie-icon" id="iconNsosyal" href="https://sosyal.teknofest.app/@wearemorpherasosyalmedyaajansi" target="_blank" aria-label="NSosyal"></a>
+        </div>
+
+        <button class="quote-btn" id="openQuote" type="button" aria-label="Hızlı Teklif Formu Aç">
+          <img
+            src="assets/img/logo/teklif.png"
+            alt="Teklif Al"
+            class="quote-btn__icon"
+            loading="lazy"
+          />
+        </button>
+      </div>
+
+      <div class="header__row header__row--bottom">
+        <nav class="nav" id="nav" aria-label="Ana menü">
+          <a href="index.html#services">Hizmetler</a>
+          <a href="index.html#resultsTable">Başarı Tablomuz</a>
+          <a href="team.html">Ekibimiz</a>
+          <a href="index.html#process">Süreç</a>
+          <a href="index.html#plans">Paketler</a>
+          <a href="index.html#work">Portföy</a>
+          <a href="index.html#blog">Blog</a>
+          <a href="contact.html" class="btn btn--ghost" rel="noopener">İletişim</a>
+        </nav>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- ANA İÇERİK -->
+  <main class="section section--service">
+    <div class="container">
+
+      <!-- HERO BLOK -->
+      <section class="service-hero">
+
+        <!-- Slider (Pazaryeri görselleri) -->
+        <div class="service-hero__slider" id="heroSlider">
+          <div class="hero-slide">
+            <img src="assets/img/pazaryeri/pazaryeri1.webp"
+                 alt="Trendyol, Hepsiburada, Amazon pazaryeri panosu"
+                 loading="lazy" />
+          </div>
+
+          <div class="hero-slide">
+            <img src="assets/img/pazaryeri/pazaryeri2.webp"
+                 alt="Ürün listeleme ve kategori yapısı"
+                 loading="lazy" />
+          </div>
+
+          <div class="hero-slide">
+            <img src="assets/img/pazaryeri/pazaryeri3.webp"
+                 alt="Sipariş ve kargo takibi ekranı"
+                 loading="lazy" />
+          </div>
+
+          <div class="hero-slide">
+            <img src="assets/img/pazaryeri/pazaryeri4.webp"
+                 alt="Yorum ve puan yönetimi"
+                 loading="lazy" />
+          </div>
+
+          <div class="hero-slide">
+            <img src="assets/img/pazaryeri/pazaryeri5.webp"
+                 alt="Analitik ve raporlama grafikleri"
+                 loading="lazy" />
+          </div>
+
+          <!-- Pagination noktaları -->
+          <div class="hero-slider__dots" id="heroDots"></div>
+
+          <!-- Ok butonları -->
+          <button class="hero-slider__arrow hero-prev" type="button">‹</button>
+          <button class="hero-slider__arrow hero-next" type="button">›</button>
+        </div>
+
+        <!-- Sağ metin -->
+        <div class="service-hero__content">
+          <p class="service-hero__eyebrow">Hizmet Detayı</p>
+          <h1 class="service-hero__title">Pazaryeri Yönetimi</h1>
+
+          <p class="service-hero__lead">
+            Trendyol, Hepsiburada, ÇiçekSepeti, Amazon, Etsy, Shopify gibi pazaryerlerinde
+            mağaza açılışından tema–kategori mimarisine; ürün içeriklerinden yorum yönetimi
+            ve sipariş/stok takibine kadar uçtan uca yönetim sağlıyoruz.
+          </p>
+
+          <ul class="service-hero__bullets">
+            <li><strong>Mağaza Kurulum &amp; Mimari:</strong> Tema seçimi, kategori–filtre yapısı, kargo ve ödeme ayarlarının uçtan uca kurulumu.</li>
+            <li><strong>Ürün İçerikleri &amp; A+ Standart:</strong> Başlık, açıklama, fotoğraf ve A+ içerik için kendi standartlarımızla üretim.</li>
+            <li><strong>Yapay Zeka Destekli Yorum Yönetimi:</strong> Olumlu yorumlara hızlı yanıt; olumsuz geri bildirimlerde kontrollü ve profesyonel iletişim.</li>
+            <li><strong>Entegrasyon &amp; Tek Panel:</strong> Sipariş, stok ve fiyatların pazaryeri–site–ERP arasında gerçek zamanlı entegrasyonu.</li>
+            <li><strong>Kampanya &amp; Görünürlük:</strong> Kupon, sepet kampanyaları, ürün reklamları ve görünürlük artırma stratejileri.</li>
+          </ul>
+
+          <div class="service-hero__meta">
+            <span>📦 Trendyol, Hepsiburada, ÇiçekSepeti, Amazon, Etsy, Shopify</span>
+            <span>🏪 Küçük butik, orta ölçekli ve kurumsal markalar için</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- SORU & AÇIKLAMA BLOKLARI -->
+      <section class="service-faq">
+
+        <!-- 1. Kart -->
+        <article class="service-faq__item">
+          <h2>1. Bu hizmet kimler için ve hangi pazaryerlerini kapsıyor?</h2>
+          <p>
+            Ürünü hazır ama vakti sınırlı olan marka sahipleri için çalışıyoruz. Sen strateji
+            ve kârlılığa odaklanırken, vitrini ve operasyonu biz yönetiyoruz.
+          </p>
+          <ul>
+            <li>Trendyol, Hepsiburada, ÇiçekSepeti, N11, Amazon, Etsy, Shopify mağazaları.</li>
+            <li>Küçük butik markalar, büyümeye hazırlanan orta ölçekli işletmeler ve kurumsal yapılar.</li>
+            <li>Hem sıfırdan mağaza açılışı, hem de mevcut mağazanın yeniden yapılandırılması.</li>
+            <li>Kategori, filtre, tema, kargo ve ödeme ayarlarını seninle birlikte kurgulayıp biz entegre ediyoruz.</li>
+          </ul>
+          <p>İlk görüşmede markaya şu soruları soruyoruz:</p>
+          <ul>
+            <li><strong>1)</strong> Pazaryerlerinde aktifsiniz mi, hedeflediğiniz platformlar neler?</li>
+            <li><strong>2)</strong> Ürün fotoğraf, açıklama, fiyat ve içeriklerini şu an kim hazırlıyor?</li>
+            <li><strong>3)</strong> Süreci tamamen bize devretmek ister misiniz, yoksa karma bir model mi istersiniz?</li>
+            <li><strong>4)</strong> Kampanya, kupon ve sepet kurgularında karar mekanizması nasıl işlesin?</li>
+          </ul>
+        </article>
+
+        <!-- 2. Kart -->
+        <article class="service-faq__item">
+          <h2>2. Mağazanızı nasıl kuruyor ve büyütüyoruz?</h2>
+          <p>
+            Pazaryeri yönetimi bizim için sadece “ürün yüklemek” değil; mağaza mimarisi, içerik,
+            fiyat, stok ve müşteri deneyimini birlikte ele aldığımız bütünsel bir süreç.
+          </p>
+          <ul>
+            <li><strong>Pazaryeri Seçimi:</strong> Hedef kitlen, komisyon yapıları ve rekabete göre doğru platform kombinasyonunu çıkarıyoruz.</li>
+            <li><strong>Ürün Listelemeye Hazırlık:</strong> Net ve dikkat çekici açıklamalar, doğru kategori, güçlü başlık–etiket yapısı.</li>
+            <li><strong>Görsel Standartları:</strong> Yüksek kaliteli ürün fotoğrafları, video ve A+ görsel alanları için rehber.</li>
+            <li><strong>Fiyatlandırma &amp; Marj:</strong> Rekabeti takip ederek kârlılığı koruyan fiyat senaryoları kuruyoruz.</li>
+            <li><strong>Kampanya Takvimi:</strong> Özel günler, sezon geçişleri, kupon ve sepet kampanyalarını önceden planlıyoruz.</li>
+          </ul>
+        </article>
+
+        <!-- 3. Kart -->
+        <article class="service-faq__item">
+          <h2>3. Yorum, sipariş, stok ve fiyatları nasıl kontrol ediyoruz?</h2>
+          <p>
+            Hedefimiz, “her şeyin tek yerden görülebildiği” sade bir operasyon ekranı. Bunun için
+            entegrasyon ve yapay zeka destekli otomasyonlar kullanıyoruz.
+          </p>
+          <ul>
+            <li><strong>Yapay Zeka ile Yorum Yönetimi:</strong> Olumlu yorumlara teşekkür; sorulu yorumlara açıklayıcı yanıt; olumsuzlarda kriz yönetimi ve gerekiyorsa reklamdan hariç tutma.</li>
+            <li><strong>Sınırsız Sipariş Yönetimi:</strong> Tüm pazaryerlerinden gelen siparişlerin tek panelden izlenmesi ve işlenmesi.</li>
+            <li><strong>Merkezi Envanter Kontrolü:</strong> Stokların kanallar arasında senkron tutulması; kritik stoklarda uyarı sistemi.</li>
+            <li><strong>Kolay Pazaryeri Entegrasyonu:</strong> Site, pazaryeri ve ERP/yazarkasa entegrasyonu ile fiyat, stok ve sipariş akışının otomasyonu.</li>
+            <li><strong>Gelişmiş Analitik &amp; Raporlama:</strong> Satış, iade, kârlılık ve kampanya performansını haftalık/aylık özet raporlarla sunuyoruz.</li>
+          </ul>
+          <p>
+            Böylece “hangi ürün hangi kanalda daha iyi satıyor, hangi kampanya işe yarıyor,
+            nerede para kaybediyoruz?” sorularına net cevap alıyorsun.
+          </p>
+        </article>
+
+      </section>
+
+      <!-- ÖNE ÇIKAN ÖZELLİKLER BLOĞU -->
+      <!-- ÖNE ÇIKAN ÖZELLİKLER BLOĞU -->
+<section class="section section--alt">
+  <div class="section-title">
+    <span class="eyebrow">Öne çıkan modüller</span>
+    <h2 class="h2">Pazaryeri yönetim paketinizin yapı taşları</h2>
+    <p class="subtitle">
+      İsterseniz yalnızca ürün içeriklerinizi ve listelemeyi devralıyoruz, isterseniz 
+      uçtan uca operasyonu yönetiyoruz. Paketleri marka büyüklüğüne ve hedef pazarlara göre
+      birlikte kurguluyoruz.
+    </p>
+  </div>
+
+  <div class="cards grid3 cards--modules">
+    <!-- 1. Kart -->
+    <article class="card card--module">
+      <span class="card__eyebrow">Giriş modülü</span>
+      <h3 class="card__title">Listeleme &amp; İçerik Paketi</h3>
+      <p class="card__lead">
+        Mağazanız hâlihazırda açık ama içerik tarafında zamanınız kısıtlıysa, ilk adım.
+      </p>
+      <ul class="list list--clean">
+        <li>Ürün başlık, açıklama, etiket ve kategori optimizasyonu</li>
+        <li>Pazaryeri standartlarına uygun fotoğraf seçimi ve görsel düzenleme</li>
+        <li>Yeni koleksiyonlar için sezonluk vitrin ve kampanya kurguları</li>
+      </ul>
+    </article>
+
+    <!-- 2. Kart (featured) -->
+    <article class="card card--module card--featured">
+      <div class="badge">En çok tercih edilen</div>
+      <span class="card__eyebrow card__eyebrow--accent">Operasyonel ortak</span>
+      <h3 class="card__title">Tam Pazaryeri Yönetimi</h3>
+      <p class="card__lead">
+        “Ben ürünümü geliştireyim, siz tüm pazaryeri tarafını yönetin” diyen markalar için.
+      </p>
+      <ul class="list list--clean">
+        <li>Sipariş, stok, fiyat ve kampanya sürecinin uçtan uca takibi ve yönetimi</li>
+        <li>Yorum, soru–cevap ve müşteri mesajları için standart yanıt akışları</li>
+        <li>Haftalık performans raporu + 3–5 maddelik net aksiyon listesi</li>
+      </ul>
+    </article>
+
+    <!-- 3. Kart -->
+    <article class="card card--module">
+      <span class="card__eyebrow">Artı değer</span>
+      <h3 class="card__title">Artı Web &amp; Marka</h3>
+      <p class="card__lead">
+        Pazaryeri tarafını destekleyen, markayı bir üst seviyeye taşıyan ek hizmetler.
+      </p>
+      <ul class="list list--clean">
+        <li>Kurumsal web sitesi veya kampanya landing page tasarımı</li>
+        <li>Logo, renk paleti, tipografi ve yazı dili standartları ile marka kılavuzu</li>
+        <li>Foto &amp; video prodüksiyon ile ürünlerin profesyonel ve tutarlı anlatımı</li>
+      </ul>
+    </article>
+  </div>
+
+  <p class="muted center" style="margin-top:16px;">
+    <strong>Not:</strong> Paketler sabit değildir; marka büyüklüğü, ürün adedi ve hedef pazarlara göre
+    tamamen size özel olarak şekillendiriyoruz.
+  </p>
+</section>
+
+
+      <!-- DİĞER HİZMETLERE GEÇİŞ -->
+      <section class="section">
+        <div class="section-title">
+          <span class="eyebrow">Diğer hizmetlerimiz</span>
+          <h2 class="h2">Sadece pazaryeri değil, tüm dijital ekosistemi düşünüyoruz</h2>
+          <p class="subtitle">
+            Pazaryerini yönetirken aynı anda marka kimliği, web siten ve içerik tarafını da tutarlı hale getirebiliriz.
+          </p>
+        </div>
+
+        <div class="cards grid3">
+          <article class="card">
+            <h3 class="card__title">Kurumsal Web Site</h3>
+            <p>Markanın vitrini olacak, hızlı ve mobil uyumlu kurumsal site.</p>
+            <a href="service-web-site.html" class="btn" style="margin-top:12px;">Detayları Gör</a>
+          </article>
+
+          <article class="card">
+            <h3 class="card__title">Marka Kimliği</h3>
+            <p>Logo, renk paleti, tipografi ve marka kılavuzu ile tam kimlik çalışması.</p>
+            <a href="service-marka-kimligi.html" class="btn" style="margin-top:12px;">Marka Kimliği Paketi</a>
+          </article>
+
+          <article class="card">
+            <h3 class="card__title">Foto &amp; Video Prodüksiyon</h3>
+            <p>Ürün çekimi, konsept fotoğraflar, reels ve kısa dikey videolar.</p>
+            <a href="service-icerik-produksiyon.html" class="btn" style="margin-top:12px;">Prodüksiyon Hizmetleri</a>
+          </article>
+        </div>
+
+        <div class="center" style="margin-top:24px;">
+          <a href="contact.html" class="btn btn--primary">Pazaryeri için ön görüşme talep et</a>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container footer__inner">
+      <div class="footer__links">
+        <a href="#">KVKK</a>
+        <a href="#">Çerez Politikası</a>
+        <a href="#">Hizmet Koşulları</a>
+        <span>© <span id="year"></span> WeAreMorphera</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- GENEL JS -->
+  <script src="assets/js/main.js" defer></script>
+
+  <!-- SAYFAYA ÖZEL SLIDER JS -->
+  <script>
+    const slides = document.querySelectorAll(".hero-slide");
+    const dotsContainer = document.getElementById("heroDots");
+    let current = 0;
+
+    // Dot oluştur
+    slides.forEach((_, i) => {
+      const dot = document.createElement("span");
+      if (i === 0) dot.classList.add("active");
+      dot.onclick = () => goToSlide(i);
+      dotsContainer.appendChild(dot);
+    });
+
+    const dots = dotsContainer.querySelectorAll("span");
+
+    function showSlide(index) {
+      slides.forEach(s => s.classList.remove("active"));
+      dots.forEach(d => d.classList.remove("active"));
+
+      slides[index].classList.add("active");
+      dots[index].classList.add("active");
+    }
+
+    function nextSlide() {
+      current = (current + 1) % slides.length;
+      showSlide(current);
+    }
+
+    function prevSlide() {
+      current = (current - 1 + slides.length) % slides.length;
+      showSlide(current);
+    }
+
+    document.querySelector(".hero-next").onclick = nextSlide;
+    document.querySelector(".hero-prev").onclick = prevSlide;
+
+    // Otomatik geçiş
+    let auto = setInterval(nextSlide, 4000);
+
+    // Hover olunca durdur / bırakınca devam et
+    const sliderEl = document.querySelector(".service-hero__slider");
+    sliderEl.onmouseover = () => clearInterval(auto);
+    sliderEl.onmouseleave = () => auto = setInterval(nextSlide, 4000);
+
+    function goToSlide(index) {
+      current = index;
+      showSlide(current);
+    }
+
+    // İlk slide aktif
+    showSlide(0);
+  </script>
+
+</body>
+</html>
