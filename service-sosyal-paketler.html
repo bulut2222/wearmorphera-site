@@ -8,7 +8,7 @@
         content="EKO, TRİO ve MULTİ sosyal medya paketleri ile içerik, tasarım, raporlama ve reklam süreçlerini tek ekiple yönetiyoruz. Aylık ve yıllık esnek modeller.">
   <link rel="stylesheet" href="assets/css/styles.css?v=3" />
 </head>
-<body>
+<body class="page-social-packages">
 
   <!-- HEADER: diğer sayfalarla aynı -->
   <header class="header">
@@ -47,15 +47,16 @@
           <a class="lottie-icon" id="iconX" href="http://x.com/WeAreMorphera" target="_blank" aria-label="X"></a>
           <a class="lottie-icon" id="iconNsosyal" href="https://sosyal.teknofest.app/@wearemorpherasosyalmedyaajansi" target="_blank" aria-label="NSosyal"></a>
         </div>
+<button class="quote-btn js-open-quote" id="openQuote" type="button" aria-label="Hızlı Teklif Formu Aç">
+  <img
+    src="assets/img/logo/teklif.png"
+    alt="Teklif Al"
+    class="quote-btn__icon"
+    loading="lazy"
+  />
+</button>
 
-        <button class="quote-btn" id="openQuote" type="button" aria-label="Hızlı Teklif Formu Aç">
-          <img
-            src="assets/img/logo/teklif.png"
-            alt="Teklif Al"
-            class="quote-btn__icon"
-            loading="lazy"
-          />
-        </button>
+
       </div>
 
       <div class="header__row header__row--bottom">
@@ -388,9 +389,9 @@
         </div>
 
         <div class="center">
-          <button class="btn btn--primary" type="button" id="openQuote">
-            Hızlı teklif formunu aç
-          </button>
+          <button class="btn btn--primary js-open-quote" type="button">
+  Hızlı teklif formunu aç
+</button>
           <p class="muted" style="margin-top:8px;">
             İstersen doğrudan <a href="contact.html">İletişim</a> sayfasından da bize yazabilirsin.
           </p>
@@ -451,6 +452,152 @@
 
     showSlide(0);
   </script>
+  <!-- FOOTER: index.html'deki footer -->
+  <footer class="footer">
+    <div class="container footer__inner">
+      
+      <div class="footer__links">
+        <a href="#">KVKK</a>
+        <a href="#">Çerez Politikası</a>
+        <a href="#">Hizmet Koşulları</a>
+        <span>© <span id="year"></span> WeAreMorphera</span>
+      </div>
+    </div>
+  </footer>
+  <!-- HIZLI TEKLİF MODALI -->
+<div id="quoteModal" class="modal" aria-hidden="true">
+  <div class="modal__backdrop"></div>
+
+  <div class="modal__dialog" role="dialog" aria-modal="true" aria-labelledby="quoteTitle">
+    <button class="modal__close" type="button" id="closeQuote" aria-label="Pencereyi kapat">×</button>
+
+    <header class="modal__header">
+      <p class="modal__eyebrow">Hızlı Teklif Formu</p>
+      <h2 id="quoteTitle">Markan için net ve şeffaf teklif</h2>
+      <p class="modal__subtitle">
+        Kısaca ihtiyacını yaz; aynı gün içinde sana en uygun paket ve önerilerle dönüş yapalım.
+      </p>
+    </header>
+
+    <form
+      class="modal-form"
+      name="quick-quote-v2"
+      method="POST"
+      data-netlify="true"
+      data-netlify-honeypot="bot-field"
+    >
+      <input type="hidden" name="form-name" value="quick-quote-v2" />
+
+      <p style="display:none;">
+        <label>Bot değil misin? <input name="bot-field" /></label>
+      </p>
+
+      <div class="modal-form__grid">
+        <div class="field">
+          <label>Ad Soyad *</label>
+          <input name="name" required placeholder="Adınız Soyadınız" />
+        </div>
+
+        <div class="field">
+          <label>E-posta *</label>
+          <input type="email" name="email" required placeholder="ornek@marka.com" />
+        </div>
+
+        <div class="field">
+          <label>Telefon</label>
+          <input name="phone" placeholder="05xx xxx xx xx" />
+        </div>
+
+        <div class="field">
+          <label>Marka / Mağaza Adı</label>
+          <input name="company" placeholder="WeAreMorphera, HerbalAccessory, vb." />
+        </div>
+
+        <div class="field">
+          <label>İlgilendiğiniz alan</label>
+          <select name="interest">
+            <option value="">Seçiniz</option>
+            <option value="Sosyal Medya Yönetimi">Sosyal Medya Yönetimi</option>
+            <option value="Reklam Yönetimi">Reklam Yönetimi (Meta / TikTok / Google)</option>
+            <option value="E-ticaret & Pazaryeri">E-ticaret & Pazaryeri</option>
+            <option value="Marka Tasarımı & Web">Marka Tasarımı & Web</option>
+            <option value="Logo Tasarım">Logo Tasarım</option>
+            <option value="Dijital Pazarlama">Dijital Pazarlama</option>
+            <option value="Destek ve Güncelleme">Destek ve Güncelleme</option>
+            <option value="Alan Adı ve Hosting Hizmetleri">Alan Adı ve Hosting Hizmetleri</option>
+            <option value="Diğer / Karışık">Diğer / Karışık</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Bütçe Aralığı</label>
+          <select name="budget_range">
+            <option value="Net değil / esnek">Net değil / esnek</option>
+            <option value="1.000 – 5.000 TL">1.000 – 5.000 TL</option>
+            <option value="5.000 – 20.000 TL">5.000 – 20.000 TL</option>
+            <option value="20.000 – 60.000+ TL">20.000 – 60.000+ TL</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field field--full">
+        <label>Kısaca ihtiyacın *</label>
+        <textarea name="message" required placeholder="Hangi platformlar, hedefler, süre gibi detayları buraya yazabilirsin."></textarea>
+      </div>
+
+      <div class="modal__footer">
+        <small class="modal__legal">
+          Formu göndererek KVKK ve Çerez politikasını kabul etmiş olursunuz.
+          Teklif sürecinde sadece sizinle iletişim için kullanılır.
+        </small>
+        <button class="btn btn--primary" type="submit">Teklifi Gönder</button>
+      </div>
+    </form>
+
+  </div>
+</div>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const quoteModal   = document.getElementById('quoteModal');
+    const openButtons  = document.querySelectorAll('.js-open-quote, #openQuote');
+    const closeBtn     = document.getElementById('closeQuote');
+    const backdrop     = quoteModal ? quoteModal.querySelector('.modal__backdrop') : null;
+
+    function openQuoteModal() {
+      if (!quoteModal) return;
+      quoteModal.classList.add('is-open');
+      document.body.classList.add('no-scroll');
+    }
+
+    function closeQuoteModal() {
+      if (!quoteModal) return;
+      quoteModal.classList.remove('is-open');
+      document.body.classList.remove('no-scroll');
+    }
+
+    // Header’daki png buton + sayfa içindeki “Hızlı teklif formunu aç” butonu
+    openButtons.forEach(function (btn) {
+      btn.addEventListener('click', function (e) {
+        e.preventDefault();
+        openQuoteModal();
+      });
+    });
+
+    if (closeBtn) {
+      closeBtn.addEventListener('click', closeQuoteModal);
+    }
+
+    if (backdrop) {
+      backdrop.addEventListener('click', closeQuoteModal);
+    }
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') {
+        closeQuoteModal();
+      }
+    });
+  });
+</script>
 
 </body>
 </html>

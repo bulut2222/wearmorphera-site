@@ -4710,3 +4710,23 @@ html[data-theme="dark"] .page-danismanlik .faq-list .service-faq__item {
   font-size: 12px;
   color: var(--muted);
 }
+/* ========== Sosyal Medya Paketleri sayfası başlıkları ========== */
+
+.page-social-packages .section-title {
+  display: block;          /* flex ise devre dışı bırak */
+  text-align: center;      /* hem eyebrow hem başlık ortalansın */
+}
+
+/* Eyebrow üstte pill gibi dursun */
+.page-social-packages .section-title .eyebrow {
+  display: inline-flex;
+  justify-content: center;
+  margin-bottom: 8px;
+}
+
+/* H2 zaten block, ama garanti olsun */
+.page-social-packages .section-title .h2,
+.page-social-packages .section-title h2 {
+  display: block;
+  margin-top: 0;
+}
