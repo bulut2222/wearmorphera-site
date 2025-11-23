@@ -6,7 +6,16 @@
   [headers.values]
     X-Frame-Options = "SAMEORIGIN"
     X-Content-Type-Options = "nosniff"
+
+.html uzantılı adres
 [[redirects]]
   from = "/service-sosyal-paketler.html"
   to = "/404.html"
   status = 404
+  force = true
+.html'siz adres (menüden böyle gidiyorsan)
+[[redirects]]
+  from = "/service-sosyal-paketler"
+  to = "/404.html"
+  status = 404
+  force = true
