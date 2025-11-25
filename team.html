@@ -47,20 +47,55 @@
 
   </div>
 </header>
+<!-- 🔥 TEAM SPLASH (YENİ) -->
+<div id="teamSplash" class="team-splash" aria-hidden="true">
+  <div class="team-splash__inner">
+    <p class="team-splash__eyebrow">WeAreMorphera · Team</p>
+    <h2 class="team-splash__title">Ekibimizle tanışmaya hazır mısın?</h2>
+    <p class="team-splash__subtitle">
+      Birazdan yazılım, sosyal medya ve e-ticaret tarafını birlikte yöneten çekirdek ekibi göreceksin.
+    </p>
+
+    <!-- Yüzen avatarlar -->
+    <div class="team-splash__avatars">
+      <img src="assets/img/team/busra.jpg"
+           alt="Büşra"
+           class="team-splash__avatar team-splash__avatar--1">
+      <img src="assets/img/team/emine.jpg"
+           alt="Emine"
+           class="team-splash__avatar team-splash__avatar--2">
+      <img src="assets/img/team/bulut.jpg"
+           alt="Bulut"
+           class="team-splash__avatar team-splash__avatar--3">
+      <img src="assets/img/team/ekip.jpg"
+           alt="WeAreMorphera Ekibi"
+           class="team-splash__avatar team-splash__avatar--4">
+    </div>
+  </div>
+</div>
+
+<!-- 🔽 BÜTÜN EKİP SAYFASI İÇERİĞİNİ SARAN MAIN -->
+<main id="teamMain" class="team-main team-main--hidden">
 
   <!-- Başlık -->
-<section class="section section--tight team-hero">
-  <div class="container section-title">
-    <h1 class="team-title" id="teamTitle" aria-label="Ekibimiz">
-      <span class="title-box">
-        <span class="team-title__text">EKİBİMİZ</span>
-      </span>
-    </h1>
-    <p class="subtitle hero-subtitle">
-      Yazılım, e-ticaret ve sosyal medya <u>performans</u>ını aynı çatı altında yönetiyoruz.
-    </p>
-  </div>
-</section>
+  <section class="section section--tight team-hero">
+    <div class="container section-title">
+      <h1 class="team-title" id="teamTitle" aria-label="Ekibimiz">
+        <span class="title-box">
+          <span class="team-title__text">EKİBİMİZ</span>
+        </span>
+      </h1>
+      <p class="subtitle hero-subtitle">
+        Yazılım, e-ticaret ve sosyal medya <u>performans</u>ını aynı çatı altında yönetiyoruz.
+      </p>
+    </div>
+  </section>
+
+  <section class="section team-body">
+    <div class="container team-grid">
+      <!-- kartlar (istersen burası boş kalabilir) -->
+    </div>
+  
 
 
 <section class="section team-body">
@@ -231,6 +266,59 @@
     lastScrollY = currentY;
   });
 })();
+<script src="assets/js/main.js"></script>
+<script>
+  // Başlık animasyonu (görünce tetiklenir)
+  const t = document.getElementById('teamTitle');
+  const io = new IntersectionObserver(([e]) => {
+    if (e.isIntersecting) { t.classList.add('is-in'); io.disconnect(); }
+  }, { threshold: .6 });
+  io.observe(t);
+
+  // Aktif menü
+  document.querySelectorAll('.nav a').forEach(a => {
+    if (a.href === location.href) a.classList.add('is-active');
+  });
+
+  // HEADER SCROLL: aşağı inerken kaybol, yukarı çıkarken gelsin
+  (function () {
+    const header = document.querySelector('.header');
+    if (!header) return;
+
+    let lastScrollY = window.scrollY;
+    const THRESHOLD = 80;
+
+    window.addEventListener('scroll', () => {
+      const currentY = window.scrollY;
+      if (currentY > lastScrollY && currentY > THRESHOLD) {
+        header.classList.add('header--hidden');
+      } else {
+        header.classList.remove('header--hidden');
+      }
+      lastScrollY = currentY;
+    });
+  })();
+
+  // 🔥 TEAM SPLASH: 2.3 sn sonra ekip sayfasını göster
+  (function () {
+    const splash = document.getElementById('teamSplash');
+    const main   = document.getElementById('teamMain');
+    if (!splash || !main) return;
+
+    function showTeamPage() {
+      splash.classList.add('team-splash--hidden');
+      main.classList.remove('team-main--hidden');
+      main.classList.add('team-main--visible');
+    }
+
+    // 2.3 sn sonra otomatik geç
+    setTimeout(showTeamPage, 2300);
+
+    // Kullanıcı isterse tıklayıp hemen geçebilsin
+    splash.addEventListener('click', showTeamPage);
+  })();
+</script>
+
   </script>
   
 </body>
