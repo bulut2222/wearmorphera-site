@@ -4916,3 +4916,16 @@ html[data-theme="dark"] .page-danismanlik .faq-list .service-faq__item {
   line-height: 1.75;
   color: var(--muted);
 }
+/* Header temel hali */
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  transition: transform 0.28s ease, box-shadow 0.28s ease;
+}
+
+/* Kaybolduğu durum */
+.header--hidden {
+  transform: translateY(-120%);
+  box-shadow: none;
+}

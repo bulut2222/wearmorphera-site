@@ -243,6 +243,29 @@
 
   // İlk slide aktif
   showSlide(0);
+  // HEADER SCROLL: aşağı inerken kaybol, yukarı çıkarken gelsin
+(function () {
+  const header = document.querySelector('.header');
+  if (!header) return; // bazı sayfalarda header yoksa patlamasın
+
+  let lastScrollY = window.scrollY;
+  const THRESHOLD = 80; // 80px aşağı inmeden animasyonu başlatma
+
+  window.addEventListener('scroll', () => {
+    const currentY = window.scrollY;
+
+    // Aşağı doğru kayıyorsa ve belli bir yüksekliği geçtiyse gizle
+    if (currentY > lastScrollY && currentY > THRESHOLD) {
+      header.classList.add('header--hidden');
+    } else {
+      // Yukarı çıkarken veya en üstteyken tekrar göster
+      header.classList.remove('header--hidden');
+    }
+
+    lastScrollY = currentY;
+  });
+})();
+
 </script>
 
 </body>
