@@ -4730,3 +4730,189 @@ html[data-theme="dark"] .page-danismanlik .faq-list .service-faq__item {
   display: block;
   margin-top: 0;
 }
+/* ===== SOSYAL PAKETLER – CTA KARTI ===== */
+.page-social-packages .cta-section {
+  margin-top: var(--s6);
+  margin-bottom: var(--s6);
+}
+
+.page-social-packages .cta-card {
+  position: relative;
+  border-radius: 24px;
+  padding: 32px clamp(24px, 3vw, 40px);
+  background:
+    radial-gradient(circle at top left, rgba(255, 122, 143, 0.22), transparent 55%),
+    radial-gradient(circle at bottom right, rgba(99, 102, 241, 0.22), transparent 55%),
+    #050816;
+  color: #f9fafb;
+  box-shadow: 0 24px 70px rgba(15, 23, 42, 0.55);
+  overflow: hidden;
+}
+
+.page-social-packages .cta-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  border: 1px solid rgba(148, 163, 184, 0.45);
+  pointer-events: none;
+}
+
+.page-social-packages .cta-card__body {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.page-social-packages .cta-card__text {
+  max-width: 560px;
+}
+
+.page-social-packages .cta-card__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 14px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: rgba(15, 23, 42, 0.9);
+  border: 1px solid rgba(148, 163, 184, 0.8);
+  color: #e5e7eb;
+  margin-bottom: 10px;
+}
+
+.page-social-packages .cta-card__title {
+  font-size: clamp(1.9rem, 2.7vw, 2.4rem);
+  margin: 0 0 8px;
+}
+
+.page-social-packages .cta-card__subtitle {
+  margin: 0;
+  color: #cbd5ff;
+}
+
+.page-social-packages .cta-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+
+.page-social-packages .cta-actions .btn.btn--primary {
+  padding-inline: 26px;
+  font-weight: 600;
+}
+
+.page-social-packages .cta-secondary {
+  padding: 10px 20px;
+  border-radius: 999px;
+  border: 1px dashed rgba(148, 163, 184, 0.9);
+  background: transparent;
+  color: #e5e7eb;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
+}
+
+.page-social-packages .cta-secondary:hover {
+  border-style: solid;
+  background: rgba(15, 23, 42, 0.9);
+}
+
+.page-social-packages .cta-footnote {
+  margin-top: 14px;
+  text-align: center;
+}
+
+/* Masaüstü hizalama */
+@media (min-width: 900px) {
+  .page-social-packages .cta-card__body {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .page-social-packages .cta-card__text {
+    flex: 1 1 auto;
+  }
+
+  .page-social-packages .cta-actions {
+    flex: 0 0 auto;
+    justify-content: flex-end;
+  }
+}
+/* ==========================================
+    UNIVERSAL SECTION-TITLE (Premium)
+    Aylık – Yıllık – Paket Detayları
+========================================== */
+
+.page-social-packages .section-title {
+  text-align: center;
+  margin-bottom: var(--s5);
+  position: relative;
+}
+
+/* Eyebrow — rozet */
+.page-social-packages .section-title .eyebrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 20px;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+
+  background: linear-gradient(135deg,
+    rgba(129, 140, 248, 0.18),
+    rgba(244, 114, 182, 0.18)
+  );
+  border: 1px solid rgba(129, 140, 248, 0.45);
+  color: var(--accent1);
+
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.15);
+  margin-bottom: 14px;
+}
+
+/* Başlık – Gradient yazı + alt çizgi */
+.page-social-packages .section-title .h2,
+.page-social-packages .section-title h2 {
+  position: relative;
+  display: inline-block;
+  margin: 0 0 18px;
+
+  font-size: clamp(2rem, 3vw, 2.4rem);
+  background: linear-gradient(135deg, #0f172a, #1e293b, var(--accent1));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Alt premium çizgi */
+.page-social-packages .section-title .h2::after,
+.page-social-packages .section-title h2::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -10px;
+  transform: translateX(-50%);
+  width: 140px;
+  height: 3px;
+  border-radius: 999px;
+
+  background: linear-gradient(90deg, var(--accent1), var(--accent2));
+  box-shadow: 0 10px 24px rgba(129, 140, 248, 0.35);
+}
+
+/* Alt açıklama */
+.page-social-packages .section-title .subtitle {
+  max-width: 680px;
+  margin: 28px auto 0;
+  font-size: 1rem;
+  line-height: 1.75;
+  color: var(--muted);
+}
