@@ -188,16 +188,18 @@
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
   import {
-    getFirestore,
-    collection,
-    addDoc,
-    getDocs,
-    doc,
-    updateDoc,
-    deleteDoc,
-    query,
-    orderBy
-  } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
+  getFirestore,
+  collection,
+  addDoc,
+  getDocs,
+  doc,
+  updateDoc,
+  deleteDoc,
+  query,
+  orderBy,
+  serverTimestamp
+} from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
+
 
   // === BURAYA KENDİ FIREBASE CONFIG'İNİ YAPIŞTIR ===
   const firebaseConfig = {
@@ -213,6 +215,26 @@
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
   const notesColRef = collection(db, "morpheraNotes"); // koleksiyon adı
+// === BEĞENİ EKLE ===
+async function addLike(noteId, userName) {
+  const likeRef = collection(db, "morpheraNotes", noteId, "likes");
+  await addDoc(likeRef, {
+    name: userName,
+    createdAt: serverTimestamp()
+  });
+  loadNotes(); // anında yenile
+}
+
+// === YORUM EKLE ===
+async function addComment(noteId, userName, commentText) {
+  const commentsRef = collection(db, "morpheraNotes", noteId, "comments");
+  await addDoc(commentsRef, {
+    name: userName,
+    comment: commentText,
+    createdAt: serverTimestamp()
+  });
+  loadNotes();
+}
 
   document.addEventListener("DOMContentLoaded", () => {
     // === Sabit kullanıcılar ===
@@ -260,14 +282,94 @@
     }
 
     // === Firestore'dan notları çek ===
-    async function loadNotes() {
-      const q = query(notesColRef, orderBy("createdAt", "desc"));
-      const snap = await getDocs(q);
-      return snap.docs.map(d => ({
-        id: d.id,
-        ...d.data()
-      }));
-    }
+   async function loadNotes() {
+  notesFeed.innerHTML = "";
+
+  const q = query(notesColRef, orderBy("timestamp", "desc"));
+  const snap = await getDocs(q);
+
+  for (const docSnap of snap.docs) {
+    const note = docSnap.data();
+    const id = docSnap.id;
+
+    // Alt koleksiyonları çek
+    const likesSnap = await getDocs(collection(db, "morpheraNotes", id, "likes"));
+    const commentsSnap = await getDocs(collection(db, "morpheraNotes", id, "comments"));
+
+    const likeCount = likesSnap.size;
+    const commentCount = commentsSnap.size;
+
+    // Kart HTML oluştur
+    const card = document.createElement("div");
+    card.className = "note-card";
+
+    card.innerHTML = `
+    <div class="note-card__header">
+      <div>
+        <strong>${note.name}</strong>
+        <div class="note-card__role">${note.role}</div>
+        <div class="note-card__time">${new Date(note.timestamp?.seconds * 1000).toLocaleString("tr-TR")}</div>
+      </div>
+    </div>
+
+    <div class="note-card__body">
+      <p>${note.text}</p>
+      ${note.imageUrl ? `<div class="note-card__figure"><img src="${note.imageUrl}" /></div>` : ""}
+    </div>
+
+    <div class="note-card__actions">
+
+      <button class="note-btn" data-like="${id}">
+        ❤️ Beğen (${likeCount})
+      </button>
+
+      <button class="note-btn" data-toggle-comment="${id}">
+        💬 Yorum (${commentCount})
+      </button>
+
+      <div class="comment-box hidden" id="commentBox-${id}">
+        <input id="commentName-${id}" placeholder="Ad Soyad" class="comment-input" />
+        <textarea id="commentText-${id}" placeholder="Yorum yaz..." class="comment-text"></textarea>
+        <button class="note-btn" data-send-comment="${id}">Gönder</button>
+      </div>
+
+    </div>
+  `;
+
+    notesFeed.appendChild(card);
+  }
+
+  attachInteractionEvents();
+}
+function attachInteractionEvents() {
+  document.querySelectorAll("[data-like]").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const noteId = btn.dataset.like;
+      const name = prompt("Ad Soyad:");
+      if (name) addLike(noteId, name);
+    });
+  });
+
+  document.querySelectorAll("[data-toggle-comment]").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const noteId = btn.dataset.toggleComment;
+      document.getElementById(`commentBox-${noteId}`).classList.toggle("hidden");
+    });
+  });
+
+  document.querySelectorAll("[data-send-comment]").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const noteId = btn.dataset.sendComment;
+      const name = document.getElementById(`commentName-${noteId}`).value.trim();
+      const text = document.getElementById(`commentText-${noteId}`).value.trim();
+
+      if (!name || !text) return alert("Lütfen adınızı ve yorumunuzu yazın.");
+
+      addComment(noteId, name, text);
+    });
+  });
+}
+
 
     // === Notları duvara çiz ===
     async function renderNotes() {
