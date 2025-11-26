@@ -320,11 +320,13 @@ async function addComment(noteId, userName, commentText) {
         ]);
 
         notes.push({
-          id,
-          ...data,
-          likeCount: likesSnap.size,
-          commentCount: commentsSnap.size
-        });
+  id,
+  ...data,
+  avatarUrl: data.avatarUrl || "",
+  likeCount: likesSnap.size,
+  commentCount: commentsSnap.size
+});
+
       }
 
       return notes;
@@ -398,9 +400,16 @@ async function renderNotes() {
       <article class="note-card" data-id="${note.id}">
         
         <header class="note-card__header">
-          <div class="note-card__avatar" style="background:${note.avatarBg}">
-            <span>${note.authorInitials}</span>
-          </div>
+         <div class="note-card__avatar"
+     style="
+        ${note.avatarUrl 
+          ? `background-image:url('${note.avatarUrl}'); background-size:cover; background-position:center;` 
+          : `background:${note.avatarBg}`
+        }
+     ">
+  ${note.avatarUrl ? "" : `<span>${note.authorInitials}</span>`}
+</div>
+
           <div class="note-card__meta">
             <div class="note-card__author">${note.authorName}</div>
             <div class="note-card__role">${note.authorRole}</div>
