@@ -215,27 +215,7 @@
 
   const notesColRef = collection(db, "morpheraNotes");
 
-  // Basit kullanıcı verisi (login formundan)
-  const USERS = {
-    "bulutkeles": {
-      password: "Blt1995",
-      name: "Bulut Keleş",
-      role: "Co-Founder · Tech & Growth",
-      color: "linear-gradient(135deg,#6366f1,#8b5cf6)"
-    },
-    "busrakaraca": {
-      password: "Busra95",
-      name: "Büşra Karaca",
-      role: "Co-Founder · Creative & Ops",
-      color: "linear-gradient(135deg,#ec4899,#f97316)"
-    },
-    "eminekaraca": {
-      password: "Emine95",
-      name: "Emine Karaca",
-      role: "Community & Content",
-      color: "linear-gradient(135deg,#22c55e,#0ea5e9)"
-    }
-  };
+  
 
   const notesFeed   = document.getElementById("notesFeed");
   const noteForm    = document.getElementById("noteForm");
@@ -347,8 +327,12 @@
           `;
         }).join("");
 
-        const authorName = note.authorName || "Morphera Ekibi";
-        const authorRole = note.authorRole || "";
+        const authorProfile = await getAuthorProfile(note.authorKey);
+
+const authorName  = authorProfile?.displayName || note.authorName;
+const authorRole  = authorProfile?.title || note.authorRole;
+const avatarUrl   = authorProfile?.avatarUrl || note.avatarUrl;
+
         const isMine     = currentUser && currentUser.username === note.authorKey;
 
         const date = note.createdAt?.toDate?.() || new Date();
@@ -360,14 +344,11 @@
         return `
           <article class="note-card" data-id="${note.id}">
             <header class="note-card__header">
-              <div class="note-card__avatar" style="${note.avatarUrl ? `background-image:url(${note.avatarUrl})` : `background:${note.avatarBg || "var(--accent1)"}`}">
-        ${note.avatarUrl ? "" : `<span>${(note.authorInitials || (note.authorName || '')
-          .split(' ')
-          .map(p => p.charAt(0))
-          .join('')
-          .slice(0,2)
-          .toUpperCase())}</span>`}
-              </div>
+             <div class="note-card__avatar" 
+     style="${avatarUrl ? `background-image:url(${avatarUrl})` : `background:${note.avatarBg || 'var(--accent1)'}`}"
+>
+${avatarUrl ? "" : `<span>${note.authorInitials}</span>`}
+</div>
               <div class="note-card__meta">
                 <div class="note-card__author">
                   ${escapeHtml(authorName)}
@@ -503,7 +484,12 @@
 
   await renderNotes();
 });
-
+const authorsRef = collection(db, "noteAuthors");
+async function getAuthorProfile(username){
+  const ref = doc(authorsRef, username);
+  const snap = await getDoc(ref);
+  return snap.exists() ? snap.data() : null;
+}
 </script>
 
 
