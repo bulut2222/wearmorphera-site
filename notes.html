@@ -320,13 +320,17 @@ async function addComment(noteId, userName, commentText) {
     }
 
 function attachInteractionEvents() {
+
+  // BEĞENİ
   document.querySelectorAll("[data-like]").forEach(btn => {
     btn.addEventListener("click", () => {
       const noteId = btn.dataset.like;
       const name = prompt("Ad Soyad:");
       if (name) addLike(noteId, name);
     });
+  });
 
+  // YORUM GÖRÜNÜR/GİZLE
   document.querySelectorAll("[data-toggle-comment]").forEach(btn => {
     btn.addEventListener("click", () => {
       const noteId = btn.dataset.toggleComment;
@@ -334,6 +338,7 @@ function attachInteractionEvents() {
     });
   });
 
+  // YORUM GÖNDER
   document.querySelectorAll("[data-send-comment]").forEach(btn => {
     btn.addEventListener("click", () => {
       const noteId = btn.dataset.sendComment;
@@ -345,7 +350,9 @@ function attachInteractionEvents() {
       addComment(noteId, name, text);
     });
   });
+
 }
+
 
 
     // === Notları duvara çiz ===
