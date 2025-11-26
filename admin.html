@@ -352,6 +352,8 @@
     .sidebar-title{display:none;}
   }
   </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
+
 </head>
 <body>
 
@@ -379,26 +381,31 @@
   <aside class="sidebar">
     <div class="sidebar-title">Panel</div>
 <div class="menu-item" data-panel="schedulePanel" onclick="showPanel('schedulePanel')">
-  <span class="icon">⏰</span> Zamanlanmış
+  <span class="icon lottie" data-json="assets/img/admin/zaman.json"></span> Zamanlanmış
 </div>
 
 <div class="menu-item" data-panel="commentsPanel" onclick="showPanel('commentsPanel')">
-  <span class="icon">💬</span> Yorumlar
+  <span class="icon lottie" data-json="assets/img/admin/yorum.json"></span> Yorumlar
 </div>
 
 
+
     <div class="menu-item active" data-panel="analyticsPanel" onclick="showPanel('analyticsPanel')">
-      <span class="icon">📊</span> Analytics
-    </div>
+  <span class="icon lottie" data-json="assets/img/admin/analiz.json"></span> Analytics
+</div>
     <div class="menu-item" data-panel="profilePanel" onclick="showPanel('profilePanel')">
-      <span class="icon">👤</span> Profil Ayarları
-    </div>
+  <span class="icon lottie" data-json="assets/img/admin/profil3.json"></span> Profil Ayarları
+</div>
     <div class="menu-item" data-panel="newPostPanel" onclick="showPanel('newPostPanel')">
-      <span class="icon">📝</span> Yeni Gönderi
-    </div>
-    <div class="menu-item" data-panel="postsPanel" onclick="showPanel('postsPanel')">
-      <span class="icon">🧱</span> Gönderiler
-    </div>
+  <span class="icon lottie" data-json="assets/img/admin/gönderi.json"></span> Yeni Gönderi
+</div>
+   <div class="menu-item" data-panel="postsPanel" onclick="showPanel('postsPanel')">
+  <span class="icon lottie" data-json="assets/img/admin/gönderi.json"></span> Gönderiler
+</div>
+   <div class="menu-item" style="margin-top:auto;background:#ff1744cc;border:1px solid #ff8a80;" onclick="logoutAdmin()">
+  <span class="icon lottie" data-json="assets/img/admin/çıkış.json"></span> Çıkış Yap
+</div>
+
   </aside>
 
   <!-- PANELS WRAPPER -->
@@ -417,7 +424,7 @@
   <div class="panel-header">
     <div class="panel-title">
       ⏰ Zamanlanmış Gönderiler
-      <span class="panel-title-badge">Yarın 10:00</span>
+      
     </div>
   </div>
 
@@ -570,6 +577,19 @@ document.getElementById("scheduleEnable").addEventListener("change", function() 
 <!-- FIREBASE + ADMIN PANEL JS -->
 <!-- FIREBASE + ADMIN PANEL JS -->
 <script type="module">
+    // ==== LOTTIE ICON LOADER ====
+document.querySelectorAll(".lottie").forEach(el => {
+  const anim = lottie.loadAnimation({
+    container: el,
+    renderer: "svg",
+    loop: true,
+    autoplay: true,
+    path: el.dataset.json
+  });
+
+  el.animation = anim;
+});
+
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
   import {
     getFirestore,
@@ -585,6 +605,11 @@ document.getElementById("scheduleEnable").addEventListener("change", function() 
   } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
   import { deleteDoc } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
 import { Timestamp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
+window.logoutAdmin = function() {
+  localStorage.removeItem("morpheraAdminUser");
+  window.location.href = "notes.html";
+};
+
 
 
 

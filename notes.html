@@ -6,6 +6,8 @@
   <title>Morpheradan Notlar – WeAreMorphera</title>
   <meta name="description" content="WeAreMorphera ekibinin düşünce duvarı, notları ve perde arkası paylaşımları.">
   <link rel="stylesheet" href="assets/css/styles.css?v=5" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
+
 </head>
 <body class="page-notes">
 
@@ -80,7 +82,13 @@
     <!-- HERO / BAŞLIK BLOĞU -->
     <section class="notes-hero">
       <div class="notes-hero__badge">Ajansın Düşünce Duvarı</div>
-      <h1 class="notes-hero__title">Morpheradan Notlar</h1>
+      <div class="notes-hero__title-wrap">
+  <h1 class="notes-hero__title">Morpheradan Notlar</h1>
+
+  <!-- ⭐ LOTTIE ANİMASYONU BURADA ⭐ -->
+  <div class="notes-hero__lottie" id="notesLottie"></div>
+</div>
+
       <p class="notes-hero__subtitle">
         WeAreMorphera çekirdek ekibinin; fikirlerini, yol hikâyesini ve perde arkası notlarını
         paylaştığı küçük bir iç duvar. Üç kişi yazıyor, herkes okuyabiliyor.
@@ -102,26 +110,12 @@
       <!-- SAĞ: Admin Köşesi -->
       <aside class="notes-sidebar">
         <!-- LOGIN PANELİ -->
-        <div class="notes-login" id="notesLogin">
-          <h2 class="notes-login__title">Admin Köşesi</h2>
-          <p class="notes-login__subtitle">
-            <strong>Uyarı:</strong> Bu alan sadece site kurucuları içindir.
-            <br/>Bulut, Büşra ve Emine harici giriş yapılmaması rica olunur. 🙂
-          </p>
+        <div class="notes-login-button-wrap">
+  <button id="openLoginModal" class="notes-login-button">
+    🔐 Admin Girişi
+  </button>
+</div>
 
-          <form id="loginForm" class="notes-login__form" autocomplete="off">
-            <label>
-              Kullanıcı Adı
-              <input name="username" placeholder="bulutkeles" required />
-            </label>
-            <label>
-              Şifre
-              <input name="password" type="password" placeholder="••••••" required />
-            </label>
-            <button class="btn btn--primary" type="submit">Panele Giriş Yap</button>
-            <p class="notes-login__error" id="loginError" aria-live="polite"></p>
-          </form>
-        </div>
 
         <!-- GİRİŞ SONRASI PANEL -->
         <div class="notes-admin hidden" id="notesAdmin">
@@ -164,6 +158,31 @@
 
   </div>
 </main>
+<!-- ===== ADMIN LOGIN MODAL ===== -->
+<div id="loginModal" class="login-modal hidden">
+  <div class="login-modal__content">
+    <button class="login-modal__close" id="closeLoginModal">✕</button>
+
+    <h2 class="login-modal__title">Admin Girişi</h2>
+    <p class="login-modal__subtitle">Bu alan sadece ajans ekibi içindir.</p>
+
+    <form id="loginForm" class="login-modal__form" autocomplete="off">
+      <label>
+        Kullanıcı Adı
+        <input name="username" placeholder="Admin" required />
+      </label>
+
+      <label>
+        Şifre
+        <input name="password" type="password" placeholder="••••••" required />
+      </label>
+
+      <button class="btn btn--primary" type="submit">Panele Giriş Yap</button>
+
+      <p id="loginError" class="login-modal__error"></p>
+    </form>
+  </div>
+</div>
 
 <!-- FOOTER -->
 <footer class="footer">
@@ -199,6 +218,25 @@
   orderBy,
   serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
+// === LOGIN POPUP ===
+const loginModal = document.getElementById("loginModal");
+const openLoginModal = document.getElementById("openLoginModal");
+const closeLoginModal = document.getElementById("closeLoginModal");
+
+openLoginModal.addEventListener("click", () => {
+  loginModal.classList.remove("hidden");
+});
+
+closeLoginModal.addEventListener("click", () => {
+  loginModal.classList.add("hidden");
+});
+
+// Modal dışına tıklayınca kapanır
+loginModal.addEventListener("click", (e) => {
+  if (e.target === loginModal) {
+    loginModal.classList.add("hidden");
+  }
+});
 
 
 

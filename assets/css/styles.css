@@ -5158,7 +5158,7 @@ html[data-theme="light"] .team-splash__inner {
 }
 
 .notes-hero__title {
-  font-size: clamp(2rem, 3vw, 2.5rem);
+  font-size: clamp(2rem, 1vw, 2.0rem);
   margin: 0 0 var(--s2);
 }
 
@@ -5644,4 +5644,114 @@ body {
   background: var(--bg);
   color: var(--text);
   font-family: "Inter",sans-serif;
+}
+.menu-item span.icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  background: transparent !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding:0;
+}
+/* === Admin Login Button === */
+.notes-login-button-wrap {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.notes-login-button {
+  background: linear-gradient(135deg, #6a5af9, #e14eca);
+  color: white;
+  padding: 14px 26px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  font-size: 17px;
+  font-weight: 600;
+  transition: 0.25s ease;
+  box-shadow: 0 6px 20px rgba(140, 100, 255, 0.3);
+}
+
+.notes-login-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(150, 80, 255, 0.4);
+}
+
+/* === LOGIN MODAL === */
+.login-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  backdrop-filter: blur(8px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.login-modal.hidden {
+  display: none;
+}
+
+.login-modal__content {
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.15);
+  padding: 32px;
+  border-radius: 16px;
+  width: 320px;
+  color: white;
+  box-shadow: 0 0 30px rgba(0,0,0,0.35);
+  backdrop-filter: blur(20px);
+  animation: modalPop 0.3s ease;
+}
+
+@keyframes modalPop {
+  from { transform: scale(0.8); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.login-modal__close {
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 22px;
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  cursor: pointer;
+}
+
+.login-modal__title {
+  margin: 0 0 5px 0;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.login-modal__subtitle {
+  margin-bottom: 20px;
+  opacity: 0.8;
+}
+
+.login-modal__form label {
+  display: block;
+  margin-bottom: 15px;
+  font-size: 14px;
+}
+
+.login-modal__form input {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border-radius: 8px;
+  border: 1px solid #666;
+  background: rgba(0,0,0,0.25);
+  color: white;
+}
+
+.login-modal__error {
+  margin-top: 10px;
+  color: #ff7a7a;
 }
