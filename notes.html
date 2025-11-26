@@ -178,7 +178,7 @@
 </footer>
 
 <!-- Ana JS (header, lottie vs) -->
-<script src="assets/js/main.js" defer></script>
+
 
 <!-- Morpheradan Notlar sayfasına özel JS -->
 <!-- Ana JS (header vs.) -->
@@ -227,14 +227,6 @@
       });
     }
 
-    async function addComment(noteId, userName, commentText) {
-      const commentsRef = collection(db, "morpheraNotes", noteId, "comments");
-      await addDoc(commentsRef, {
-        name: userName,
-        comment: commentText,
-        createdAt: serverTimestamp()
-      });
-    }
 
 
 // === YORUM EKLE ===
