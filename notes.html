@@ -237,8 +237,10 @@ async function addComment(noteId, userName, commentText) {
     comment: commentText,
     createdAt: serverTimestamp()
   });
-  loadNotes();
+
+  appendCommentToUI(noteId, userName, commentText); // ➜ Anında ekle
 }
+
 
   document.addEventListener("DOMContentLoaded", () => {
     // === Sabit kullanıcılar ===
@@ -356,19 +358,26 @@ function attachInteractionEvents() {
 
 
     // === Notları duvara çiz ===
-    async function renderNotes() {
+   // === Notları duvara çiz ===
+async function renderNotes() {
   const notes = await loadNotes();
 
-  if (!notes.length) {
-    notesFeed.innerHTML = `
-      <div class="note-card note-card--empty">
-        <p>Henüz bir not bırakılmamış. İlk notu ekipten biri yazdığında burada görünecek.</p>
-      </div>
-    `;
-    return;
-  }
+  notesFeed.innerHTML = await Promise.all(notes.map(async (note) => {
+    
+    // --- Yorumları çek
+    const commentsRef = collection(db, "morpheraNotes", note.id, "comments");
+    const commentsSnap = await getDocs(commentsRef);
 
-  notesFeed.innerHTML = notes.map(note => {
+    const commentsListHtml = commentsSnap.docs.map(c => {
+      const d = c.data();
+      return `
+        <div class="comment-item">
+          <strong>${escapeHtml(d.name)}</strong>
+          <p>${escapeHtml(d.comment)}</p>
+        </div>
+      `;
+    }).join("");
+
     const isMine = currentUser && note.authorKey === currentUser.username;
     const date = note.createdAt?.toDate?.() || new Date();
     const ts = date.toLocaleString("tr-TR", {
@@ -378,6 +387,7 @@ function attachInteractionEvents() {
 
     return `
       <article class="note-card" data-id="${note.id}">
+        
         <header class="note-card__header">
           <div class="note-card__avatar" style="background:${note.avatarBg}">
             <span>${note.authorInitials}</span>
@@ -390,8 +400,8 @@ function attachInteractionEvents() {
 
           ${isMine ? `
             <div class="note-card__actions">
-              <button type="button" class="note-btn note-btn--ghost note-edit">Düzenle</button>
-              <button type="button" class="note-btn note-btn--danger note-delete">Sil</button>
+              <button class="note-btn note-btn--ghost note-edit">Düzenle</button>
+              <button class="note-btn note-btn--danger note-delete">Sil</button>
             </div>
           ` : ""}
         </header>
@@ -400,61 +410,70 @@ function attachInteractionEvents() {
           <p>${escapeHtml(note.text || "").replace(/\n/g,"<br>")}</p>
           ${note.imageUrl ? `
             <figure class="note-card__figure">
-              <img src="${note.imageUrl}" alt="" loading="lazy" />
-            </figure>
-          ` : ""}
+              <img src="${note.imageUrl}" loading="lazy"/>
+            </figure>` : ""}
         </div>
 
-        <!-- BEĞENİ & YORUM -->
         <footer class="note-card__footer">
-          <button class="note-like-btn" data-like="${note.id}">
-            ❤️ Beğen (${note.likeCount})
-          </button>
+          <button data-like="${note.id}" class="note-like-btn">❤️ Beğen (${note.likeCount})</button>
 
-          <button class="note-comment-toggle" data-toggle-comment="${note.id}">
-            💬 Yorum (${note.commentCount})
+          <button data-toggle-comment="${note.id}" class="note-comment-toggle">
+            💬 Yorum (${commentsSnap.size})
           </button>
 
           <div id="commentBox-${note.id}" class="comment-box hidden">
-            <input id="commentName-${note.id}" placeholder="Ad Soyad" />
+            <input id="commentName-${note.id}" placeholder="Ad Soyad"/>
             <textarea id="commentText-${note.id}" placeholder="Yorumun..."></textarea>
             <button data-send-comment="${note.id}">Gönder</button>
           </div>
+
+          <!-- ⬇⬇ YORUM LİSTESİ BURADA -->
+          <div id="commentList-${note.id}" class="comment-list">
+            ${commentsListHtml}
+          </div>
+
         </footer>
       </article>
     `;
-  }).join("");
+  })).then(htmlArr => htmlArr.join(""));
 
   attachInteractionEvents();
 }
 
+function appendCommentToUI(noteId, name, comment) {
+  const list = document.getElementById(`commentList-${noteId}`);
+  if (!list) return;
+
+  const html = `
+    <div class="comment-item new">
+      <strong>${escapeHtml(name)}</strong>
+      <p>${escapeHtml(comment)}</p>
+    </div>
+  `;
+
+  list.insertAdjacentHTML("beforeend", html);
+}
+
 
     // === LOGIN ===
-    loginForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-      const formData = new FormData(loginForm);
-      const username = String(formData.get("username") || "").trim();
-      const password = String(formData.get("password") || "");
+    // === LOGIN ===
+loginForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+  const formData = new FormData(loginForm);
+  const username = String(formData.get("username") || "").trim();
+  const password = String(formData.get("password") || "");
 
-      const user = USERS[username];
-      if (!user || user.password !== password) {
-        loginError.textContent = "Kullanıcı adı veya şifre hatalı.";
-        return;
-      }
+  const user = USERS[username];
+  if (!user || user.password !== password) {
+    loginError.textContent = "Kullanıcı adı veya şifre hatalı.";
+    return;
+  }
 
-      loginError.textContent = "";
-      currentUser = { username, ...user };
+  // Başarılı giriş
+  localStorage.setItem("morpheraAdmin", username);
+  window.location.href = "admin.html"; // YÖNLENDİRME
+});
 
-      notesLogin.classList.add("hidden");
-      notesAdmin.classList.remove("hidden");
-
-      adminAvatar.style.background = user.color;
-      adminAvatar.textContent = user.name.charAt(0).toUpperCase();
-      adminHello.textContent = `Merhaba ${user.name}, Morpheradan Notlar paneline hoş geldin.`;
-      adminRole.textContent  = user.role;
-
-      renderNotes();
-    });
 
     // === NOT EKLE / GÜNCELLE ===
     noteForm.addEventListener("submit", async (e) => {
