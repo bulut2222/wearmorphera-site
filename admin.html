@@ -421,6 +421,7 @@
     </section>
 
     <!-- PROFİL -->
+       <!-- PROFİL -->
     <section class="panel" id="profilePanel">
       <div class="panel-header">
         <div class="panel-title">
@@ -443,13 +444,13 @@
           </div>
 
           <div class="field-group">
-            <label class="field-label">Profil Fotoğrafı URL</label>
-            <input id="profileAvatarUrl" type="text" placeholder="https://... .webp / .jpg">
+            <label class="field-label">Profil Fotoğrafı (dosya yükle)</label>
+            <input id="profileAvatarFile" type="file" accept="image/*">
           </div>
 
           <div class="field-group">
-            <label class="field-label">Kapak Fotoğrafı URL</label>
-            <input id="profileCoverUrl" type="text" placeholder="https://... .webp / .jpg">
+            <label class="field-label">Kapak Fotoğrafı (dosya yükle)</label>
+            <input id="profileCoverFile" type="file" accept="image/*">
           </div>
 
           <button class="btn-primary" type="submit">Profili Kaydet</button>
@@ -467,6 +468,7 @@
         </aside>
       </div>
     </section>
+
 
     <!-- YENİ GÖNDERİ -->
     <section class="panel" id="newPostPanel">
@@ -524,6 +526,13 @@
     serverTimestamp
   } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
 
+  import {
+    getStorage,
+    ref,
+    uploadBytes,
+    getDownloadURL
+  } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-storage.js";
+
   /* ---------- Tema Toggle ---------- */
   const savedTheme = localStorage.getItem("morpheraAdminTheme") || "dark";
   document.documentElement.setAttribute("data-theme", savedTheme);
@@ -542,7 +551,6 @@
   const panels = document.querySelectorAll(".panel");
   const menuItems = document.querySelectorAll(".menu-item");
 
-  // HTML'deki onclick="showPanel('profilePanel')" bunu çağırıyor
   window.showPanel = function(panelId) {
     panels.forEach(p => p.classList.toggle("active", p.id === panelId));
     menuItems.forEach(item => {
@@ -563,6 +571,7 @@
 
   const app = initializeApp(firebaseConfig);
   const db  = getFirestore(app);
+  const storage = getStorage(app);
 
   const notesColRef   = collection(db, "morpheraNotes");
   const authorsColRef = collection(db, "noteAuthors");
@@ -570,7 +579,6 @@
   /* ---------- Giriş yapan admin bilgisi ---------- */
   const username = localStorage.getItem("morpheraAdminUser");
   if (!username) {
-    // notes.html'den gelinmemişse geri gönder
     window.location.href = "notes.html";
   }
 
@@ -579,8 +587,8 @@
   /* ---------- DOM referansları ---------- */
   const displayNameInput = document.getElementById("profileDisplayName");
   const titleInput       = document.getElementById("profileTitle");
-  const avatarUrlInput   = document.getElementById("profileAvatarUrl");
-  const coverUrlInput    = document.getElementById("profileCoverUrl");
+  const avatarFileInput  = document.getElementById("profileAvatarFile");
+  const coverFileInput   = document.getElementById("profileCoverFile");
 
   const avatarPreview    = document.getElementById("profileAvatarPreview");
   const coverPreview     = document.getElementById("profileCoverPreview");
@@ -618,8 +626,6 @@
 
     displayNameInput.value = currentProfile.displayName || "";
     titleInput.value       = currentProfile.title || "";
-    avatarUrlInput.value   = currentProfile.avatarUrl || "";
-    coverUrlInput.value    = currentProfile.coverUrl || "";
 
     const initials = (currentProfile.displayName || username)
       .split(" ")
@@ -657,15 +663,40 @@
     fillProfileForm();
   }
 
+  // Seçilen dosyayı Storage’a yükleyip URL dönen helper
+  async function uploadIfSelected(fileInput, path, existingUrl) {
+    const file = fileInput.files[0];
+    if (!file) return existingUrl || "";
+    const r = ref(storage, path);
+    await uploadBytes(r, file);
+    return await getDownloadURL(r);
+  }
+
   /* ---------- Profil Kaydet ---------- */
   profileForm.addEventListener("submit", async (e) => {
     e.preventDefault();
 
+    if (!currentProfile) {
+      await loadProfile();
+    }
+
+    const newAvatarUrl = await uploadIfSelected(
+      avatarFileInput,
+      `authors/${username}/avatar_${Date.now()}`,
+      currentProfile.avatarUrl
+    );
+
+    const newCoverUrl = await uploadIfSelected(
+      coverFileInput,
+      `authors/${username}/cover_${Date.now()}`,
+      currentProfile.coverUrl
+    );
+
     currentProfile = {
       displayName: (displayNameInput.value || username).trim(),
       title: (titleInput.value || "").trim(),
-      avatarUrl: (avatarUrlInput.value || "").trim(),
-      coverUrl: (coverUrlInput.value || "").trim()
+      avatarUrl: newAvatarUrl,
+      coverUrl: newCoverUrl
     };
 
     await setDoc(authorDocRef, currentProfile, { merge:true });
@@ -769,6 +800,7 @@
     await loadAnalytics();
   });
 </script>
+
 
 
 
