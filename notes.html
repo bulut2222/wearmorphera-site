@@ -250,26 +250,27 @@ async function addComment(noteId, userName, commentText) {
 
   document.addEventListener("DOMContentLoaded", () => {
     // === Sabit kullanıcılar ===
-    const USERS = {
-      "bulutkeles": {
-        password: "Blt.1995",
-        name: "Bulut Keleş",
-        role: "Co-Founder · Tech & Growth",
-        color: "var(--accent1)"
-      },
-      "busrakaraca": {
-        password: "Büsra.95",
-        name: "Büşra Karaca",
-        role: "Co-Founder · Creative & Ops",
-        color: "var(--accent2)"
-      },
-      "eminekaraca": {
-        password: "Emine.95",
-        name: "Emine Karaca",
-        role: "Community & Content",
-        color: "linear-gradient(135deg,#22c55e,#0ea5e9)"
-      }
-    };
+   const USERS = {
+  "bulutkeles": {
+    password: "Blt1995",   // Özel karakter yok, Türkçe harf yok
+    name: "Bulut Keleş",
+    role: "Co-Founder · Tech & Growth",
+    color: "var(--accent1)"
+  },
+  "busrakaraca": {
+    password: "Busra95",   // Ş yok
+    name: "Büşra Karaca",
+    role: "Co-Founder · Creative & Ops",
+    color: "var(--accent2)"
+  },
+  "eminekaraca": {
+    password: "Emine95",
+    name: "Emine Karaca",
+    role: "Community & Content",
+    color: "linear-gradient(135deg,#22c55e,#0ea5e9)"
+  }
+};
+
 
     let currentUser = null;
 
