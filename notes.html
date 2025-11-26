@@ -397,18 +397,17 @@ async function renderNotes() {
     });
 
     return `
-      <article class="note-card" data-id="${note.id}">
-        
-        <header class="note-card__header">
-         <div class="note-card__avatar"
-     style="
-        ${note.avatarUrl 
-          ? `background-image:url('${note.avatarUrl}'); background-size:cover; background-position:center;` 
-          : `background:${note.avatarBg}`
-        }
-     ">
-  ${note.avatarUrl ? "" : `<span>${note.authorInitials}</span>`}
-</div>
+  <article class="note-card" data-id="${note.id}">
+    <header class="note-card__header">
+      <div class="note-card__avatar"
+           style="
+             ${note.avatarUrl 
+               ? `background-image:url('${note.avatarUrl}');background-size:cover;background-position:center;`
+               : `background:${note.avatarBg || 'var(--accent1)'}`
+             }
+           ">
+        ${note.avatarUrl ? "" : `<span>${initials}</span>`}
+      </div>
 
           <div class="note-card__meta">
             <div class="note-card__author">${note.authorName}</div>
