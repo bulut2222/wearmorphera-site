@@ -230,6 +230,7 @@
 
 
 // === YORUM EKLE ===
+// === YORUM EKLE (HEMEN EKRANA YANSIT) ===
 async function addComment(noteId, userName, commentText) {
   const commentsRef = collection(db, "morpheraNotes", noteId, "comments");
   await addDoc(commentsRef, {
@@ -238,8 +239,16 @@ async function addComment(noteId, userName, commentText) {
     createdAt: serverTimestamp()
   });
 
-  appendCommentToUI(noteId, userName, commentText); // ➜ Anında ekle
+  // ilgili karttaki inputları temizle
+  const nameEl = document.getElementById(`commentName-${noteId}`);
+  const textEl = document.getElementById(`commentText-${noteId}`);
+  if (nameEl) nameEl.value = "";
+  if (textEl) textEl.value = "";
+
+  // tüm duvarı yeniden çiz → yorum anında düşsün
+  await renderNotes();
 }
+
 
 
   document.addEventListener("DOMContentLoaded", () => {
@@ -457,6 +466,7 @@ function appendCommentToUI(noteId, name, comment) {
 
     // === LOGIN ===
     // === LOGIN ===
+// === LOGIN ===
 loginForm.addEventListener("submit", (e) => {
   e.preventDefault();
   const formData = new FormData(loginForm);
@@ -469,10 +479,13 @@ loginForm.addEventListener("submit", (e) => {
     return;
   }
 
-  // Başarılı giriş
-  localStorage.setItem("morpheraAdmin", username);
-  window.location.href = "admin.html"; // YÖNLENDİRME
+  // bilgiyi localStorage'a yaz → admin.html buradan okuyacak
+  localStorage.setItem("morpheraAdminUser", username);
+
+  // not: buradan sonra bu sayfada panel açmıyoruz
+  window.location.href = "admin.html";
 });
+
 
 
     // === NOT EKLE / GÜNCELLE ===

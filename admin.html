@@ -323,153 +323,267 @@ textarea { min-height: 120px; }
 
 <!-- FIREBASE JS -->
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
-import {
-  getFirestore,
-  collection,
-  addDoc,
-  getDocs,
-  updateDoc,
-  doc,
-  deleteDoc,
-  serverTimestamp
-} from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
+  import {
+    getFirestore,
+    collection,
+    doc,
+    getDoc,
+    getDocs,
+    setDoc,
+    addDoc,
+    updateDoc,
+    deleteDoc,
+    query,
+    orderBy,
+    serverTimestamp
+  } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
 
-/* FIREBASE CONFIG */
-const firebaseConfig = {
-  apiKey: "AIzaSyCoLU3FES5QdNoD1WOHz9M7Z01U63hkn4U",
-  authDomain: "morpheranotes.firebaseapp.com",
-  projectId: "morpheranotes",
-  storageBucket: "morpheranotes.firebasestorage.app",
-  messagingSenderId: "756772520204",
-  appId: "1:756772520204:web:b686f9f69f860098a10929"
-};
+  // === Firebase Config ===
+  const firebaseConfig = {
+    apiKey: "AIzaSyCoLU3FES5QdNoD1WOHz9M7Z01U63hkn4U",
+    authDomain: "morpheranotes.firebaseapp.com",
+    projectId: "morpheranotes",
+    storageBucket: "morpheranotes.firebasestorage.app",
+    messagingSenderId: "756772520204",
+    appId: "1:756772520204:web:b686f9f69f860098a10929",
+    measurementId: "G-CLH7TE7TNP"
+  };
 
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+  const app = initializeApp(firebaseConfig);
+  const db  = getFirestore(app);
 
-/* COLLECTIONS */
-const notesRef = collection(db, "morpheraNotes");
-const profileRef = collection(db, "morpheraProfile");
+  // koleksiyon referansları
+  const notesColRef    = collection(db, "morpheraNotes");
+  const authorsColRef  = collection(db, "noteAuthors");
 
-/* PANEL SWITCH */
-window.showPanel = (id) => {
-  document.querySelectorAll(".panel").forEach(p => p.classList.remove("active"));
-  document.getElementById(id).classList.add("active");
-};
-
-/* THEME TOGGLE */
-document.getElementById("themeToggle").onclick = () => {
-  const html = document.documentElement;
-  html.dataset.theme = html.dataset.theme === "dark" ? "light" : "dark";
-};
-
-/* LIVE PREVIEW */
-document.getElementById("coverPhoto").oninput = (e) => {
-  document.getElementById("coverPreview").src = e.target.value;
-};
-document.getElementById("profilePhoto").oninput = (e) => {
-  document.getElementById("avatarPreview").src = e.target.value;
-};
-
-/* SAVE PROFILE */
-document.getElementById("saveProfile").onclick = async () => {
-  await addDoc(profileRef, {
-    cover: document.getElementById("coverPhoto").value,
-    avatar: document.getElementById("profilePhoto").value
-  });
-  alert("Profil güncellendi!");
-};
-
-/* ADD POST */
-document.getElementById("addPost").onclick = async () => {
-  await addDoc(notesRef, {
-    text: document.getElementById("postText").value,
-    imageUrl: document.getElementById("postImage").value,
-    createdAt: serverTimestamp()
-  });
-
-  alert("Gönderi paylaşıldı!");
-  loadAnalytics();
-  loadPosts();
-};
-
-/* LOAD POSTS */
-async function loadPosts() {
-  const snap = await getDocs(notesRef);
-  const list = document.getElementById("postsList");
-  list.innerHTML = "";
-
-  for (const docSnap of snap.docs) {
-    const d = docSnap.data();
-
-    list.innerHTML += `
-      <div class="post-item">
-        <div>${d.text}</div>
-
-        <div class="post-actions">
-          <button class="btn-edit" onclick="editPost('${docSnap.id}','${d.text}','${d.imageUrl}')">Düzenle</button>
-          <button class="btn-delete" onclick="deletePost('${docSnap.id}')">Sil</button>
-        </div>
-      </div>
-    `;
+  // === Hangi admin giriş yaptı? (notes.html'den geldi) ===
+  const username = localStorage.getItem("morpheraAdminUser");
+  if (!username) {
+    // güvenlik için, login yoksa geri yolla
+    window.location.href = "notes.html";
   }
-}
-loadPosts();
 
-/* EDIT */
-window.editPost = function (id, text, img) {
-  document.getElementById("postText").value = text;
-  document.getElementById("postImage").value = img;
-  showPanel("newPostPanel");
+  const authorDocRef = doc(authorsColRef, username);
 
-  document.getElementById("addPost").onclick = async () => {
-    await updateDoc(doc(db,"morpheraNotes",id), {
-      text: document.getElementById("postText").value,
-      imageUrl: document.getElementById("postImage").value
+  // ==== DOM referansları (id'ler senin panel tasarımına göre) ====
+  const displayNameInput = document.getElementById("profileDisplayName");
+  const titleInput       = document.getElementById("profileTitle");
+  const avatarUrlInput   = document.getElementById("profileAvatarUrl");
+  const coverUrlInput    = document.getElementById("profileCoverUrl");
+
+  const avatarPreview    = document.getElementById("profileAvatarPreview");
+  const coverPreview     = document.getElementById("profileCoverPreview");
+
+  const profileForm      = document.getElementById("profileForm");
+
+  const postForm         = document.getElementById("postForm");
+  const postTextInput    = document.getElementById("postText");
+  const postImageInput   = document.getElementById("postImageUrl");
+  const postList         = document.getElementById("postList");
+
+  // analytics kartları
+  const statPostsEl      = document.getElementById("statPosts");
+  const statLikesEl      = document.getElementById("statLikes");
+  const statCommentsEl   = document.getElementById("statComments");
+
+  let currentProfile = null;
+
+  // === Kullanıcıya göre default profil değerleri ===
+  function getDefaultProfile(username) {
+    if (username === "bulutkeles") {
+      return {
+        displayName: "Bulut Keleş",
+        title: "Co-Founder · Tech & Growth",
+        avatarUrl: "",
+        coverUrl: ""
+      };
+    }
+    if (username === "busrakaraca") {
+      return {
+        displayName: "Büşra Karaca",
+        title: "Co-Founder · Creative & Ops",
+        avatarUrl: "",
+        coverUrl: ""
+      };
+    }
+    if (username === "eminekaraca") {
+      return {
+        displayName: "Emine Karaca",
+        title: "Community & Content",
+        avatarUrl: "",
+        coverUrl: ""
+      };
+    }
+    return {
+      displayName: username,
+      title: "",
+      avatarUrl: "",
+      coverUrl: ""
+    };
+  }
+
+  // === Profil formunu ve önizlemeyi doldur ===
+  function fillProfileForm() {
+    if (!currentProfile) return;
+    displayNameInput.value = currentProfile.displayName || "";
+    titleInput.value       = currentProfile.title || "";
+    avatarUrlInput.value   = currentProfile.avatarUrl || "";
+    coverUrlInput.value    = currentProfile.coverUrl || "";
+
+    if (currentProfile.avatarUrl) {
+      avatarPreview.style.backgroundImage = `url(${currentProfile.avatarUrl})`;
+      avatarPreview.classList.add("has-image");
+    } else {
+      avatarPreview.style.backgroundImage = "none";
+      avatarPreview.classList.remove("has-image");
+    }
+
+    if (currentProfile.coverUrl) {
+      coverPreview.style.backgroundImage = `url(${currentProfile.coverUrl})`;
+      coverPreview.classList.add("has-image");
+    } else {
+      coverPreview.style.backgroundImage = "none";
+      coverPreview.classList.remove("has-image");
+    }
+  }
+
+  // === Firestore'dan profil çek ===
+  async function loadProfile() {
+    const snap = await getDoc(authorDocRef);
+    if (snap.exists()) {
+      currentProfile = snap.data();
+    } else {
+      currentProfile = getDefaultProfile(username);
+      await setDoc(authorDocRef, currentProfile, { merge: true });
+    }
+    fillProfileForm();
+  }
+
+  // === Profil kaydet ===
+  profileForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    currentProfile = {
+      displayName: (displayNameInput.value || username).trim(),
+      title: (titleInput.value || "").trim(),
+      avatarUrl: (avatarUrlInput.value || "").trim(),
+      coverUrl: (coverUrlInput.value || "").trim()
+    };
+
+    await setDoc(authorDocRef, currentProfile, { merge: true });
+    fillProfileForm();
+    alert("Profil bilgilerin kaydedildi ✅");
+  });
+
+  // === Yeni gönderi ekle ===
+  postForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const text  = postTextInput.value.trim();
+    const image = postImageInput.value.trim();
+
+    if (!text) return;
+
+    // profil henüz çekilmediyse çek
+    if (!currentProfile) {
+      await loadProfile();
+    }
+
+    const initials = (currentProfile.displayName || username)
+      .split(" ")
+      .map(p => p.charAt(0))
+      .join("")
+      .slice(0, 2)
+      .toUpperCase();
+
+    await addDoc(notesColRef, {
+      text,
+      imageUrl: image || "",
+      createdAt: serverTimestamp(),
+
+      // NOT: notes.html bunları bekliyor
+      authorKey: username,
+      authorName: currentProfile.displayName || username,
+      authorRole: currentProfile.title || "",
+      authorInitials: initials,
+      avatarBg: "var(--accent1)",      // istersen role'lere göre değiştirebilirsin
+      avatarUrl: currentProfile.avatarUrl || ""
     });
-    alert("Gönderi güncellendi!");
-    loadPosts();
-    loadAnalytics();
+
+    postTextInput.value  = "";
+    postImageInput.value = "";
+
+    await Promise.all([loadAdminPosts(), loadAnalytics()]);
+  });
+
+  // === Admin gönderilerini listele (isteğe bağlı, sadece panel için) ===
+  async function loadAdminPosts() {
+    const q = query(notesColRef, orderBy("createdAt", "desc"));
+    const snap = await getDocs(q);
+
+    const items = [];
+    snap.forEach(docSnap => {
+      const data = docSnap.data();
+      if (data.authorKey !== username) return; // sadece kendi postlarını göster
+      const date = data.createdAt?.toDate?.() || new Date();
+      const ts = date.toLocaleString("tr-TR", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit"
+      });
+
+      items.push(`
+        <article class="admin-post-card">
+          <div class="admin-post-card__meta">
+            <span class="admin-post-card__date">${ts}</span>
+            <span class="admin-post-card__stats">
+              ❤️ ${data.likeCount || 0} · 💬 ${data.commentCount || 0}
+            </span>
+          </div>
+          <p class="admin-post-card__text">${(data.text || "").replace(/\n/g,"<br>")}</p>
+        </article>
+      `);
+    });
+
+    if (postList) {
+      postList.innerHTML = items.join("") || "<p>Henüz bir gönderin yok.</p>";
+    }
   }
-}
 
-/* DELETE */
-window.deletePost = async (id) => {
-  await deleteDoc(doc(db,"morpheraNotes",id));
-  loadPosts();
-  loadAnalytics();
-};
+  // === Analytics: toplam gönderi / beğeni / yorum ===
+  async function loadAnalytics() {
+    const snap = await getDocs(notesColRef);
+    const notes = snap.docs;
 
-/* ANALYTICS */
-async function loadAnalytics() {
-  const snap = await getDocs(notesRef);
+    let totalPosts = notes.length;
+    let totalLikes = 0;
+    let totalComments = 0;
 
-  let totalPosts = 0;
-  let totalLikes = 0;
-  let totalComments = 0;
+    await Promise.all(
+      notes.map(async (docSnap) => {
+        const id = docSnap.id;
+        const likesSnap = await getDocs(collection(db, "morpheraNotes", id, "likes"));
+        const commentsSnap = await getDocs(collection(db, "morpheraNotes", id, "comments"));
+        totalLikes += likesSnap.size;
+        totalComments += commentsSnap.size;
+      })
+    );
 
-  for (const docSnap of snap.docs) {
-    totalPosts++;
-
-    // Like count
-    const likesRef = collection(db,"morpheraNotes",docSnap.id,"likes");
-    const likesSnap = await getDocs(likesRef);
-    totalLikes += likesSnap.size;
-
-    // Comment count
-    const commentsRef = collection(db,"morpheraNotes",docSnap.id,"comments");
-    const commentsSnap = await getDocs(commentsRef);
-    totalComments += commentsSnap.size;
+    if (statPostsEl)    statPostsEl.textContent    = totalPosts;
+    if (statLikesEl)    statLikesEl.textContent    = totalLikes;
+    if (statCommentsEl) statCommentsEl.textContent = totalComments;
   }
 
-  document.getElementById("totalPosts").textContent = totalPosts;
-  document.getElementById("totalLikes").textContent = totalLikes;
-  document.getElementById("totalComments").textContent = totalComments;
-}
-loadAnalytics();
-
+  // === Sayfa yüklenince her şeyi başlat ===
+  window.addEventListener("DOMContentLoaded", async () => {
+    await loadProfile();
+    await loadAdminPosts();
+    await loadAnalytics();
+  });
 </script>
+
 
 </body>
 </html>
