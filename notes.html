@@ -415,24 +415,22 @@
 
   // ---- Login ----
   loginForm.addEventListener("submit", (e) => {
-    e.preventDefault();
-    const formData = new FormData(loginForm);
-    const username = String(formData.get("username") || "").trim();
-    const password = String(formData.get("password") || "");
+  e.preventDefault();
+  const formData = new FormData(loginForm);
+  const username = formData.get("username").trim();
+  const password = formData.get("password");
 
-    const user = USERS[username];
-    if (!user || user.password !== password) {
-      loginError.textContent = "Kullanıcı adı veya şifre hatalı.";
-      return;
-    }
+  const user = USERS[username];
+  if (!user || user.password !== password) {
+    loginError.textContent = "Kullanıcı adı veya şifre hatalı.";
+    return;
+  }
 
-    currentUser = { ...user, username };
-    loginBox.classList.add("hidden");
-    noteForm.classList.remove("hidden");
-    adminBadge.textContent = `${currentUser.name} olarak giriş yapıldı`;
+  localStorage.setItem("morpheraAdminUser", username);
 
-    localStorage.setItem("morpheraAdminUser", username);
-  });
+  window.location.href = "admin.html"; // 🔥 Admin sayfası açılır
+});
+
 
   // ---- Yeni Not Ekle ----
   noteForm.addEventListener("submit", async (e) => {
@@ -474,35 +472,38 @@
   });
 
   // ---- İlk yükleme ----
-  window.addEventListener("DOMContentLoaded", () => {
-    currentUser = { ...user, username };
-localStorage.setItem("morpheraAdminUser", username);
+  window.addEventListener("DOMContentLoaded", async () => {
+  const savedUsername = localStorage.getItem("morpheraAdminUser");
 
-if (loginBox) loginBox.classList.add("hidden");
-if (noteForm) noteForm.classList.remove("hidden");
+  if (savedUsername && USERS[savedUsername]) {
+    currentUser = { ...USERS[savedUsername], username: savedUsername };
 
-// Admin kartını göster
-const notesAdmin = document.getElementById("notesAdmin");
-const adminAvatar = document.getElementById("adminAvatar");
-const adminRole   = document.getElementById("adminRole");
+    loginBox.classList.add("hidden");
+    noteForm.classList.remove("hidden");
 
-if (notesAdmin) notesAdmin.classList.remove("hidden");
-if (adminBadge) adminBadge.textContent = `${currentUser.name} olarak giriş yapıldı`;
-if (adminRole) adminRole.textContent = currentUser.role || "Morphera Admin";
+    // Admin panel sağ kısmını aç
+    const notesAdmin = document.getElementById("notesAdmin");
+    notesAdmin.classList.remove("hidden");
 
-// Avatar baş harfleri
-if (adminAvatar) {
-  const initials = (currentUser.name || username)
-    .split(" ")
-    .map(p => p.charAt(0))
-    .join("")
-    .slice(0,2)
-    .toUpperCase();
-  adminAvatar.textContent = initials;
-}
+    const adminAvatar = document.getElementById("adminAvatar");
+    const adminRole   = document.getElementById("adminRole");
 
-    renderNotes();
-  });
+    adminBadge.textContent = `${currentUser.name} olarak giriş yapıldı`;
+    adminRole.textContent = currentUser.role;
+
+    const initials = currentUser.name
+      .split(" ")
+      .map(p => p.charAt(0))
+      .join("")
+      .slice(0,2)
+      .toUpperCase();
+
+    adminAvatar.textContent = initials;
+  }
+
+  await renderNotes();
+});
+
 </script>
 
 
