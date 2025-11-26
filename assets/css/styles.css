@@ -5755,3 +5755,34 @@ body {
   margin-top: 10px;
   color: #ff7a7a;
 }
+/* === NOTES HERO — Admin Button === */
+.notes-hero {
+  position: relative; /* Butonun konumlanması için gerekli */
+}
+
+.notes-admin-btn {
+  position: absolute;
+  right: 0px;
+  bottom: 0px;
+
+  background: linear-gradient(135deg, #7c4dff, #e14eca);
+  padding: 14px 26px;
+  border-radius: 114px;
+  border: none;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+
+  box-shadow: 0 6px 25px rgba(100, 60, 255, 0.35);
+  transition: all 0.25s ease;
+}
+
+.notes-admin-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 30px rgba(150, 50, 255, 0.45);
+}
+
+.notes-admin-btn:active {
+  transform: scale(0.96);
+}
