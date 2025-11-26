@@ -560,14 +560,14 @@
 
   /* ---------- Firebase ---------- */
   const firebaseConfig = {
-    apiKey: "AIzaSyCoLU3FES5QdNoD1WOHz9M7Z01U63hkn4U",
-    authDomain: "morpheranotes.firebaseapp.com",
-    projectId: "morpheranotes",
-    storageBucket: "morpheranotes.firebasestorage.app",
-    messagingSenderId: "756772520204",
-    appId: "1:756772520204:web:b686f9f69f860098a10929",
-    measurementId: "G-CLH7TE7TNP"
-  };
+  apiKey: "AIzaSyCoLU3FES5QdNoD1WOHz9M7Z01U63hkn4U",
+  authDomain: "morpheranotes.firebaseapp.com",
+  projectId: "morpheranotes",
+  storageBucket: "morpheranotes.appspot.com",   // ✅ DOĞRUSU BU
+  messagingSenderId: "756772520204",
+  appId: "1:756772520204:web:b686f9f69f860098a10929",
+  measurementId: "G-CLH7TE7TNP"
+};
 
   const app = initializeApp(firebaseConfig);
   const db  = getFirestore(app);
@@ -673,36 +673,43 @@
   }
 
   /* ---------- Profil Kaydet ---------- */
+   /* ---------- Profil Kaydet ---------- */
   profileForm.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    if (!currentProfile) {
-      await loadProfile();
+    try {
+      if (!currentProfile) {
+        await loadProfile();
+      }
+
+      const newAvatarUrl = await uploadIfSelected(
+        avatarFileInput,
+        `authors/${username}/avatar_${Date.now()}`,
+        currentProfile.avatarUrl
+      );
+
+      const newCoverUrl = await uploadIfSelected(
+        coverFileInput,
+        `authors/${username}/cover_${Date.now()}`,
+        currentProfile.coverUrl
+      );
+
+      currentProfile = {
+        displayName: (displayNameInput.value || username).trim(),
+        title: (titleInput.value || "").trim(),
+        avatarUrl: newAvatarUrl,
+        coverUrl: newCoverUrl
+      };
+
+      await setDoc(authorDocRef, currentProfile, { merge:true });
+      fillProfileForm();
+      alert("Profil kaydedildi ✅");
+    } catch (err) {
+      console.error("Profil kaydedilirken hata:", err);
+      alert("Profil kaydedilirken bir hata oluştu: " + (err?.message || err));
     }
-
-    const newAvatarUrl = await uploadIfSelected(
-      avatarFileInput,
-      `authors/${username}/avatar_${Date.now()}`,
-      currentProfile.avatarUrl
-    );
-
-    const newCoverUrl = await uploadIfSelected(
-      coverFileInput,
-      `authors/${username}/cover_${Date.now()}`,
-      currentProfile.coverUrl
-    );
-
-    currentProfile = {
-      displayName: (displayNameInput.value || username).trim(),
-      title: (titleInput.value || "").trim(),
-      avatarUrl: newAvatarUrl,
-      coverUrl: newCoverUrl
-    };
-
-    await setDoc(authorDocRef, currentProfile, { merge:true });
-    fillProfileForm();
-    alert("Profil kaydedildi ✅");
   });
+
 
   /* ---------- Yeni Gönderi ---------- */
   postForm.addEventListener("submit", async (e) => {
