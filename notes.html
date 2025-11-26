@@ -187,395 +187,306 @@
 <!-- Morpheradan Notlar sayfasına özel JS (FIRESTORE) -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
- import {
-  getFirestore,
-  collection,
-  addDoc,
-  getDocs,
-  doc,
-  updateDoc,
-  deleteDoc,
-  query,
-  orderBy,
-  serverTimestamp
-} from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
+  import {
+    getFirestore,
+    collection,
+    addDoc,
+    getDocs,
+    doc,
+    updateDoc,
+    deleteDoc,
+    query,
+    orderBy,
+    serverTimestamp
+  } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
 
-
-
-
-  // === BURAYA KENDİ FIREBASE CONFIG'İNİ YAPIŞTIR ===
   const firebaseConfig = {
-  apiKey: "AIzaSyCoLU3FES5QdNoD1WOHz9M7Z01U63hkn4U",
-  authDomain: "morpheranotes.firebaseapp.com",
-  projectId: "morpheranotes",
-  storageBucket: "morpheranotes.firebasestorage.app",
-  messagingSenderId: "756772520204",
-  appId: "1:756772520204:web:b686f9f69f860098a10929",
-  measurementId: "G-CLH7TE7TNP"
-};
+    apiKey: "AIzaSyCoLU3FES5QdNoD1WOHz9M7Z01U63hkn4U",
+    authDomain: "morpheranotes.firebaseapp.com",
+    projectId: "morpheranotes",
+    storageBucket: "morpheranotes.appspot.com",
+    messagingSenderId: "756772520204",
+    appId: "1:756772520204:web:b686f9f69f860098a10929",
+    measurementId: "G-CLH7TE7TNP"
+  };
 
   const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
-  const notesColRef = collection(db, "morpheraNotes"); // koleksiyon adı
-// === BEĞENİ EKLE ===
-    // === BEĞENİ / YORUM KAYDETME ===
-    async function addLike(noteId, userName) {
-      const likeRef = collection(db, "morpheraNotes", noteId, "likes");
-      await addDoc(likeRef, {
-        name: userName,
-        createdAt: serverTimestamp()
+  const db  = getFirestore(app);
+
+  const notesColRef = collection(db, "morpheraNotes");
+
+  // Basit kullanıcı verisi (login formundan)
+  const USERS = {
+    "bulutkeles": {
+      password: "Blt1995",
+      name: "Bulut Keleş",
+      role: "Co-Founder · Tech & Growth",
+      color: "linear-gradient(135deg,#6366f1,#8b5cf6)"
+    },
+    "busrakaraca": {
+      password: "Busra95",
+      name: "Büşra Karaca",
+      role: "Co-Founder · Creative & Ops",
+      color: "linear-gradient(135deg,#ec4899,#f97316)"
+    },
+    "eminekaraca": {
+      password: "Emine95",
+      name: "Emine Karaca",
+      role: "Community & Content",
+      color: "linear-gradient(135deg,#22c55e,#0ea5e9)"
+    }
+  };
+
+  const notesFeed   = document.getElementById("notesFeed");
+  const noteForm    = document.getElementById("noteForm");
+  const noteText    = document.getElementById("noteText");
+  const noteImage   = document.getElementById("noteImage");
+  const loginForm   = document.getElementById("loginForm");
+  const loginError  = document.getElementById("loginError");
+  const loginBox    = document.getElementById("loginBox");
+  const adminBadge  = document.getElementById("adminBadge");
+
+  let currentUser = null;
+
+  function escapeHtml(str) {
+    return String(str)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;");
+  }
+
+  // ---- Firebase Like / Comment helperları (Admin panelle ortak) ----
+  async function addLike(noteId, userName) {
+    const likeRef = collection(db, "morpheraNotes", noteId, "likes");
+    await addDoc(likeRef, { name: userName, createdAt: serverTimestamp() });
+    await renderNotes();
+  }
+
+  async function addComment(noteId, userName, commentText) {
+    const commentsRef = collection(db, "morpheraNotes", noteId, "comments");
+    await addDoc(commentsRef, {
+      name: userName,
+      comment: commentText,
+      createdAt: serverTimestamp()
+    });
+    await renderNotes();
+  }
+
+  async function loadNotes() {
+    const q = query(notesColRef, orderBy("createdAt", "desc"));
+    const snap = await getDocs(q);
+    const notes = [];
+
+    for (const docSnap of snap.docs) {
+      const data = docSnap.data();
+      const id   = docSnap.id;
+
+      const likesRef    = collection(db, "morpheraNotes", id, "likes");
+      const commentsRef = collection(db, "morpheraNotes", id, "comments");
+      const [likesSnap, commentsSnap] = await Promise.all([
+        getDocs(likesRef),
+        getDocs(commentsRef)
+      ]);
+
+      notes.push({
+        id,
+        ...data,
+        likeCount: likesSnap.size,
+        commentCount: commentsSnap.size
       });
     }
-
-
-
-// === YORUM EKLE ===
-// === YORUM EKLE (HEMEN EKRANA YANSIT) ===
-async function addComment(noteId, userName, commentText) {
-  const commentsRef = collection(db, "morpheraNotes", noteId, "comments");
-  await addDoc(commentsRef, {
-    name: userName,
-    comment: commentText,
-    createdAt: serverTimestamp()
-  });
-
-  // ilgili karttaki inputları temizle
-  const nameEl = document.getElementById(`commentName-${noteId}`);
-  const textEl = document.getElementById(`commentText-${noteId}`);
-  if (nameEl) nameEl.value = "";
-  if (textEl) textEl.value = "";
-
-  // tüm duvarı yeniden çiz → yorum anında düşsün
-  await renderNotes();
-}
-
-
-
-  document.addEventListener("DOMContentLoaded", () => {
-    // === Sabit kullanıcılar ===
-   const USERS = {
-  "bulutkeles": {
-    password: "Blt1995",   // Özel karakter yok, Türkçe harf yok
-    name: "Bulut Keleş",
-    role: "Co-Founder · Tech & Growth",
-    color: "var(--accent1)"
-  },
-  "busrakaraca": {
-    password: "Busra95",   // Ş yok
-    name: "Büşra Karaca",
-    role: "Co-Founder · Creative & Ops",
-    color: "var(--accent2)"
-  },
-  "eminekaraca": {
-    password: "Emine95",
-    name: "Emine Karaca",
-    role: "Community & Content",
-    color: "linear-gradient(135deg,#22c55e,#0ea5e9)"
-  }
-};
-
-
-    let currentUser = null;
-
-    const notesFeed   = document.getElementById("notesFeed");
-    const loginForm   = document.getElementById("loginForm");
-    const loginError  = document.getElementById("loginError");
-    const notesLogin  = document.getElementById("notesLogin");
-    const notesAdmin  = document.getElementById("notesAdmin");
-    const adminAvatar = document.getElementById("adminAvatar");
-    const adminHello  = document.getElementById("adminHello");
-    const adminRole   = document.getElementById("adminRole");
-    const noteForm    = document.getElementById("noteForm");
-    const noteText    = document.getElementById("noteText");
-    const noteImageUrl = document.getElementById("noteImageUrl");
-    const editingIdEl = document.getElementById("editingId");
-
-    function escapeHtml(str) {
-      return String(str)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;");
-    }
-
-    // === Firestore'dan notları çek ===
-       // === Firestore'dan notları çek (sadece veri hazırlasın) ===
-    async function loadNotes() {
-      // createdAt alanına göre tersten sırala
-      const q = query(notesColRef, orderBy("createdAt", "desc"));
-      const snap = await getDocs(q);
-
-      const notes = [];
-
-      for (const docSnap of snap.docs) {
-        const data = docSnap.data();
-        const id   = docSnap.id;
-
-        // alt koleksiyonlar: likes & comments
-        const likesRef    = collection(db, "morpheraNotes", id, "likes");
-        const commentsRef = collection(db, "morpheraNotes", id, "comments");
-
-        const [likesSnap, commentsSnap] = await Promise.all([
-          getDocs(likesRef),
-          getDocs(commentsRef)
-        ]);
-
-        notes.push({
-  id,
-  ...data,
-  avatarUrl: data.avatarUrl || "",
-  likeCount: likesSnap.size,
-  commentCount: commentsSnap.size
-});
-
-      }
-
-      return notes;
-    }
-
-function attachInteractionEvents() {
-
-  // BEĞENİ
-  document.querySelectorAll("[data-like]").forEach(btn => {
-    btn.addEventListener("click", () => {
-      const noteId = btn.dataset.like;
-      const name = prompt("Ad Soyad:");
-      if (name) addLike(noteId, name);
-    });
-  });
-
-  // YORUM GÖRÜNÜR/GİZLE
-  document.querySelectorAll("[data-toggle-comment]").forEach(btn => {
-    btn.addEventListener("click", () => {
-      const noteId = btn.dataset.toggleComment;
-      document.getElementById(`commentBox-${noteId}`).classList.toggle("hidden");
-    });
-  });
-
-  // YORUM GÖNDER
-  document.querySelectorAll("[data-send-comment]").forEach(btn => {
-    btn.addEventListener("click", () => {
-      const noteId = btn.dataset.sendComment;
-      const name = document.getElementById(`commentName-${noteId}`).value.trim();
-      const text = document.getElementById(`commentText-${noteId}`).value.trim();
-
-      if (!name || !text) return alert("Lütfen adınızı ve yorumunuzu yazın.");
-
-      addComment(noteId, name, text);
-    });
-  });
-
-}
-
-
-
-    // === Notları duvara çiz ===
-   // === Notları duvara çiz ===
-async function renderNotes() {
-  const notes = await loadNotes();
-
-  notesFeed.innerHTML = await Promise.all(notes.map(async (note) => {
-    
-    // --- Yorumları çek
-    const commentsRef = collection(db, "morpheraNotes", note.id, "comments");
-    const commentsSnap = await getDocs(commentsRef);
-
-    const commentsListHtml = commentsSnap.docs.map(c => {
-      const d = c.data();
-      return `
-        <div class="comment-item">
-          <strong>${escapeHtml(d.name)}</strong>
-          <p>${escapeHtml(d.comment)}</p>
-        </div>
-      `;
-    }).join("");
-
-    const isMine = currentUser && note.authorKey === currentUser.username;
-    const date = note.createdAt?.toDate?.() || new Date();
-    const ts = date.toLocaleString("tr-TR", {
-      day: "2-digit", month: "2-digit", year: "numeric",
-      hour: "2-digit", minute: "2-digit"
-    });
-
-    return `
-  <article class="note-card" data-id="${note.id}">
-    <header class="note-card__header">
-      <div class="note-card__avatar"
-           style="
-             ${note.avatarUrl 
-               ? `background-image:url('${note.avatarUrl}');background-size:cover;background-position:center;`
-               : `background:${note.avatarBg || 'var(--accent1)'}`
-             }
-           ">
-        ${note.avatarUrl ? "" : `<span>${initials}</span>`}
-      </div>
-
-          <div class="note-card__meta">
-            <div class="note-card__author">${note.authorName}</div>
-            <div class="note-card__role">${note.authorRole}</div>
-            <time class="note-card__time">${ts}</time>
-          </div>
-
-          ${isMine ? `
-            <div class="note-card__actions">
-              <button class="note-btn note-btn--ghost note-edit">Düzenle</button>
-              <button class="note-btn note-btn--danger note-delete">Sil</button>
-            </div>
-          ` : ""}
-        </header>
-
-        <div class="note-card__body">
-          <p>${escapeHtml(note.text || "").replace(/\n/g,"<br>")}</p>
-          ${note.imageUrl ? `
-            <figure class="note-card__figure">
-              <img src="${note.imageUrl}" loading="lazy"/>
-            </figure>` : ""}
-        </div>
-
-        <footer class="note-card__footer">
-          <button data-like="${note.id}" class="note-like-btn">❤️ Beğen (${note.likeCount})</button>
-
-          <button data-toggle-comment="${note.id}" class="note-comment-toggle">
-            💬 Yorum (${commentsSnap.size})
-          </button>
-
-          <div id="commentBox-${note.id}" class="comment-box hidden">
-            <input id="commentName-${note.id}" placeholder="Ad Soyad"/>
-            <textarea id="commentText-${note.id}" placeholder="Yorumun..."></textarea>
-            <button data-send-comment="${note.id}">Gönder</button>
-          </div>
-
-          <!-- ⬇⬇ YORUM LİSTESİ BURADA -->
-          <div id="commentList-${note.id}" class="comment-list">
-            ${commentsListHtml}
-          </div>
-
-        </footer>
-      </article>
-    `;
-  })).then(htmlArr => htmlArr.join(""));
-
-  attachInteractionEvents();
-}
-
-function appendCommentToUI(noteId, name, comment) {
-  const list = document.getElementById(`commentList-${noteId}`);
-  if (!list) return;
-
-  const html = `
-    <div class="comment-item new">
-      <strong>${escapeHtml(name)}</strong>
-      <p>${escapeHtml(comment)}</p>
-    </div>
-  `;
-
-  list.insertAdjacentHTML("beforeend", html);
-}
-
-
-    // === LOGIN ===
-    // === LOGIN ===
-// === LOGIN ===
-loginForm.addEventListener("submit", (e) => {
-  e.preventDefault();
-  const formData = new FormData(loginForm);
-  const username = String(formData.get("username") || "").trim();
-  const password = String(formData.get("password") || "");
-
-  const user = USERS[username];
-  if (!user || user.password !== password) {
-    loginError.textContent = "Kullanıcı adı veya şifre hatalı.";
-    return;
+    return notes;
   }
 
-  // bilgiyi localStorage'a yaz → admin.html buradan okuyacak
-  localStorage.setItem("morpheraAdminUser", username);
-
-  // not: buradan sonra bu sayfada panel açmıyoruz
-  window.location.href = "admin.html";
-});
-
-
-
-    // === NOT EKLE / GÜNCELLE ===
-    noteForm.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      if (!currentUser) return;
-
-      const text = noteText.value.trim();
-      const img  = noteImageUrl.value.trim();
-      if (!text) return;
-
-      const editingId = editingIdEl.value;
-
-      if (editingId) {
-        const ref = doc(db, "morpheraNotes", editingId);
-        await updateDoc(ref, {
-          text,
-          imageUrl: img || "",
-          updatedAt: Date.now()
-        });
-        editingIdEl.value = "";
-      } else {
-        const initials = currentUser.name
-          .split(" ")
-          .map(p => p.charAt(0))
-          .join("")
-          .slice(0,2)
-          .toUpperCase();
-
-        await addDoc(notesColRef, {
-          authorKey: currentUser.username,
-          authorName: currentUser.name,
-          authorRole: currentUser.role,
-          authorInitials: initials,
-          avatarBg: currentUser.color,
-          text,
-          imageUrl: img || "",
-          createdAt: serverTimestamp()
-        });
-      }
-
-      noteText.value = "";
-      noteImageUrl.value = "";
-      await renderNotes();
+  function attachInteractionEvents() {
+    document.querySelectorAll("[data-like]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const noteId = btn.dataset.like;
+        const name = prompt("Ad Soyad:");
+        if (name) addLike(noteId, name);
+      });
     });
 
-    // === DÜZENLE / SİL (sadece kendi notlarında) ===
-    notesFeed.addEventListener("click", async (e) => {
-      const target = e.target;
-      if (!target.classList) return;
+    document.querySelectorAll("[data-toggle-comment]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const noteId = btn.dataset.toggleComment;
+        document.getElementById(`commentBox-${noteId}`).classList.toggle("hidden");
+      });
+    });
 
-      const card = target.closest(".note-card");
-      if (!card) return;
-
-      const id = card.getAttribute("data-id");
-      if (!id) return;
-
-      const notes = await loadNotes();
-      const note = notes.find(n => n.id === id);
-      if (!note) return;
-      if (!currentUser || note.authorKey !== currentUser.username) return;
-
-      if (target.classList.contains("note-delete")) {
-        if (confirm("Bu notu silmek istediğine emin misin?")) {
-          const ref = doc(db, "morpheraNotes", id);
-          await deleteDoc(ref);
-          await renderNotes();
+    document.querySelectorAll("[data-send-comment]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const noteId = btn.dataset.sendComment;
+        const name = document.getElementById(`commentName-${noteId}`).value.trim();
+        const text = document.getElementById(`commentText-${noteId}`).value.trim();
+        if (!name || !text) {
+          alert("Lütfen adınızı ve yorumunuzu yazın.");
+          return;
         }
-      }
+        addComment(noteId, name, text);
+      });
+    });
+  }
 
-      if (target.classList.contains("note-edit")) {
-        noteText.value = note.text || "";
-        noteImageUrl.value = note.imageUrl || "";
-        editingIdEl.value = note.id;
-        noteText.focus();
-      }
+  async function renderNotes() {
+    const notes = await loadNotes();
+
+    notesFeed.innerHTML = await Promise
+      .all(notes.map(async (note) => {
+        const commentsRef = collection(db, "morpheraNotes", note.id, "comments");
+        const commentsSnap = await getDocs(commentsRef);
+
+        const commentsListHtml = commentsSnap.docs.map(c => {
+          const d = c.data();
+          return `
+            <div class="comment-item">
+              <strong>${escapeHtml(d.name || "")}</strong>
+              <p>${escapeHtml(d.comment || "")}</p>
+            </div>
+          `;
+        }).join("");
+
+        const authorName = note.authorName || "Morphera Ekibi";
+        const authorRole = note.authorRole || "";
+        const isMine     = currentUser && currentUser.username === note.authorKey;
+
+        const date = note.createdAt?.toDate?.() || new Date();
+        const ts = date.toLocaleString("tr-TR", {
+          day: "2-digit", month: "2-digit", year: "numeric",
+          hour: "2-digit", minute: "2-digit"
+        });
+
+        return `
+          <article class="note-card" data-id="${note.id}">
+            <header class="note-card__header">
+              <div class="note-card__avatar" style="${note.avatarUrl ? `background-image:url(${note.avatarUrl})` : `background:${note.avatarBg || "var(--accent1)"}`}">
+        ${note.avatarUrl ? "" : `<span>${(note.authorInitials || (note.authorName || '')
+          .split(' ')
+          .map(p => p.charAt(0))
+          .join('')
+          .slice(0,2)
+          .toUpperCase())}</span>`}
+              </div>
+              <div class="note-card__meta">
+                <div class="note-card__author">
+                  ${escapeHtml(authorName)}
+                  ${isMine ? '<span class="note-card__badge">Sen</span>' : ""}
+                </div>
+                <div class="note-card__role">${escapeHtml(authorRole)}</div>
+                <time class="note-card__time">${ts}</time>
+              </div>
+            </header>
+
+            <div class="note-card__body">
+              <p>${escapeHtml(note.text || "").replace(/\\n/g, "<br>")}</p>
+              ${note.imageUrl ? `
+                <figure class="note-card__figure">
+                  <img src="${note.imageUrl}" loading="lazy">
+                </figure>` : ""}
+            </div>
+
+            <footer class="note-card__footer">
+              <button class="note-like-btn" data-like="${note.id}">
+                ❤️ Beğen (${note.likeCount})
+              </button>
+
+              <button class="note-comment-toggle" data-toggle-comment="${note.id}">
+                💬 Yorum (${commentsSnap.size})
+              </button>
+
+              <div id="commentBox-${note.id}" class="comment-box hidden">
+                <input id="commentName-${note.id}" placeholder="Ad Soyad">
+                <textarea id="commentText-${note.id}" placeholder="Yorumun..."></textarea>
+                <button data-send-comment="${note.id}">Gönder</button>
+              </div>
+
+              <div id="commentList-${note.id}" class="comment-list">
+                ${commentsListHtml}
+              </div>
+            </footer>
+          </article>
+        `;
+      }))
+      .then(htmlArr => htmlArr.join(""));
+
+    attachInteractionEvents();
+  }
+
+  // ---- Login ----
+  loginForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const formData = new FormData(loginForm);
+    const username = String(formData.get("username") || "").trim();
+    const password = String(formData.get("password") || "");
+
+    const user = USERS[username];
+    if (!user || user.password !== password) {
+      loginError.textContent = "Kullanıcı adı veya şifre hatalı.";
+      return;
+    }
+
+    currentUser = { ...user, username };
+    loginBox.classList.add("hidden");
+    noteForm.classList.remove("hidden");
+    adminBadge.textContent = `${currentUser.name} olarak giriş yapıldı`;
+
+    localStorage.setItem("morpheraAdminUser", username);
+  });
+
+  // ---- Yeni Not Ekle ----
+  noteForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    if (!currentUser) {
+      alert("Lütfen önce giriş yap.");
+      return;
+    }
+
+    const text = noteText.value.trim();
+    const img  = noteImage.value.trim();
+    if (!text) return;
+
+    const initials = currentUser.name
+      .split(" ")
+      .map(p => p.charAt(0))
+      .join("")
+      .slice(0,2)
+      .toUpperCase();
+
+    await addDoc(notesColRef, {
+      authorKey: currentUser.username,
+      authorName: currentUser.name,
+      authorRole: currentUser.role,
+      authorInitials: initials,
+      avatarBg: currentUser.color,
+      // admin panelinden gelen notlarda avatarUrl alanı olacak,
+      // burada URL girmiyorsan boş bırakıyoruz
+      avatarUrl: "",
+      text,
+      imageUrl: img || "",
+      createdAt: serverTimestamp()
     });
 
-    // Sayfa açılınca herkese notları göster (kimse login olmasa bile)
+    noteText.value = "";
+    noteImage.value = "";
+
+    await renderNotes();
+  });
+
+  // ---- İlk yükleme ----
+  window.addEventListener("DOMContentLoaded", () => {
+    const savedUser = localStorage.getItem("morpheraAdminUser");
+    if (savedUser && USERS[savedUser]) {
+      const u = USERS[savedUser];
+      currentUser = { ...u, username: savedUser };
+      loginBox.classList.add("hidden");
+      noteForm.classList.remove("hidden");
+      adminBadge.textContent = `${currentUser.name} olarak giriş yapıldı`;
+    }
+
     renderNotes();
   });
 </script>
+
 
 
 
