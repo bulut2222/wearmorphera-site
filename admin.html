@@ -421,6 +421,7 @@
     </section>
 
     <!-- PROFİL -->
+       <!-- PROFİL -->
     <section class="panel" id="profilePanel">
       <div class="panel-header">
         <div class="panel-title">
@@ -443,13 +444,13 @@
           </div>
 
           <div class="field-group">
-            <label class="field-label">Profil Fotoğrafı URL</label>
-            <input id="profileAvatarUrl" type="text" placeholder="https://... .webp / .jpg">
+            <label class="field-label">Profil Fotoğrafı (dosya yükle)</label>
+            <input id="profileAvatarFile" type="file" accept="image/*">
           </div>
 
           <div class="field-group">
-            <label class="field-label">Kapak Fotoğrafı URL</label>
-            <input id="profileCoverUrl" type="text" placeholder="https://... .webp / .jpg">
+            <label class="field-label">Kapak Fotoğrafı (dosya yükle)</label>
+            <input id="profileCoverFile" type="file" accept="image/*">
           </div>
 
           <button class="btn-primary" type="submit">Profili Kaydet</button>
@@ -467,6 +468,7 @@
         </aside>
       </div>
     </section>
+
 
     <!-- YENİ GÖNDERİ -->
     <section class="panel" id="newPostPanel">
@@ -508,6 +510,8 @@
 </main>
 
 <!-- FIREBASE + PANEL JS -->
+<!-- FIREBASE + ADMIN PANEL JS -->
+<!-- FIREBASE + ADMIN PANEL JS -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
   import {
@@ -515,15 +519,15 @@
     collection,
     doc,
     getDoc,
-    getDocs,
     setDoc,
     addDoc,
+    getDocs,
     query,
     orderBy,
     serverTimestamp
   } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
 
-  // --- Tema toggle ---
+  // ---- Tema Toggle ----
   const savedTheme = localStorage.getItem("morpheraAdminTheme") || "dark";
   document.documentElement.setAttribute("data-theme", savedTheme);
 
@@ -537,7 +541,7 @@
     });
   }
 
-  // --- Panel switch ---
+  // ---- Panel Değiştirme ----
   const panels = document.querySelectorAll(".panel");
   const menuItems = document.querySelectorAll(".menu-item");
 
@@ -548,12 +552,12 @@
     });
   };
 
-  // --- Firebase Config ---
+  // ---- Firebase ----
   const firebaseConfig = {
     apiKey: "AIzaSyCoLU3FES5QdNoD1WOHz9M7Z01U63hkn4U",
     authDomain: "morpheranotes.firebaseapp.com",
     projectId: "morpheranotes",
-    storageBucket: "morpheranotes.firebasestorage.app",
+    storageBucket: "morpheranotes.appspot.com",
     messagingSenderId: "756772520204",
     appId: "1:756772520204:web:b686f9f69f860098a10929",
     measurementId: "G-CLH7TE7TNP"
@@ -565,7 +569,7 @@
   const notesColRef   = collection(db, "morpheraNotes");
   const authorsColRef = collection(db, "noteAuthors");
 
-  // --- Giriş yapan admin (notes.html'den) ---
+  // ---- Giriş yapan admin bilgisi ----
   const username = localStorage.getItem("morpheraAdminUser");
   if (!username) {
     window.location.href = "notes.html";
@@ -573,11 +577,11 @@
 
   const authorDocRef = doc(authorsColRef, username);
 
-  // --- DOM referansları ---
+  // ---- DOM Referansları ----
   const displayNameInput = document.getElementById("profileDisplayName");
   const titleInput       = document.getElementById("profileTitle");
-  const avatarUrlInput   = document.getElementById("profileAvatarUrl");
-  const coverUrlInput    = document.getElementById("profileCoverUrl");
+  const avatarFileInput  = document.getElementById("profileAvatarFile");
+  const coverFileInput   = document.getElementById("profileCoverFile");
 
   const avatarPreview    = document.getElementById("profileAvatarPreview");
   const coverPreview     = document.getElementById("profileCoverPreview");
@@ -615,8 +619,6 @@
 
     displayNameInput.value = currentProfile.displayName || "";
     titleInput.value       = currentProfile.title || "";
-    avatarUrlInput.value   = currentProfile.avatarUrl || "";
-    coverUrlInput.value    = currentProfile.coverUrl || "";
 
     const initials = (currentProfile.displayName || username)
       .split(" ")
@@ -654,21 +656,52 @@
     fillProfileForm();
   }
 
+  // Seçilen dosyayı base64 Data URL'e çevir (Firestore'da string olarak tutacağız)
+  function fileToDataUrl(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload  = () => resolve(reader.result);
+      reader.onerror = () => reject(reader.error);
+      reader.readAsDataURL(file);
+    });
+  }
+
+  // ---- Profil Kaydet ----
   profileForm.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    currentProfile = {
-      displayName: (displayNameInput.value || username).trim(),
-      title: (titleInput.value || "").trim(),
-      avatarUrl: (avatarUrlInput.value || "").trim(),
-      coverUrl: (coverUrlInput.value || "").trim()
-    };
+    try {
+      if (!currentProfile) {
+        await loadProfile();
+      }
 
-    await setDoc(authorDocRef, currentProfile, { merge:true });
-    fillProfileForm();
-    alert("Profil kaydedildi ✅");
+      let avatarUrl = currentProfile.avatarUrl || "";
+      let coverUrl  = currentProfile.coverUrl  || "";
+
+      if (avatarFileInput.files[0]) {
+        avatarUrl = await fileToDataUrl(avatarFileInput.files[0]);
+      }
+      if (coverFileInput.files[0]) {
+        coverUrl = await fileToDataUrl(coverFileInput.files[0]);
+      }
+
+      currentProfile = {
+        displayName: (displayNameInput.value || username).trim(),
+        title: (titleInput.value || "").trim(),
+        avatarUrl,
+        coverUrl
+      };
+
+      await setDoc(authorDocRef, currentProfile, { merge:true });
+      fillProfileForm();
+      alert("Profil kaydedildi ✅");
+    } catch (err) {
+      console.error("Profil kaydedilirken hata:", err);
+      alert("Profil kaydedilirken bir hata oluştu. Konsolu kontrol et.");
+    }
   });
 
+  // ---- Yeni Gönderi ----
   postForm.addEventListener("submit", async (e) => {
     e.preventDefault();
     const text  = postTextInput.value.trim();
@@ -703,6 +736,7 @@
     alert("Gönderi paylaşıldı ✅");
   });
 
+  // ---- Gönderiler (sadece o admin) ----
   async function loadAdminPosts() {
     const q = query(notesColRef, orderBy("createdAt","desc"));
     const snap = await getDocs(q);
@@ -724,7 +758,7 @@
             <span>${ts}</span>
             <span>❤️ ${data.likeCount || 0} · 💬 ${data.commentCount || 0}</span>
           </div>
-          <div class="admin-post-text">${(data.text || "").replace(/\n/g,"<br>")}</div>
+          <div class="admin-post-text">${(data.text || "").replace(/\\n/g,"<br>")}</div>
         </article>
       `);
     });
@@ -732,6 +766,7 @@
     postList.innerHTML = list.join("") || "<p>Henüz bir gönderin yok.</p>";
   }
 
+  // ---- Analytics ----
   async function loadAnalytics() {
     const snap = await getDocs(notesColRef);
     const notes = snap.docs;
@@ -755,12 +790,17 @@
     statCommentsEl.textContent = totalComments;
   }
 
+  // ---- İlk yükleme ----
   window.addEventListener("DOMContentLoaded", async () => {
     await loadProfile();
     await loadAdminPosts();
     await loadAnalytics();
   });
 </script>
+
+
+
+
 
 </body>
 </html>
