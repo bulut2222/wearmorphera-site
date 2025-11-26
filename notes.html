@@ -240,11 +240,12 @@
   const notesFeed   = document.getElementById("notesFeed");
   const noteForm    = document.getElementById("noteForm");
   const noteText    = document.getElementById("noteText");
-  const noteImage   = document.getElementById("noteImage");
+  const noteImage  = document.getElementById("noteImageUrl");
   const loginForm   = document.getElementById("loginForm");
   const loginError  = document.getElementById("loginError");
-  const loginBox    = document.getElementById("loginBox");
-  const adminBadge  = document.getElementById("adminBadge");
+  const loginBox   = document.getElementById("notesLogin");
+  const adminBadge = document.getElementById("adminHello");
+
 
   let currentUser = null;
 
@@ -474,14 +475,31 @@
 
   // ---- İlk yükleme ----
   window.addEventListener("DOMContentLoaded", () => {
-    const savedUser = localStorage.getItem("morpheraAdminUser");
-    if (savedUser && USERS[savedUser]) {
-      const u = USERS[savedUser];
-      currentUser = { ...u, username: savedUser };
-      loginBox.classList.add("hidden");
-      noteForm.classList.remove("hidden");
-      adminBadge.textContent = `${currentUser.name} olarak giriş yapıldı`;
-    }
+    currentUser = { ...user, username };
+localStorage.setItem("morpheraAdminUser", username);
+
+if (loginBox) loginBox.classList.add("hidden");
+if (noteForm) noteForm.classList.remove("hidden");
+
+// Admin kartını göster
+const notesAdmin = document.getElementById("notesAdmin");
+const adminAvatar = document.getElementById("adminAvatar");
+const adminRole   = document.getElementById("adminRole");
+
+if (notesAdmin) notesAdmin.classList.remove("hidden");
+if (adminBadge) adminBadge.textContent = `${currentUser.name} olarak giriş yapıldı`;
+if (adminRole) adminRole.textContent = currentUser.role || "Morphera Admin";
+
+// Avatar baş harfleri
+if (adminAvatar) {
+  const initials = (currentUser.name || username)
+    .split(" ")
+    .map(p => p.charAt(0))
+    .join("")
+    .slice(0,2)
+    .toUpperCase();
+  adminAvatar.textContent = initials;
+}
 
     renderNotes();
   });
