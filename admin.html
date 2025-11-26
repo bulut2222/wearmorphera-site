@@ -508,21 +508,49 @@
 </main>
 
 <!-- FIREBASE + PANEL JS -->
+<!-- FIREBASE + ADMIN PANEL JS -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
   import {
     getFirestore,
     collection,
+    doc,
+    getDoc,
+    setDoc,
     addDoc,
     getDocs,
-    doc,
-    updateDoc,
-    deleteDoc,
     query,
     orderBy,
     serverTimestamp
   } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
 
+  /* ---------- Tema Toggle ---------- */
+  const savedTheme = localStorage.getItem("morpheraAdminTheme") || "dark";
+  document.documentElement.setAttribute("data-theme", savedTheme);
+
+  const themeBtn = document.getElementById("themeToggle");
+  if (themeBtn) {
+    themeBtn.addEventListener("click", () => {
+      const current = document.documentElement.getAttribute("data-theme") || "dark";
+      const next = current === "dark" ? "light" : "dark";
+      document.documentElement.setAttribute("data-theme", next);
+      localStorage.setItem("morpheraAdminTheme", next);
+    });
+  }
+
+  /* ---------- Panel Değiştirme ---------- */
+  const panels = document.querySelectorAll(".panel");
+  const menuItems = document.querySelectorAll(".menu-item");
+
+  // HTML'deki onclick="showPanel('profilePanel')" bunu çağırıyor
+  window.showPanel = function(panelId) {
+    panels.forEach(p => p.classList.toggle("active", p.id === panelId));
+    menuItems.forEach(item => {
+      item.classList.toggle("active", item.dataset.panel === panelId);
+    });
+  };
+
+  /* ---------- Firebase ---------- */
   const firebaseConfig = {
     apiKey: "AIzaSyCoLU3FES5QdNoD1WOHz9M7Z01U63hkn4U",
     authDomain: "morpheranotes.firebaseapp.com",
@@ -535,195 +563,213 @@
 
   const app = initializeApp(firebaseConfig);
   const db  = getFirestore(app);
-  const notesColRef = collection(db,"morpheraNotes");
 
-  // ---- LIKE / COMMENT ----
-  async function addLike(noteId, userName) {
-    const likeRef = collection(db,"morpheraNotes",noteId,"likes");
-    await addDoc(likeRef,{ name:userName, createdAt:serverTimestamp() });
-    renderNotes();
+  const notesColRef   = collection(db, "morpheraNotes");
+  const authorsColRef = collection(db, "noteAuthors");
+
+  /* ---------- Giriş yapan admin bilgisi ---------- */
+  const username = localStorage.getItem("morpheraAdminUser");
+  if (!username) {
+    // notes.html'den gelinmemişse geri gönder
+    window.location.href = "notes.html";
   }
 
-  async function addComment(noteId,userName,commentText) {
-    const commentsRef = collection(db,"morpheraNotes",noteId,"comments");
-    await addDoc(commentsRef,{
-      name:userName,
-      comment:commentText,
-      createdAt:serverTimestamp()
-    });
-    await renderNotes();
+  const authorDocRef = doc(authorsColRef, username);
+
+  /* ---------- DOM referansları ---------- */
+  const displayNameInput = document.getElementById("profileDisplayName");
+  const titleInput       = document.getElementById("profileTitle");
+  const avatarUrlInput   = document.getElementById("profileAvatarUrl");
+  const coverUrlInput    = document.getElementById("profileCoverUrl");
+
+  const avatarPreview    = document.getElementById("profileAvatarPreview");
+  const coverPreview     = document.getElementById("profileCoverPreview");
+  const previewName      = document.getElementById("previewName");
+  const previewTitle     = document.getElementById("previewTitle");
+
+  const profileForm      = document.getElementById("profileForm");
+
+  const postForm         = document.getElementById("postForm");
+  const postTextInput    = document.getElementById("postText");
+  const postImageInput   = document.getElementById("postImageUrl");
+  const postList         = document.getElementById("postList");
+
+  const statPostsEl      = document.getElementById("statPosts");
+  const statLikesEl      = document.getElementById("statLikes");
+  const statCommentsEl   = document.getElementById("statComments");
+
+  let currentProfile = null;
+
+  function defaultProfile(username) {
+    if (username === "bulutkeles") {
+      return { displayName: "Bulut Keleş", title: "Co-Founder · Tech & Growth", avatarUrl: "", coverUrl: "" };
+    }
+    if (username === "busrakaraca") {
+      return { displayName: "Büşra Karaca", title: "Co-Founder · Creative & Ops", avatarUrl: "", coverUrl: "" };
+    }
+    if (username === "eminekaraca") {
+      return { displayName: "Emine Karaca", title: "Community & Content", avatarUrl: "", coverUrl: "" };
+    }
+    return { displayName: username, title: "", avatarUrl: "", coverUrl: "" };
   }
 
-  document.addEventListener("DOMContentLoaded", () => {
-    const notesFeed  = document.getElementById("notesFeed");
-    const loginForm  = document.getElementById("loginForm");
-    const loginError = document.getElementById("loginError");
+  function fillProfileForm() {
+    if (!currentProfile) return;
 
-    function escapeHtml(str){
-      return String(str)
-        .replace(/&/g,"&amp;")
-        .replace(/</g,"&lt;")
-        .replace(/>/g,"&gt;");
+    displayNameInput.value = currentProfile.displayName || "";
+    titleInput.value       = currentProfile.title || "";
+    avatarUrlInput.value   = currentProfile.avatarUrl || "";
+    coverUrlInput.value    = currentProfile.coverUrl || "";
+
+    const initials = (currentProfile.displayName || username)
+      .split(" ")
+      .map(p => p.charAt(0))
+      .join("")
+      .slice(0,2)
+      .toUpperCase();
+
+    if (currentProfile.coverUrl) {
+      coverPreview.style.backgroundImage = `url(${currentProfile.coverUrl})`;
+    } else {
+      coverPreview.style.backgroundImage = "linear-gradient(135deg,#6366f1,#8b5cf6,#ec4899)";
     }
 
-    async function loadNotes(){
-      const q = query(notesColRef,orderBy("createdAt","desc"));
-      const snap = await getDocs(q);
-      const notes = [];
-
-      for (const docSnap of snap.docs){
-        const data = docSnap.data();
-        const id   = docSnap.id;
-
-        const likesRef    = collection(db,"morpheraNotes",id,"likes");
-        const commentsRef = collection(db,"morpheraNotes",id,"comments");
-        const [likesSnap,commentsSnap] = await Promise.all([
-          getDocs(likesRef),
-          getDocs(commentsRef)
-        ]);
-
-        notes.push({
-          id,
-          ...data,
-          likeCount: likesSnap.size,
-          commentCount: commentsSnap.size
-        });
-      }
-      return notes;
+    if (currentProfile.avatarUrl) {
+      avatarPreview.style.backgroundImage = `url(${currentProfile.avatarUrl})`;
+      avatarPreview.textContent = "";
+    } else {
+      avatarPreview.style.backgroundImage = "none";
+      avatarPreview.textContent = initials;
     }
 
-    function attachInteractionEvents(){
-      document.querySelectorAll("[data-like]").forEach(btn=>{
-        btn.addEventListener("click",()=>{
-          const noteId = btn.dataset.like;
-          const name = prompt("Ad Soyad:");
-          if (name) addLike(noteId,name);
-        });
-      });
+    previewName.textContent  = currentProfile.displayName || username;
+    previewTitle.textContent = currentProfile.title || "Morphera Admin";
+  }
 
-      document.querySelectorAll("[data-toggle-comment]").forEach(btn=>{
-        btn.addEventListener("click",()=>{
-          const noteId = btn.dataset.toggleComment;
-          document.getElementById(`commentBox-${noteId}`).classList.toggle("hidden");
-        });
-      });
-
-      document.querySelectorAll("[data-send-comment]").forEach(btn=>{
-        btn.addEventListener("click",()=>{
-          const noteId = btn.dataset.sendComment;
-          const name = document.getElementById(`commentName-${noteId}`).value.trim();
-          const text = document.getElementById(`commentText-${noteId}`).value.trim();
-          if (!name || !text) return alert("Lütfen adınızı ve yorumunuzu yazın.");
-          addComment(noteId,name,text);
-        });
-      });
+  async function loadProfile() {
+    const snap = await getDoc(authorDocRef);
+    if (snap.exists()) {
+      currentProfile = snap.data();
+    } else {
+      currentProfile = defaultProfile(username);
+      await setDoc(authorDocRef, currentProfile, { merge:true });
     }
+    fillProfileForm();
+  }
 
-    async function renderNotes(){
-      const notes = await loadNotes();
+  /* ---------- Profil Kaydet ---------- */
+  profileForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
 
-      notesFeed.innerHTML = await Promise
-        .all(notes.map(async (note)=>{
-          const commentsRef = collection(db,"morpheraNotes",note.id,"comments");
-          const commentsSnap = await getDocs(commentsRef);
+    currentProfile = {
+      displayName: (displayNameInput.value || username).trim(),
+      title: (titleInput.value || "").trim(),
+      avatarUrl: (avatarUrlInput.value || "").trim(),
+      coverUrl: (coverUrlInput.value || "").trim()
+    };
 
-          const commentsListHtml = commentsSnap.docs.map(c=>{
-            const d = c.data();
-            return `
-              <div class="comment-item">
-                <strong>${escapeHtml(d.name || "")}</strong>
-                <p>${escapeHtml(d.comment || "")}</p>
-              </div>
-            `;
-          }).join("");
+    await setDoc(authorDocRef, currentProfile, { merge:true });
+    fillProfileForm();
+    alert("Profil kaydedildi ✅");
+  });
 
-          // undefined önleme
-          const authorName  = note.authorName  || "Morphera Ekibi";
-          const authorRole  = note.authorRole  || "";
-          const initials    = (note.authorInitials ||
-            authorName.split(" ").map(p=>p.charAt(0)).join("").slice(0,2).toUpperCase());
-          const avatarBg    = note.avatarBg || "var(--accent1)";
+  /* ---------- Yeni Gönderi ---------- */
+  postForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const text  = postTextInput.value.trim();
+    const image = postImageInput.value.trim();
+    if (!text) return;
 
-          const date = note.createdAt?.toDate?.() || new Date();
-          const ts = date.toLocaleString("tr-TR",{
-            day:"2-digit",month:"2-digit",year:"numeric",
-            hour:"2-digit",minute:"2-digit"
-          });
+    if (!currentProfile) { await loadProfile(); }
 
-          return `
-            <article class="note-card" data-id="${note.id}">
-              <header class="note-card__header">
-                <div class="note-card__avatar" style="background:${avatarBg}">
-                  <span>${initials}</span>
-                </div>
-                <div class="note-card__meta">
-                  <div class="note-card__author">${escapeHtml(authorName)}</div>
-                  <div class="note-card__role">${escapeHtml(authorRole)}</div>
-                  <time class="note-card__time">${ts}</time>
-                </div>
-              </header>
+    const initials = (currentProfile.displayName || username)
+      .split(" ")
+      .map(p => p.charAt(0))
+      .join("")
+      .slice(0,2)
+      .toUpperCase();
 
-              <div class="note-card__body">
-                <p>${escapeHtml(note.text || "").replace(/\n/g,"<br>")}</p>
-                ${note.imageUrl ? `
-                  <figure class="note-card__figure">
-                    <img src="${note.imageUrl}" loading="lazy">
-                  </figure>` : ""}
-              </div>
-
-              <footer class="note-card__footer">
-                <button class="note-like-btn" data-like="${note.id}">
-                  ❤️ Beğen (${note.likeCount})
-                </button>
-
-                <button class="note-comment-toggle" data-toggle-comment="${note.id}">
-                  💬 Yorum (${commentsSnap.size})
-                </button>
-
-                <div id="commentBox-${note.id}" class="comment-box hidden">
-                  <input id="commentName-${note.id}" placeholder="Ad Soyad">
-                  <textarea id="commentText-${note.id}" placeholder="Yorumun..."></textarea>
-                  <button data-send-comment="${note.id}">Gönder</button>
-                </div>
-
-                <div id="commentList-${note.id}" class="comment-list">
-                  ${commentsListHtml}
-                </div>
-              </footer>
-            </article>
-          `;
-        }))
-        .then(htmlArr => htmlArr.join(""));
-
-      attachInteractionEvents();
-    }
-
-    // ---- LOGIN → admin.html’e git ----
-    loginForm.addEventListener("submit",(e)=>{
-      e.preventDefault();
-      const formData = new FormData(loginForm);
-      const username = String(formData.get("username") || "").trim();
-      const password = String(formData.get("password") || "");
-
-      const USERS = {
-        "bulutkeles": { password:"Blt1995" },
-        "busrakaraca": { password:"Busra95" },
-        "eminekaraca": { password:"Emine95" }
-      };
-
-      const user = USERS[username];
-      if (!user || user.password !== password){
-        loginError.textContent = "Kullanıcı adı veya şifre hatalı.";
-        return;
-      }
-
-      localStorage.setItem("morpheraAdminUser",username);
-      window.location.href = "admin.html";
+    await addDoc(notesColRef, {
+      authorKey: username,
+      authorName: currentProfile.displayName || username,
+      authorRole: currentProfile.title || "",
+      authorInitials: initials,
+      avatarBg: "var(--accent1)",
+      avatarUrl: currentProfile.avatarUrl || "",
+      text,
+      imageUrl: image || "",
+      createdAt: serverTimestamp()
     });
 
-    renderNotes();
+    postTextInput.value  = "";
+    postImageInput.value = "";
+
+    await Promise.all([loadAdminPosts(), loadAnalytics()]);
+    alert("Gönderi paylaşıldı ✅");
+  });
+
+  /* ---------- Gönderiler (sadece o admin) ---------- */
+  async function loadAdminPosts() {
+    const q = query(notesColRef, orderBy("createdAt","desc"));
+    const snap = await getDocs(q);
+
+    const list = [];
+    snap.forEach(docSnap => {
+      const data = docSnap.data();
+      if (data.authorKey !== username) return;
+
+      const date = data.createdAt?.toDate?.() || new Date();
+      const ts = date.toLocaleString("tr-TR", {
+        day:"2-digit", month:"2-digit", year:"numeric",
+        hour:"2-digit", minute:"2-digit"
+      });
+
+      list.push(`
+        <article class="admin-post-card">
+          <div class="admin-post-meta">
+            <span>${ts}</span>
+            <span>❤️ ${data.likeCount || 0} · 💬 ${data.commentCount || 0}</span>
+          </div>
+          <div class="admin-post-text">${(data.text || "").replace(/\n/g,"<br>")}</div>
+        </article>
+      `);
+    });
+
+    postList.innerHTML = list.join("") || "<p>Henüz bir gönderin yok.</p>";
+  }
+
+  /* ---------- Analytics ---------- */
+  async function loadAnalytics() {
+    const snap = await getDocs(notesColRef);
+    const notes = snap.docs;
+
+    let totalPosts = notes.length;
+    let totalLikes = 0;
+    let totalComments = 0;
+
+    await Promise.all(
+      notes.map(async (docSnap) => {
+        const id = docSnap.id;
+        const likesSnap = await getDocs(collection(db,"morpheraNotes",id,"likes"));
+        const commentsSnap = await getDocs(collection(db,"morpheraNotes",id,"comments"));
+        totalLikes    += likesSnap.size;
+        totalComments += commentsSnap.size;
+      })
+    );
+
+    statPostsEl.textContent    = totalPosts;
+    statLikesEl.textContent    = totalLikes;
+    statCommentsEl.textContent = totalComments;
+  }
+
+  /* ---------- İlk yükleme ---------- */
+  window.addEventListener("DOMContentLoaded", async () => {
+    await loadProfile();
+    await loadAdminPosts();
+    await loadAnalytics();
   });
 </script>
+
 
 
 </body>
