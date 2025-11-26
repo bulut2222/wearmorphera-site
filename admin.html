@@ -421,7 +421,6 @@
     </section>
 
     <!-- PROFİL -->
-       <!-- PROFİL -->
     <section class="panel" id="profilePanel">
       <div class="panel-header">
         <div class="panel-title">
@@ -444,13 +443,13 @@
           </div>
 
           <div class="field-group">
-            <label class="field-label">Profil Fotoğrafı (dosya yükle)</label>
-            <input id="profileAvatarFile" type="file" accept="image/*">
+            <label class="field-label">Profil Fotoğrafı URL</label>
+            <input id="profileAvatarUrl" type="text" placeholder="https://... .webp / .jpg">
           </div>
 
           <div class="field-group">
-            <label class="field-label">Kapak Fotoğrafı (dosya yükle)</label>
-            <input id="profileCoverFile" type="file" accept="image/*">
+            <label class="field-label">Kapak Fotoğrafı URL</label>
+            <input id="profileCoverUrl" type="text" placeholder="https://... .webp / .jpg">
           </div>
 
           <button class="btn-primary" type="submit">Profili Kaydet</button>
@@ -468,7 +467,6 @@
         </aside>
       </div>
     </section>
-
 
     <!-- YENİ GÖNDERİ -->
     <section class="panel" id="newPostPanel">
@@ -510,7 +508,6 @@
 </main>
 
 <!-- FIREBASE + PANEL JS -->
-<!-- FIREBASE + ADMIN PANEL JS -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
   import {
@@ -518,22 +515,15 @@
     collection,
     doc,
     getDoc,
+    getDocs,
     setDoc,
     addDoc,
-    getDocs,
     query,
     orderBy,
     serverTimestamp
   } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
 
-  import {
-    getStorage,
-    ref,
-    uploadBytes,
-    getDownloadURL
-  } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-storage.js";
-
-  /* ---------- Tema Toggle ---------- */
+  // --- Tema toggle ---
   const savedTheme = localStorage.getItem("morpheraAdminTheme") || "dark";
   document.documentElement.setAttribute("data-theme", savedTheme);
 
@@ -547,7 +537,7 @@
     });
   }
 
-  /* ---------- Panel Değiştirme ---------- */
+  // --- Panel switch ---
   const panels = document.querySelectorAll(".panel");
   const menuItems = document.querySelectorAll(".menu-item");
 
@@ -558,25 +548,24 @@
     });
   };
 
-  /* ---------- Firebase ---------- */
+  // --- Firebase Config ---
   const firebaseConfig = {
-  apiKey: "AIzaSyCoLU3FES5QdNoD1WOHz9M7Z01U63hkn4U",
-  authDomain: "morpheranotes.firebaseapp.com",
-  projectId: "morpheranotes",
-  storageBucket: "morpheranotes.appspot.com",   // ✅ DOĞRUSU BU
-  messagingSenderId: "756772520204",
-  appId: "1:756772520204:web:b686f9f69f860098a10929",
-  measurementId: "G-CLH7TE7TNP"
-};
+    apiKey: "AIzaSyCoLU3FES5QdNoD1WOHz9M7Z01U63hkn4U",
+    authDomain: "morpheranotes.firebaseapp.com",
+    projectId: "morpheranotes",
+    storageBucket: "morpheranotes.firebasestorage.app",
+    messagingSenderId: "756772520204",
+    appId: "1:756772520204:web:b686f9f69f860098a10929",
+    measurementId: "G-CLH7TE7TNP"
+  };
 
   const app = initializeApp(firebaseConfig);
   const db  = getFirestore(app);
-  const storage = getStorage(app);
 
   const notesColRef   = collection(db, "morpheraNotes");
   const authorsColRef = collection(db, "noteAuthors");
 
-  /* ---------- Giriş yapan admin bilgisi ---------- */
+  // --- Giriş yapan admin (notes.html'den) ---
   const username = localStorage.getItem("morpheraAdminUser");
   if (!username) {
     window.location.href = "notes.html";
@@ -584,11 +573,11 @@
 
   const authorDocRef = doc(authorsColRef, username);
 
-  /* ---------- DOM referansları ---------- */
+  // --- DOM referansları ---
   const displayNameInput = document.getElementById("profileDisplayName");
   const titleInput       = document.getElementById("profileTitle");
-  const avatarFileInput  = document.getElementById("profileAvatarFile");
-  const coverFileInput   = document.getElementById("profileCoverFile");
+  const avatarUrlInput   = document.getElementById("profileAvatarUrl");
+  const coverUrlInput    = document.getElementById("profileCoverUrl");
 
   const avatarPreview    = document.getElementById("profileAvatarPreview");
   const coverPreview     = document.getElementById("profileCoverPreview");
@@ -626,6 +615,8 @@
 
     displayNameInput.value = currentProfile.displayName || "";
     titleInput.value       = currentProfile.title || "";
+    avatarUrlInput.value   = currentProfile.avatarUrl || "";
+    coverUrlInput.value    = currentProfile.coverUrl || "";
 
     const initials = (currentProfile.displayName || username)
       .split(" ")
@@ -663,55 +654,21 @@
     fillProfileForm();
   }
 
-  // Seçilen dosyayı Storage’a yükleyip URL dönen helper
-  async function uploadIfSelected(fileInput, path, existingUrl) {
-    const file = fileInput.files[0];
-    if (!file) return existingUrl || "";
-    const r = ref(storage, path);
-    await uploadBytes(r, file);
-    return await getDownloadURL(r);
-  }
-
-  /* ---------- Profil Kaydet ---------- */
-   /* ---------- Profil Kaydet ---------- */
   profileForm.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    try {
-      if (!currentProfile) {
-        await loadProfile();
-      }
+    currentProfile = {
+      displayName: (displayNameInput.value || username).trim(),
+      title: (titleInput.value || "").trim(),
+      avatarUrl: (avatarUrlInput.value || "").trim(),
+      coverUrl: (coverUrlInput.value || "").trim()
+    };
 
-      const newAvatarUrl = await uploadIfSelected(
-        avatarFileInput,
-        `authors/${username}/avatar_${Date.now()}`,
-        currentProfile.avatarUrl
-      );
-
-      const newCoverUrl = await uploadIfSelected(
-        coverFileInput,
-        `authors/${username}/cover_${Date.now()}`,
-        currentProfile.coverUrl
-      );
-
-      currentProfile = {
-        displayName: (displayNameInput.value || username).trim(),
-        title: (titleInput.value || "").trim(),
-        avatarUrl: newAvatarUrl,
-        coverUrl: newCoverUrl
-      };
-
-      await setDoc(authorDocRef, currentProfile, { merge:true });
-      fillProfileForm();
-      alert("Profil kaydedildi ✅");
-    } catch (err) {
-      console.error("Profil kaydedilirken hata:", err);
-      alert("Profil kaydedilirken bir hata oluştu: " + (err?.message || err));
-    }
+    await setDoc(authorDocRef, currentProfile, { merge:true });
+    fillProfileForm();
+    alert("Profil kaydedildi ✅");
   });
 
-
-  /* ---------- Yeni Gönderi ---------- */
   postForm.addEventListener("submit", async (e) => {
     e.preventDefault();
     const text  = postTextInput.value.trim();
@@ -746,7 +703,6 @@
     alert("Gönderi paylaşıldı ✅");
   });
 
-  /* ---------- Gönderiler (sadece o admin) ---------- */
   async function loadAdminPosts() {
     const q = query(notesColRef, orderBy("createdAt","desc"));
     const snap = await getDocs(q);
@@ -776,7 +732,6 @@
     postList.innerHTML = list.join("") || "<p>Henüz bir gönderin yok.</p>";
   }
 
-  /* ---------- Analytics ---------- */
   async function loadAnalytics() {
     const snap = await getDocs(notesColRef);
     const notes = snap.docs;
@@ -800,16 +755,12 @@
     statCommentsEl.textContent = totalComments;
   }
 
-  /* ---------- İlk yükleme ---------- */
   window.addEventListener("DOMContentLoaded", async () => {
     await loadProfile();
     await loadAdminPosts();
     await loadAnalytics();
   });
 </script>
-
-
-
 
 </body>
 </html>

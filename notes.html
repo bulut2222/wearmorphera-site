@@ -215,7 +215,27 @@
 
   const notesColRef = collection(db, "morpheraNotes");
 
-  
+  // Basit kullanıcı verisi (login formundan)
+  const USERS = {
+    "bulutkeles": {
+      password: "Blt1995",
+      name: "Bulut Keleş",
+      role: "Co-Founder · Tech & Growth",
+      color: "linear-gradient(135deg,#6366f1,#8b5cf6)"
+    },
+    "busrakaraca": {
+      password: "Busra95",
+      name: "Büşra Karaca",
+      role: "Co-Founder · Creative & Ops",
+      color: "linear-gradient(135deg,#ec4899,#f97316)"
+    },
+    "eminekaraca": {
+      password: "Emine95",
+      name: "Emine Karaca",
+      role: "Community & Content",
+      color: "linear-gradient(135deg,#22c55e,#0ea5e9)"
+    }
+  };
 
   const notesFeed   = document.getElementById("notesFeed");
   const noteForm    = document.getElementById("noteForm");
@@ -223,9 +243,8 @@
   const noteImage  = document.getElementById("noteImageUrl");
   const loginForm   = document.getElementById("loginForm");
   const loginError  = document.getElementById("loginError");
-  const loginBox   = document.getElementById("notesLogin");
-  const adminBadge = document.getElementById("adminHello");
-
+  const loginBox    = document.getElementById("loginBox");
+  const adminBadge  = document.getElementById("adminBadge");
 
   let currentUser = null;
 
@@ -327,12 +346,8 @@
           `;
         }).join("");
 
-        const authorProfile = await getAuthorProfile(note.authorKey);
-
-const authorName  = authorProfile?.displayName || note.authorName;
-const authorRole  = authorProfile?.title || note.authorRole;
-const avatarUrl   = authorProfile?.avatarUrl || note.avatarUrl;
-
+        const authorName = note.authorName || "Morphera Ekibi";
+        const authorRole = note.authorRole || "";
         const isMine     = currentUser && currentUser.username === note.authorKey;
 
         const date = note.createdAt?.toDate?.() || new Date();
@@ -344,11 +359,14 @@ const avatarUrl   = authorProfile?.avatarUrl || note.avatarUrl;
         return `
           <article class="note-card" data-id="${note.id}">
             <header class="note-card__header">
-             <div class="note-card__avatar" 
-     style="${avatarUrl ? `background-image:url(${avatarUrl})` : `background:${note.avatarBg || 'var(--accent1)'}`}"
->
-${avatarUrl ? "" : `<span>${note.authorInitials}</span>`}
-</div>
+              <div class="note-card__avatar" style="${note.avatarUrl ? `background-image:url(${note.avatarUrl})` : `background:${note.avatarBg || "var(--accent1)"}`}">
+        ${note.avatarUrl ? "" : `<span>${(note.authorInitials || (note.authorName || '')
+          .split(' ')
+          .map(p => p.charAt(0))
+          .join('')
+          .slice(0,2)
+          .toUpperCase())}</span>`}
+              </div>
               <div class="note-card__meta">
                 <div class="note-card__author">
                   ${escapeHtml(authorName)}
@@ -396,22 +414,24 @@ ${avatarUrl ? "" : `<span>${note.authorInitials}</span>`}
 
   // ---- Login ----
   loginForm.addEventListener("submit", (e) => {
-  e.preventDefault();
-  const formData = new FormData(loginForm);
-  const username = formData.get("username").trim();
-  const password = formData.get("password");
+    e.preventDefault();
+    const formData = new FormData(loginForm);
+    const username = String(formData.get("username") || "").trim();
+    const password = String(formData.get("password") || "");
 
-  const user = USERS[username];
-  if (!user || user.password !== password) {
-    loginError.textContent = "Kullanıcı adı veya şifre hatalı.";
-    return;
-  }
+    const user = USERS[username];
+    if (!user || user.password !== password) {
+      loginError.textContent = "Kullanıcı adı veya şifre hatalı.";
+      return;
+    }
 
-  localStorage.setItem("morpheraAdminUser", username);
+    currentUser = { ...user, username };
+    loginBox.classList.add("hidden");
+    noteForm.classList.remove("hidden");
+    adminBadge.textContent = `${currentUser.name} olarak giriş yapıldı`;
 
-  window.location.href = "admin.html"; // 🔥 Admin sayfası açılır
-});
-
+    localStorage.setItem("morpheraAdminUser", username);
+  });
 
   // ---- Yeni Not Ekle ----
   noteForm.addEventListener("submit", async (e) => {
@@ -453,43 +473,18 @@ ${avatarUrl ? "" : `<span>${note.authorInitials}</span>`}
   });
 
   // ---- İlk yükleme ----
-  window.addEventListener("DOMContentLoaded", async () => {
-  const savedUsername = localStorage.getItem("morpheraAdminUser");
+  window.addEventListener("DOMContentLoaded", () => {
+    const savedUser = localStorage.getItem("morpheraAdminUser");
+    if (savedUser && USERS[savedUser]) {
+      const u = USERS[savedUser];
+      currentUser = { ...u, username: savedUser };
+      loginBox.classList.add("hidden");
+      noteForm.classList.remove("hidden");
+      adminBadge.textContent = `${currentUser.name} olarak giriş yapıldı`;
+    }
 
-  if (savedUsername && USERS[savedUsername]) {
-    currentUser = { ...USERS[savedUsername], username: savedUsername };
-
-    loginBox.classList.add("hidden");
-    noteForm.classList.remove("hidden");
-
-    // Admin panel sağ kısmını aç
-    const notesAdmin = document.getElementById("notesAdmin");
-    notesAdmin.classList.remove("hidden");
-
-    const adminAvatar = document.getElementById("adminAvatar");
-    const adminRole   = document.getElementById("adminRole");
-
-    adminBadge.textContent = `${currentUser.name} olarak giriş yapıldı`;
-    adminRole.textContent = currentUser.role;
-
-    const initials = currentUser.name
-      .split(" ")
-      .map(p => p.charAt(0))
-      .join("")
-      .slice(0,2)
-      .toUpperCase();
-
-    adminAvatar.textContent = initials;
-  }
-
-  await renderNotes();
-});
-const authorsRef = collection(db, "noteAuthors");
-async function getAuthorProfile(username){
-  const ref = doc(authorsRef, username);
-  const snap = await getDoc(ref);
-  return snap.exists() ? snap.data() : null;
-}
+    renderNotes();
+  });
 </script>
 
 
