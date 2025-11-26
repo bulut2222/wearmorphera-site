@@ -48,12 +48,12 @@
   }
 
   body {
-    margin: 0;
-    min-height: 100vh;
-    background: radial-gradient(circle at top left, #1e293b 0, #020617 40%, #000 100%);
-    color: var(--text);
-    font-family: "Inter",sans-serif;
-  }
+  margin: 0;
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Inter",sans-serif;
+}
 
   /* NAVBAR */
   .navbar {
@@ -364,10 +364,13 @@
       <div class="navbar-sub">Morpheradan Notlar · İçerik & Profil Yönetimi</div>
     </div>
   </div>
+<div id="notifDot" style="width:12px;height:12px;background:#ff1744;border-radius:50%;display:none;margin-left:12px;"></div>
 
   <button id="themeToggle" class="theme-toggle">
     🌗 Tema Değiştir
   </button>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 </header>
 
 <main class="wrapper">
@@ -375,6 +378,14 @@
   <!-- SIDEBAR -->
   <aside class="sidebar">
     <div class="sidebar-title">Panel</div>
+<div class="menu-item" data-panel="schedulePanel" onclick="showPanel('schedulePanel')">
+  <span class="icon">⏰</span> Zamanlanmış
+</div>
+
+<div class="menu-item" data-panel="commentsPanel" onclick="showPanel('commentsPanel')">
+  <span class="icon">💬</span> Yorumlar
+</div>
+
 
     <div class="menu-item active" data-panel="analyticsPanel" onclick="showPanel('analyticsPanel')">
       <span class="icon">📊</span> Analytics
@@ -392,6 +403,26 @@
 
   <!-- PANELS WRAPPER -->
   <section>
+<section class="panel" id="commentsPanel">
+  <div class="panel-header">
+    <div class="panel-title">
+      💬 Yorum Yönetimi
+      <span class="panel-title-badge">Tüm Gönderiler</span>
+    </div>
+  </div>
+
+  <div id="commentsList"></div>
+</section>
+<section class="panel" id="schedulePanel">
+  <div class="panel-header">
+    <div class="panel-title">
+      ⏰ Zamanlanmış Gönderiler
+      <span class="panel-title-badge">Yarın 10:00</span>
+    </div>
+  </div>
+
+  <div id="scheduledList"></div>
+</section>
 
     <!-- ANALYTICS -->
     <section class="panel active" id="analyticsPanel">
@@ -418,6 +449,7 @@
           <div class="analytics-value" id="statComments">0</div>
         </article>
       </div>
+      <canvas id="chartPosts" height="120"></canvas>
     </section>
 
     <!-- PROFİL -->
@@ -484,6 +516,31 @@
           <label class="field-label">Gönderi Metni</label>
           <textarea id="postText" placeholder="Kısa, net, içten bir not yaz..."></textarea>
         </div>
+<div class="field-group">
+  <label class="field-label">Zamanlama (opsiyonel)</label>
+
+  <label style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+    <input type="checkbox" id="scheduleEnable">
+    Zamanlama Kullan (Yakında aktif olacak)
+  </label>
+
+  <div id="scheduleFields" style="display:none;gap:10px;flex-wrap:wrap;">
+
+    <input id="scheduleDate" type="date"
+      style="padding:10px;border-radius:10px;border:1px solid #555;background:#0f172a;color:white;">
+
+    <input id="scheduleTime" type="time"
+      style="padding:10px;border-radius:10px;border:1px solid #555;background:#0f172a;color:white;">
+
+  </div>
+</div>
+
+<script>
+document.getElementById("scheduleEnable").addEventListener("change", function() {
+  document.getElementById("scheduleFields").style.display = this.checked ? "flex" : "none";
+});
+</script>
+
 
         <div class="field-group">
           <label class="field-label">Görsel URL (opsiyonel)</label>
@@ -526,6 +583,10 @@
     orderBy,
     serverTimestamp
   } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
+  import { deleteDoc } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
+import { Timestamp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
+
+
 
   // ---- Tema Toggle ----
   const savedTheme = localStorage.getItem("morpheraAdminTheme") || "dark";
@@ -644,6 +705,15 @@
     previewName.textContent  = currentProfile.displayName || username;
     previewTitle.textContent = currentProfile.title || "Morphera Admin";
   }
+import { onSnapshot } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
+
+onSnapshot(notesColRef, (snap) => {
+  snap.docChanges().forEach(ch => {
+    if (ch.type === "modified" || ch.type === "added") {
+      document.getElementById("notifDot").style.display = "inline-block";
+    }
+  });
+});
 
   async function loadProfile() {
     const snap = await getDoc(authorDocRef);
@@ -703,38 +773,64 @@
 
   // ---- Yeni Gönderi ----
   postForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const text  = postTextInput.value.trim();
-    const image = postImageInput.value.trim();
-    if (!text) return;
+  e.preventDefault();
+  
+  const text  = postTextInput.value.trim();
+  const image = postImageInput.value.trim();
+  const enableSchedule = document.getElementById("scheduleEnable").checked;
 
-    if (!currentProfile) { await loadProfile(); }
+  if (!text) return;
 
-    const initials = (currentProfile.displayName || username)
-      .split(" ")
-      .map(p => p.charAt(0))
-      .join("")
-      .slice(0,2)
-      .toUpperCase();
+  if (!currentProfile) { await loadProfile(); }
 
-    await addDoc(notesColRef, {
-      authorKey: username,
-      authorName: currentProfile.displayName || username,
-      authorRole: currentProfile.title || "",
-      authorInitials: initials,
-      avatarBg: "var(--accent1)",
-      avatarUrl: currentProfile.avatarUrl || "",
-      text,
-      imageUrl: image || "",
-      createdAt: serverTimestamp()
-    });
+  const initials = (currentProfile.displayName || username)
+    .split(" ").map(p => p.charAt(0)).join("").slice(0,2).toUpperCase();
 
-    postTextInput.value  = "";
-    postImageInput.value = "";
+  let payload = {
+  authorKey: username,
+  authorName: currentProfile.displayName || username,
+  authorRole: currentProfile.title || "",
+  authorInitials: initials,
+  avatarUrl: currentProfile.avatarUrl || "",
+  text,
+  imageUrl: image || "",
+  createdAt: serverTimestamp(),
+  status: enableSchedule ? "scheduled" : "published"
+};
 
-    await Promise.all([loadAdminPosts(), loadAnalytics()]);
-    alert("Gönderi paylaşıldı ✅");
-  });
+if (enableSchedule) {
+  let dateVal = document.getElementById("scheduleDate").value;
+  let timeVal = document.getElementById("scheduleTime").value;
+
+  if (!dateVal || !timeVal) {
+    alert("Tarih ve saat seçmelisin!");
+    return;
+  }
+
+  const fullDate = new Date(`${dateVal}T${timeVal}:00`);
+  payload.status = "scheduled";
+  payload.scheduledAt = Timestamp.fromDate(fullDate);
+}
+
+
+  
+
+
+  await addDoc(notesColRef, payload);
+
+  postTextInput.value = "";
+  postImageInput.value = "";
+  document.getElementById("scheduleEnable").checked = false;
+  document.getElementById("scheduleFields").style.display = "none";
+
+  await loadAdminPosts();
+  await loadScheduledPosts();
+  await loadAnalytics();
+
+  alert(enableSchedule ? "Gönderi zamanlandı ⏰" : "Gönderi paylaşıldı ✅");
+});
+
+
 
   // ---- Gönderiler (sadece o admin) ----
   async function loadAdminPosts() {
@@ -752,15 +848,25 @@
         hour:"2-digit", minute:"2-digit"
       });
 
-      list.push(`
-        <article class="admin-post-card">
-          <div class="admin-post-meta">
-            <span>${ts}</span>
-            <span>❤️ ${data.likeCount || 0} · 💬 ${data.commentCount || 0}</span>
-          </div>
-          <div class="admin-post-text">${(data.text || "").replace(/\\n/g,"<br>")}</div>
-        </article>
-      `);
+     list.push(`
+  <article class="admin-post-card">
+    <div class="admin-post-meta">
+      <span>${ts}</span>
+      <span>❤️ ${data.likeCount || 0} · 💬 ${data.commentCount || 0}</span>
+    </div>
+
+    <div class="admin-post-text">${(data.text || "").replace(/\\n/g,"<br>")}</div>
+
+    <button class="btn-edit" onclick="openEditPost('${docSnap.id}','${data.text.replace(/'/g,"\\'")}','${data.imageUrl || ""}')">
+      ✏️ Düzenle
+    </button>
+
+    <button class="btn-delete" onclick="deletePost('${docSnap.id}')">
+      🗑️ Sil
+    </button>
+  </article>
+`);
+
     });
 
     postList.innerHTML = list.join("") || "<p>Henüz bir gönderin yok.</p>";
@@ -792,14 +898,189 @@
 
   // ---- İlk yükleme ----
   window.addEventListener("DOMContentLoaded", async () => {
-    await loadProfile();
+  await loadProfile();
+  await loadAdminPosts();
+  await loadComments();
+  await loadScheduledPosts();
+  await loadAnalytics();
+});
+
+  window.deletePost = async function(postId) {
+  if (!confirm("Bu gönderiyi silmek istediğine emin misin?")) return;
+
+  try {
+    // Alt koleksiyonları (likes + comments) temizle
+    const likesRef = collection(db, "morpheraNotes", postId, "likes");
+    const commentsRef = collection(db, "morpheraNotes", postId, "comments");
+
+    const likesSnap = await getDocs(likesRef);
+    const commentsSnap = await getDocs(commentsRef);
+
+    await Promise.all(likesSnap.docs.map(d => deleteDoc(d.ref)));
+    await Promise.all(commentsSnap.docs.map(d => deleteDoc(d.ref)));
+
+    // Gönderiyi sil
+    await deleteDoc(doc(db, "morpheraNotes", postId));
+
     await loadAdminPosts();
     await loadAnalytics();
+
+    alert("Gönderi başarıyla silindi 🗑️");
+  } catch (err) {
+    console.error("Silme hatası:", err);
+    alert("Gönderi silinirken bir hata oluştu.");
+  }
+};
+async function autoPublishScheduled() {
+  const snap = await getDocs(notesColRef);
+  const now = new Date();
+
+  for (const d of snap.docs) {
+    const post = d.data();
+
+    // 1) Zamanlı değilse geç
+    if (post.status !== "scheduled") continue;
+
+    // 2) scheduledAt yoksa geç
+    if (!post.scheduledAt) continue;
+
+    // 3) Timestamp değilse JS Date'e çevir
+    let scheduledTime;
+    try {
+      if (post.scheduledAt.toDate) {
+        scheduledTime = post.scheduledAt.toDate();
+      } else {
+        scheduledTime = new Date(post.scheduledAt);
+      }
+    } catch (e) {
+      console.warn("Zamanlama okunamadı:", e);
+      continue;
+    }
+
+    // 4) Yayımlama zamanı geldiyse publish et
+    if (scheduledTime <= now) {
+      await setDoc(doc(db, "morpheraNotes", d.id), {
+        status: "published",
+        publishedAt: serverTimestamp()
+      }, { merge: true });
+    }
+  }
+}
+
+
+setInterval(autoPublishScheduled, 60000); // 1 dakikada bir kontrol
+let editingPostId = null;
+
+window.openEditPost = function(id, text, imageUrl) {
+  editingPostId = id;
+  document.getElementById("editText").value = text;
+  document.getElementById("editImage").value = imageUrl;
+  document.getElementById("editModal").style.display = "flex";
+};
+
+window.closeEditModal = function() {
+  document.getElementById("editModal").style.display = "none";
+};
+
+window.saveEditPost = async function() {
+  const text = document.getElementById("editText").value.trim();
+  const imageUrl = document.getElementById("editImage").value.trim();
+
+  await setDoc(doc(db,"morpheraNotes",editingPostId), {
+    text,
+    imageUrl
+  }, { merge:true });
+
+  closeEditModal();
+  loadAdminPosts();
+  alert("Gönderi güncellendi ✏️");
+};
+async function loadComments() {
+  const snap = await getDocs(notesColRef);
+  let out = [];
+
+  for (const post of snap.docs) {
+    const commentsSnap = await getDocs(collection(db, "morpheraNotes", post.id, "comments"));
+    commentsSnap.forEach(c => {
+      const d = c.data();
+      out.push(`
+        <div class="admin-post-card">
+         <strong>${d.name}</strong>: ${d.comment}
+          <button class="btn-delete" onclick="deleteComment('${post.id}', '${c.id}')">Sil</button>
+        </div>
+      `);
+    });
+  }
+  document.getElementById("commentsList").innerHTML =
+    out.length ? out.join("") : "<p>Hiç yorum yok.</p>";
+}
+
+window.deleteComment = async function(postId, commentId) {
+  await deleteDoc(doc(db,"morpheraNotes",postId,"comments",commentId));
+  loadComments();
+};
+async function loadCharts() {
+  const snap = await getDocs(notesColRef);
+  const dates = {};
+  
+  snap.forEach(d => {
+    const t = d.data().createdAt?.toDate?.();
+    if (!t) return;
+    const key = t.toISOString().split("T")[0];
+    dates[key] = (dates[key] || 0) + 1;
   });
+
+  new Chart(document.getElementById("chartPosts"), {
+    type: "line",
+    data: {
+      labels: Object.keys(dates),
+      datasets: [{
+        label: "Günlük gönderiler",
+        data: Object.values(dates),
+        borderWidth: 3
+      }]
+    }
+  });
+}
+
+window.addEventListener("DOMContentLoaded", loadCharts);
+async function loadScheduledPosts() {
+  const snap = await getDocs(notesColRef);
+  let out = [];
+
+  snap.forEach(d => {
+    const post = d.data();
+    if (post.status === "scheduled") {
+      out.push(`
+        <article class="admin-post-card">
+          <div class="admin-post-meta">
+            <span>${post.scheduledAt?.toDate().toLocaleString("tr-TR")}</span>
+          </div>
+          <div class="admin-post-text">${post.text}</div>
+        </article>
+      `);
+    }
+  });
+
+  document.getElementById("scheduledList").innerHTML =
+    out.length ? out.join("") : "<p>Zamanlanmış gönderi yok.</p>";
+}
+
 </script>
 
 
 
+<div id="editModal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.65);backdrop-filter:blur(8px);align-items:center;justify-content:center;">
+  <div style="background:#0f172a;padding:20px;border-radius:18px;width:380px;">
+    <h3 style="margin-top:0;color:#fff;">Gönderiyi Düzenle</h3>
+
+    <textarea id="editText" style="width:100%;height:120px;margin-bottom:10px;"></textarea>
+    <input id="editImage" type="text" style="width:100%;margin-bottom:12px;" placeholder="Görsel URL">
+
+    <button onclick="saveEditPost()" class="btn-primary">Kaydet</button>
+    <button onclick="closeEditModal()" style="margin-left:10px;" class="btn-delete">Kapat</button>
+  </div>
+</div>
 
 
 </body>

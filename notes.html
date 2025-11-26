@@ -87,8 +87,8 @@
       </p>
       <div class="notes-hero__meta">
         <span>👥 Yazarlar: Bulut, Büşra, Emine</span>
-        <span>🧱 Format: Tweet benzeri kartlar</span>
-        <span>🎨 Stil: WeAreMorphera gradient + cam efekt</span>
+       
+        
       </div>
     </section>
 
@@ -231,23 +231,24 @@
 
 // === YORUM EKLE ===
 // === YORUM EKLE (HEMEN EKRANA YANSIT) ===
+// === YORUM EKLE (DOĞRU SÜRÜM) ===
 async function addComment(noteId, userName, commentText) {
   const commentsRef = collection(db, "morpheraNotes", noteId, "comments");
+
   await addDoc(commentsRef, {
     name: userName,
     comment: commentText,
     createdAt: serverTimestamp()
   });
 
-  // ilgili karttaki inputları temizle
-  const nameEl = document.getElementById(`commentName-${noteId}`);
-  const textEl = document.getElementById(`commentText-${noteId}`);
-  if (nameEl) nameEl.value = "";
-  if (textEl) textEl.value = "";
+  // inputları temizle
+  document.getElementById(`commentName-${noteId}`).value = "";
+  document.getElementById(`commentText-${noteId}`).value = "";
 
-  // tüm duvarı yeniden çiz → yorum anında düşsün
+  // duvarı yeniden çiz
   await renderNotes();
 }
+
 
 
 
