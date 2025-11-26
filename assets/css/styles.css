@@ -5078,3 +5078,425 @@ html[data-theme="light"] .team-splash__inner {
   transform: translateY(0);
   pointer-events: auto;
 }
+/* === Morpheradan Notlar CTA (anasayfa) === */
+.notes-cta {
+  margin-top: var(--s5);
+  padding: var(--s4);
+  border-radius: 24px;
+  background: radial-gradient(circle at top left, rgba(99,102,241,.18), transparent 55%),
+              radial-gradient(circle at bottom right, rgba(233,14,47,.18), transparent 55%),
+              var(--card);
+  border: 1px solid rgba(255,255,255,0.08);
+  display: flex;
+  gap: var(--s4);
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 18px 45px rgba(15,23,42,0.35);
+}
+
+.notes-cta__text h3 {
+  font-size: 1.4rem;
+  margin-bottom: 4px;
+}
+
+.notes-cta__text p {
+  margin: 0;
+  font-size: .95rem;
+  color: var(--muted);
+}
+
+.btn--notes {
+  white-space: nowrap;
+  border-radius: 999px;
+  padding-inline: var(--s4);
+}
+
+/* Mobil uyum */
+@media (max-width: 768px) {
+  .notes-cta {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .btn--notes {
+    width: 100%;
+    text-align: center;
+  }
+}
+/* === Morpheradan Notlar SAYFASI === */
+
+.page-notes main.section {
+  padding-top: var(--s6);
+}
+
+.notes-hero {
+  padding: var(--s5);
+  border-radius: 32px;
+  margin-bottom: var(--s5);
+  background:
+    radial-gradient(circle at top left, rgba(99,102,241,0.35), transparent 60%),
+    radial-gradient(circle at bottom right, rgba(233,14,47,0.28), transparent 60%),
+    linear-gradient(135deg, #020617, #020617);
+  border: 1px solid rgba(148,163,184,0.35);
+  box-shadow: 0 20px 60px rgba(15,23,42,0.7);
+  color: #e5e7eb;
+}
+
+.notes-hero__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: rgba(15,23,42,0.85);
+  font-size: .75rem;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  color: #cbd5f5;
+  margin-bottom: var(--s2);
+  border: 1px solid rgba(148,163,184,0.4);
+}
+
+.notes-hero__title {
+  font-size: clamp(2rem, 3vw, 2.5rem);
+  margin: 0 0 var(--s2);
+}
+
+.notes-hero__subtitle {
+  max-width: 640px;
+  font-size: .98rem;
+  color: #cbd5f5;
+  margin-bottom: var(--s3);
+}
+
+.notes-hero__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s2);
+  font-size: .85rem;
+  color: #e5e7eb;
+  opacity: .9;
+}
+
+.notes-hero__meta span {
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(15,23,42,0.85);
+  border: 1px solid rgba(148,163,184,0.35);
+}
+
+/* Layout */
+.notes-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1.1fr);
+  gap: var(--s4);
+  align-items: flex-start;
+}
+
+.notes-feed {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s3);
+}
+
+/* Kartlar */
+.note-card {
+  position: relative;
+  padding: var(--s3);
+  border-radius: 24px;
+  background: radial-gradient(circle at top left, rgba(148,163,184,0.15), transparent 60%),
+              var(--card);
+  border: 1px solid rgba(148,163,184,0.25);
+  box-shadow: 0 18px 40px rgba(15,23,42,0.45);
+  backdrop-filter: blur(14px);
+  transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+}
+
+.note-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 28px 70px rgba(15,23,42,0.65);
+  border-color: rgba(129,140,248,0.75);
+}
+
+.note-card--empty {
+  text-align: center;
+  color: var(--muted);
+  font-size: .95rem;
+}
+
+.note-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s3);
+  margin-bottom: var(--s2);
+}
+
+.note-card__avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #f9fafb;
+  font-weight: 700;
+  font-size: 1rem;
+  box-shadow: 0 8px 20px rgba(15,23,42,0.6);
+}
+
+.note-card__meta {
+  flex: 1;
+}
+
+.note-card__author {
+  font-weight: 600;
+}
+
+.note-card__role {
+  font-size: .78rem;
+  color: var(--muted);
+}
+
+.note-card__time {
+  font-size: .75rem;
+  color: var(--muted);
+}
+
+.note-card__actions {
+  display: flex;
+  gap: 6px;
+}
+
+.note-btn {
+  font-size: .78rem;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(148,163,184,0.5);
+  background: rgba(15,23,42,0.85);
+  color: #e5e7eb;
+  cursor: pointer;
+}
+
+.note-btn--danger {
+  border-color: rgba(239,68,68,0.8);
+  color: #fecaca;
+}
+
+.note-card__body p {
+  margin: 0;
+  font-size: .95rem;
+}
+
+.note-card__figure {
+  margin: var(--s2) 0 0;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid rgba(148,163,184,0.4);
+}
+
+.note-card__figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* Sidebar */
+.notes-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s3);
+}
+
+.notes-login,
+.notes-admin {
+  padding: var(--s3);
+  border-radius: 24px;
+  background: linear-gradient(135deg, rgba(15,23,42,0.95), rgba(15,23,42,0.9));
+  border: 1px solid rgba(148,163,184,0.45);
+  box-shadow: 0 18px 40px rgba(15,23,42,0.7);
+}
+
+.notes-login__title {
+  font-size: 1.1rem;
+  margin: 0 0 var(--s1);
+}
+
+.notes-login__subtitle {
+  font-size: .86rem;
+  color: var(--muted);
+  margin-bottom: var(--s2);
+}
+
+.notes-login__form label {
+  display: block;
+  font-size: .85rem;
+  margin-bottom: var(--s2);
+}
+
+.notes-login__form input {
+  width: 100%;
+  margin-top: 4px;
+  padding: 8px 10px;
+  border-radius: 12px;
+  border: 1px solid rgba(148,163,184,0.5);
+  background: rgba(15,23,42,0.9);
+  color: #e5e7eb;
+}
+
+.notes-login__error {
+  margin-top: 6px;
+  font-size: .8rem;
+  color: #fecaca;
+}
+
+.notes-admin__header {
+  display: flex;
+  gap: var(--s2);
+  align-items: center;
+  margin-bottom: var(--s2);
+}
+
+.notes-admin__avatar-wrap {
+  padding: 2px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, rgba(99,102,241,0.9), rgba(236,72,153,0.9));
+}
+
+.notes-admin__avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #f9fafb;
+  font-weight: 700;
+}
+
+.notes-admin__hello {
+  margin: 0 0 2px;
+  font-size: .95rem;
+}
+
+.notes-admin__role {
+  margin: 0;
+  font-size: .82rem;
+  color: var(--muted);
+}
+
+.notes-admin__hint {
+  font-size: .82rem;
+  color: var(--muted);
+  margin-bottom: var(--s2);
+}
+
+.notes-noteform label {
+  display: block;
+  font-size: .85rem;
+  margin-bottom: var(--s2);
+}
+
+.notes-noteform textarea,
+.notes-noteform input {
+  width: 100%;
+  margin-top: 4px;
+  border-radius: 16px;
+  border: 1px solid rgba(148,163,184,0.6);
+  background: rgba(15,23,42,0.85);
+  color: #e5e7eb;
+  padding: 10px 12px;
+  font-size: .9rem;
+}
+
+.notes-noteform textarea {
+  min-height: 110px;
+  resize: vertical;
+}
+
+.notes-noteform__actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s1);
+  align-items: flex-end;
+}
+
+.notes-noteform__actions small {
+  align-self: flex-start;
+  font-size: .75rem;
+  color: var(--muted);
+}
+
+/* Genel */
+.hidden {
+  display: none !important;
+}
+
+/* Mobil uyumluluk */
+@media (max-width: 900px) {
+  .notes-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .notes-sidebar {
+    order: -1;
+  }
+}
+/* === Morpheradan Notlar: okunabilirlik iyileştirmeleri === */
+
+/* Kart içi yazılar açık renk olsun */
+.note-card,
+.note-card__body p {
+  color: #e5e7eb;
+}
+
+.note-card__author {
+  color: #f9fafb;
+}
+
+.note-card__role,
+.note-card__time {
+  color: rgba(148,163,184,0.9);
+}
+
+/* Login & admin panel başlık ve metin renkleri */
+.notes-login,
+.notes-admin {
+  color: #e5e7eb;
+}
+
+.notes-login__title {
+  color: #f9fafb;
+}
+
+.notes-login__subtitle {
+  color: rgba(226,232,240,0.85);
+}
+
+.notes-login__subtitle strong {
+  color: #fde68a;
+}
+
+/* Form label ve input içi yazılar */
+.notes-login__form label,
+.notes-noteform label {
+  color: #e5e7eb;
+}
+
+.notes-login__form input,
+.notes-noteform textarea,
+.notes-noteform input {
+  color: #e5e7eb;
+}
+
+/* Placeholder renkleri */
+.notes-login__form input::placeholder,
+.notes-noteform textarea::placeholder,
+.notes-noteform input::placeholder {
+  color: rgba(209,213,219,0.7);
+}
+
+/* Not boş kartı da çok koyu kalmasın */
+.note-card--empty {
+  color: rgba(209,213,219,0.9);
+}
