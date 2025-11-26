@@ -187,7 +187,7 @@
 <!-- Morpheradan Notlar sayfasına özel JS (FIRESTORE) -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
-  import {
+ import {
   getFirestore,
   collection,
   addDoc,
@@ -199,6 +199,8 @@
   orderBy,
   serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
+
+
 
 
   // === BURAYA KENDİ FIREBASE CONFIG'İNİ YAPIŞTIR ===
@@ -216,14 +218,24 @@
   const db = getFirestore(app);
   const notesColRef = collection(db, "morpheraNotes"); // koleksiyon adı
 // === BEĞENİ EKLE ===
-async function addLike(noteId, userName) {
-  const likeRef = collection(db, "morpheraNotes", noteId, "likes");
-  await addDoc(likeRef, {
-    name: userName,
-    createdAt: serverTimestamp()
-  });
-  loadNotes(); // anında yenile
-}
+    // === BEĞENİ / YORUM KAYDETME ===
+    async function addLike(noteId, userName) {
+      const likeRef = collection(db, "morpheraNotes", noteId, "likes");
+      await addDoc(likeRef, {
+        name: userName,
+        createdAt: serverTimestamp()
+      });
+    }
+
+    async function addComment(noteId, userName, commentText) {
+      const commentsRef = collection(db, "morpheraNotes", noteId, "comments");
+      await addDoc(commentsRef, {
+        name: userName,
+        comment: commentText,
+        createdAt: serverTimestamp()
+      });
+    }
+
 
 // === YORUM EKLE ===
 async function addComment(noteId, userName, commentText) {
@@ -282,65 +294,38 @@ async function addComment(noteId, userName, commentText) {
     }
 
     // === Firestore'dan notları çek ===
-   async function loadNotes() {
-  notesFeed.innerHTML = "";
+       // === Firestore'dan notları çek (sadece veri hazırlasın) ===
+    async function loadNotes() {
+      // createdAt alanına göre tersten sırala
+      const q = query(notesColRef, orderBy("createdAt", "desc"));
+      const snap = await getDocs(q);
 
-  const q = query(notesColRef, orderBy("timestamp", "desc"));
-  const snap = await getDocs(q);
+      const notes = [];
 
-  for (const docSnap of snap.docs) {
-    const note = docSnap.data();
-    const id = docSnap.id;
+      for (const docSnap of snap.docs) {
+        const data = docSnap.data();
+        const id   = docSnap.id;
 
-    // Alt koleksiyonları çek
-    const likesSnap = await getDocs(collection(db, "morpheraNotes", id, "likes"));
-    const commentsSnap = await getDocs(collection(db, "morpheraNotes", id, "comments"));
+        // alt koleksiyonlar: likes & comments
+        const likesRef    = collection(db, "morpheraNotes", id, "likes");
+        const commentsRef = collection(db, "morpheraNotes", id, "comments");
 
-    const likeCount = likesSnap.size;
-    const commentCount = commentsSnap.size;
+        const [likesSnap, commentsSnap] = await Promise.all([
+          getDocs(likesRef),
+          getDocs(commentsRef)
+        ]);
 
-    // Kart HTML oluştur
-    const card = document.createElement("div");
-    card.className = "note-card";
+        notes.push({
+          id,
+          ...data,
+          likeCount: likesSnap.size,
+          commentCount: commentsSnap.size
+        });
+      }
 
-    card.innerHTML = `
-    <div class="note-card__header">
-      <div>
-        <strong>${note.name}</strong>
-        <div class="note-card__role">${note.role}</div>
-        <div class="note-card__time">${new Date(note.timestamp?.seconds * 1000).toLocaleString("tr-TR")}</div>
-      </div>
-    </div>
+      return notes;
+    }
 
-    <div class="note-card__body">
-      <p>${note.text}</p>
-      ${note.imageUrl ? `<div class="note-card__figure"><img src="${note.imageUrl}" /></div>` : ""}
-    </div>
-
-    <div class="note-card__actions">
-
-      <button class="note-btn" data-like="${id}">
-        ❤️ Beğen (${likeCount})
-      </button>
-
-      <button class="note-btn" data-toggle-comment="${id}">
-        💬 Yorum (${commentCount})
-      </button>
-
-      <div class="comment-box hidden" id="commentBox-${id}">
-        <input id="commentName-${id}" placeholder="Ad Soyad" class="comment-input" />
-        <textarea id="commentText-${id}" placeholder="Yorum yaz..." class="comment-text"></textarea>
-        <button class="note-btn" data-send-comment="${id}">Gönder</button>
-      </div>
-
-    </div>
-  `;
-
-    notesFeed.appendChild(card);
-  }
-
-  attachInteractionEvents();
-}
 function attachInteractionEvents() {
   document.querySelectorAll("[data-like]").forEach(btn => {
     btn.addEventListener("click", () => {
@@ -348,7 +333,6 @@ function attachInteractionEvents() {
       const name = prompt("Ad Soyad:");
       if (name) addLike(noteId, name);
     });
-  });
 
   document.querySelectorAll("[data-toggle-comment]").forEach(btn => {
     btn.addEventListener("click", () => {
