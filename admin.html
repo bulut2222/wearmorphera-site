@@ -1,337 +1,521 @@
 <!doctype html>
 <html lang="tr" data-theme="dark">
-
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Morphera Admin Paneli</title>
 
-<title>Morphera Admin Paneli</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+  /* =========================================================
+        PREMIUM ADMIN PANEL CSS
+        WeAreMorphera Gradient + Glassmorphism + Oval Cards
+  ========================================================= */
 
-<style>
+  :root {
+    --bg-dark: #0c0d14;
+    --bg-light: #f7f9fc;
 
-/* =========================================================
-      PREMIUM ADMIN PANEL CSS
-      WeAreMorphera Gradient + Glassmorphism + Oval Cards
-========================================================= */
+    --card-dark: rgba(255,255,255,0.06);
+    --card-light: rgba(255,255,255,0.5);
 
-/* LIGHT / DARK THEME ROOT */
-:root {
-  --bg-dark: #0c0d14;
-  --bg-light: #f7f9fc;
+    --text-dark: #ffffff;
+    --text-light: #111111;
 
-  --card-dark: rgba(255,255,255,0.06);
-  --card-light: rgba(255,255,255,0.5);
+    --border-dark: rgba(255,255,255,0.16);
+    --border-light: rgba(0,0,0,0.08);
 
-  --text-dark: #fff;
-  --text-light: #111;
+    --gradient: linear-gradient(135deg,#6366f1,#8b5cf6,#ec4899);
+    --gradient-soft: linear-gradient(160deg,rgba(99,102,241,0.35),rgba(236,72,153,0.28));
+  }
 
-  --border-dark: rgba(255,255,255,0.16);
-  --border-light: rgba(0,0,0,0.08);
+  html[data-theme="dark"] {
+    --bg: var(--bg-dark);
+    --text: var(--text-dark);
+    --card: var(--card-dark);
+    --border: var(--border-dark);
+  }
+  html[data-theme="light"] {
+    --bg: var(--bg-light);
+    --text: var(--text-light);
+    --card: var(--card-light);
+    --border: var(--border-light);
+  }
 
-  --gradient: linear-gradient(135deg, #6366f1, #8b5cf6, #ec4899);
-  --gradient-soft: linear-gradient(160deg, rgba(99,102,241,0.38), rgba(236,72,153,0.32));
-}
+  * {
+    box-sizing: border-box;
+  }
 
-html[data-theme="dark"] {
-  --bg: var(--bg-dark);
-  --text: var(--text-dark);
-  --card: var(--card-dark);
-  --border: var(--border-dark);
-}
-html[data-theme="light"] {
-  --bg: var(--bg-light);
-  --text: var(--text-light);
-  --card: var(--card-light);
-  --border: var(--border-light);
-}
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background: radial-gradient(circle at top left, #1e293b 0, #020617 40%, #000 100%);
+    color: var(--text);
+    font-family: "Inter",sans-serif;
+  }
 
-body {
-  margin: 0;
-  background: var(--bg);
-  color: var(--text);
-  font-family: "Inter", sans-serif;
-}
+  /* NAVBAR */
+  .navbar {
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:18px 40px;
+    background:linear-gradient(120deg,rgba(15,23,42,0.9),rgba(15,23,42,0.7));
+    backdrop-filter:blur(22px);
+    border-bottom:1px solid rgba(148,163,184,0.35);
+    box-shadow:0 18px 40px rgba(15,23,42,0.9);
+    position:sticky;
+    top:0;
+    z-index:20;
+  }
+  .brand {
+    display:flex;
+    align-items:center;
+    gap:14px;
+    font-weight:700;
+    font-size:22px;
+  }
+  .brand img {
+    width:48px;
+    height:48px;
+    border-radius:18px;
+    object-fit:cover;
+    box-shadow:0 0 24px rgba(129,140,248,0.9);
+  }
+  .navbar-sub {
+    font-size:13px;
+    opacity:0.8;
+  }
 
-/* NAVBAR */
-.navbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 18px 40px;
-  background: var(--card);
-  backdrop-filter: blur(20px);
-  border-bottom: 1px solid var(--border);
-}
+  .theme-toggle {
+    padding:10px 22px;
+    background:var(--gradient);
+    border-radius:999px;
+    border:none;
+    color:#fff;
+    cursor:pointer;
+    font-weight:600;
+    font-size:14px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+    box-shadow:0 15px 30px rgba(79,70,229,0.65);
+  }
 
-.brand {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  font-weight: 700;
-  font-size: 22px;
-}
-.brand img {
-  width: 48px;
-  filter: drop-shadow(0 0 12px rgba(99,102,241,0.4));
-}
+  /* LAYOUT */
+  .wrapper {
+    display:grid;
+    grid-template-columns:260px minmax(0,1fr);
+    gap:24px;
+    padding:26px 32px 40px;
+  }
 
-.theme-toggle {
-  padding: 10px 20px;
-  background: var(--gradient);
-  border-radius: 14px;
-  border: none;
-  color: white;
-  cursor: pointer;
-  font-weight: 600;
-}
+  /* SIDEBAR */
+  .sidebar {
+    background:rgba(15,23,42,0.9);
+    border-radius:24px;
+    padding:22px 18px;
+    border:1px solid rgba(148,163,184,0.35);
+    box-shadow:0 18px 40px rgba(15,23,42,0.95);
+    height:calc(100vh - 120px);
+    position:sticky;
+    top:80px;
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+  }
 
-/* MAIN LAYOUT */
-.wrapper {
-  display: grid;
-  grid-template-columns: 260px auto;
-  gap: 25px;
-  padding: 30px;
-}
+  .sidebar-title{
+    font-size:13px;
+    text-transform:uppercase;
+    letter-spacing:0.16em;
+    color:#9ca3af;
+    margin-bottom:8px;
+  }
 
-/* SIDEBAR */
-.sidebar {
-  background: var(--card);
-  padding: 25px;
-  border-radius: 22px;
-  border: 1px solid var(--border);
-  height: calc(100vh - 140px);
-  position: sticky;
-  top: 20px;
-}
+  .menu-item{
+    padding:12px 14px;
+    margin-bottom:6px;
+    border-radius:16px;
+    border:1px solid transparent;
+    color:#e5e7eb;
+    font-size:14px;
+    font-weight:500;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    transition:all .18s ease-out;
+  }
+  .menu-item span.icon{
+    width:26px;
+    height:26px;
+    border-radius:999px;
+    background:rgba(15,23,42,0.9);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:15px;
+  }
+  .menu-item:hover{
+    background:rgba(30,64,175,0.35);
+  }
+  .menu-item.active{
+    background:var(--gradient);
+    border-color:rgba(248,250,252,0.4);
+    box-shadow:0 15px 40px rgba(129,140,248,0.8);
+  }
 
-.menu-item {
-  padding: 14px;
-  margin-bottom: 12px;
-  background: rgba(255,255,255,0.05);
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  cursor: pointer;
-  font-weight: 500;
-}
-.menu-item:hover {
-  background: var(--gradient-soft);
-  color: white;
-}
+  /* PANELS */
+  .panel{
+    display:none;
+    background:rgba(15,23,42,0.9);
+    border-radius:26px;
+    padding:24px 26px 30px;
+    border:1px solid rgba(148,163,184,0.45);
+    box-shadow:0 20px 40px rgba(15,23,42,1);
+  }
+  .panel.active{display:block;}
 
-/* PANELS */
-.panel {
-  background: var(--card);
-  border: 1px solid var(--border);
-  padding: 28px;
-  border-radius: 24px;
-  display: none;
-}
-.panel.active {
-  display: block;
-}
+  .panel-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:20px;
+  }
+  .panel-title{
+    font-size:20px;
+    font-weight:600;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .panel-title-badge{
+    font-size:12px;
+    padding:4px 10px;
+    border-radius:999px;
+    background:rgba(15,23,42,0.9);
+    border:1px solid rgba(148,163,184,0.6);
+    color:#e5e7eb;
+  }
 
-h2 {
-  margin-top: 0;
-  margin-bottom: 16px;
-}
+  /* ANALYTICS */
+  .analytics-grid{
+    display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:18px;
+  }
+  .analytics-card{
+    border-radius:22px;
+    padding:18px 20px;
+    background:radial-gradient(circle at top left,rgba(129,140,248,0.45),rgba(15,23,42,0.92));
+    border:1px solid rgba(129,140,248,0.8);
+    box-shadow:0 22px 50px rgba(55,65,81,0.9);
+  }
+  .analytics-label{
+    font-size:14px;
+    color:#e5e7eb;
+  }
+  .analytics-value{
+    margin-top:6px;
+    font-size:32px;
+    font-weight:700;
+    background:var(--gradient);
+    -webkit-background-clip:text;
+    color:transparent;
+  }
 
-/* INPUTS */
-input, textarea {
-  width: 100%;
-  padding: 14px 16px;
-  border-radius: 14px;
-  border: 1px solid var(--border);
-  background: rgba(255,255,255,0.1);
-  color: var(--text);
-  margin-bottom: 14px;
-  font-size: 15px;
-}
-textarea { min-height: 120px; }
+  /* FORM GENEL */
+  .form-grid{
+    display:grid;
+    grid-template-columns: minmax(0,2.2fr) minmax(0,1.8fr);
+    gap:22px;
+  }
 
-/* BUTTONS */
-.btn-primary {
-  background: var(--gradient);
-  padding: 14px 26px;
-  border-radius: 14px;
-  border: none;
-  color: white;
-  font-weight: 600;
-  cursor: pointer;
-  font-size: 15px;
-}
+  .field-group{
+    margin-bottom:14px;
+  }
+  .field-label{
+    display:block;
+    font-size:13px;
+    margin-bottom:6px;
+    color:#e5e7eb;
+  }
+  input[type="text"],
+  textarea{
+    width:100%;
+    padding:12px 14px;
+    border-radius:14px;
+    border:1px solid rgba(148,163,184,0.6);
+    background:rgba(15,23,42,0.9);
+    color:#e5e7eb;
+    font-size:14px;
+    outline:none;
+  }
+  textarea{
+    min-height:120px;
+    resize:vertical;
+  }
+  input:focus,
+  textarea:focus{
+    border-color:#818cf8;
+    box-shadow:0 0 0 1px rgba(129,140,248,0.6);
+  }
 
-/* ANALYTICS CARDS */
-.analytics {
-  display: grid;
-  grid-template-columns: repeat(3,1fr);
-  gap: 20px;
-  margin-bottom: 25px;
-}
-.analytics-card {
-  background: var(--card);
-  padding: 20px;
-  border-radius: 20px;
-  border: 1px solid var(--border);
-  text-align: center;
-  font-size: 18px;
-  font-weight: 600;
-  backdrop-filter: blur(15px);
-}
-.analytics-card span {
-  display: block;
-  font-size: 32px;
-  margin-top: 8px;
-  font-weight: 700;
-  background: var(--gradient);
-  -webkit-background-clip: text;
-  color: transparent;
-}
+  .btn-primary{
+    border:none;
+    border-radius:999px;
+    background:var(--gradient);
+    color:#fff;
+    padding:10px 22px;
+    font-size:14px;
+    font-weight:600;
+    cursor:pointer;
+    box-shadow:0 18px 42px rgba(129,140,248,0.9);
+  }
 
-/* POSTS LIST */
-.post-item {
-  background: rgba(255,255,255,0.04);
-  padding: 18px;
-  border-radius: 18px;
-  border: 1px solid var(--border);
-  margin-bottom: 14px;
-}
-.post-actions button {
-  margin-right: 10px;
-  padding: 6px 12px;
-  border-radius: 10px;
-  border: none;
-  cursor: pointer;
-}
-.btn-edit { background:#0ea5e9; color:white; }
-.btn-delete { background:#dc2626; color:white; }
+  /* PROFİL PREVIEW */
+  .profile-preview{
+    border-radius:22px;
+    padding:14px 14px 18px;
+    background:radial-gradient(circle at top left,rgba(129,140,248,0.25),rgba(15,23,42,0.96));
+    border:1px solid rgba(148,163,184,0.7);
+  }
+  .profile-cover{
+    width:100%;
+    height:150px;
+    border-radius:18px;
+    background:linear-gradient(135deg,#6366f1,#8b5cf6,#ec4899);
+    background-size:cover;
+    background-position:center;
+  }
+  .profile-avatar{
+    width:96px;
+    height:96px;
+    border-radius:999px;
+    margin-top:-46px;
+    border:4px solid #020617;
+    background:#111827;
+    background-size:cover;
+    background-position:center;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#f9fafb;
+    font-weight:700;
+    font-size:30px;
+    box-shadow:0 18px 40px rgba(15,23,42,1);
+  }
+  .profile-meta{
+    margin-top:12px;
+  }
+  .profile-name{
+    font-size:16px;
+    font-weight:600;
+  }
+  .profile-title{
+    font-size:13px;
+    color:#cbd5f5;
+  }
 
-/* PROFILE PREVIEW */
-.profile-preview {
-  padding: 20px;
-  border-radius: 20px;
-  background: rgba(255,255,255,0.08);
-  border: 1px solid var(--border);
-  margin-top: 14px;
-}
-.preview-cover {
-  width: 100%;
-  height: 160px;
-  border-radius: 18px;
-  object-fit: cover;
-  border: 1px solid var(--border);
-}
-.preview-avatar {
-  width: 110px;
-  height: 110px;
-  border-radius: 50%;
-  object-fit: cover;
-  margin-top: -60px;
-  border: 4px solid var(--bg);
-  box-shadow: 0 0 12px rgba(0,0,0,0.4);
-}
+  /* GÖNDERİ LİSTESİ */
+  .admin-post-card{
+    border-radius:18px;
+    padding:14px 16px;
+    margin-bottom:12px;
+    background:rgba(15,23,42,0.95);
+    border:1px solid rgba(148,163,184,0.6);
+  }
+  .admin-post-meta{
+    display:flex;
+    justify-content:space-between;
+    font-size:12px;
+    color:#9ca3af;
+    margin-bottom:6px;
+  }
+  .admin-post-text{
+    font-size:14px;
+    color:#e5e7eb;
+  }
 
-</style>
+  @media (max-width: 960px){
+    .wrapper{
+      grid-template-columns: minmax(0,1fr);
+    }
+    .sidebar{
+      position:static;
+      height:auto;
+      flex-direction:row;
+      overflow-x:auto;
+    }
+    .sidebar-title{display:none;}
+  }
+  </style>
 </head>
-
 <body>
 
 <!-- NAVBAR -->
-<div class="navbar">
+<header class="navbar">
   <div class="brand">
-    <img src="assets/img/logo/morphera.png">
-    WeAreMorphera – Admin Paneli
+    <img src="assets/img/logo/morphera.png" alt="Morphera">
+    <div>
+      <div>WeAreMorphera – Admin Paneli</div>
+      <div class="navbar-sub">Morpheradan Notlar · İçerik & Profil Yönetimi</div>
+    </div>
   </div>
 
-  <button class="theme-toggle" id="themeToggle">🌗 Tema Değiştir</button>
-</div>
+  <button id="themeToggle" class="theme-toggle">
+    🌗 Tema Değiştir
+  </button>
+</header>
 
-<div class="wrapper">
+<main class="wrapper">
 
   <!-- SIDEBAR -->
   <aside class="sidebar">
-    <div class="menu-item" onclick="showPanel('analyticsPanel')">Analytics</div>
-    <div class="menu-item" onclick="showPanel('profilePanel')">Profil Ayarları</div>
-    <div class="menu-item" onclick="showPanel('newPostPanel')">Yeni Gönderi</div>
-    <div class="menu-item" onclick="showPanel('postsPanel')">Gönderiler</div>
+    <div class="sidebar-title">Panel</div>
+
+    <div class="menu-item active" data-panel="analyticsPanel" onclick="showPanel('analyticsPanel')">
+      <span class="icon">📊</span> Analytics
+    </div>
+    <div class="menu-item" data-panel="profilePanel" onclick="showPanel('profilePanel')">
+      <span class="icon">👤</span> Profil Ayarları
+    </div>
+    <div class="menu-item" data-panel="newPostPanel" onclick="showPanel('newPostPanel')">
+      <span class="icon">📝</span> Yeni Gönderi
+    </div>
+    <div class="menu-item" data-panel="postsPanel" onclick="showPanel('postsPanel')">
+      <span class="icon">🧱</span> Gönderiler
+    </div>
   </aside>
 
-  <!-- PANELS -->
-  <div>
+  <!-- PANELS WRAPPER -->
+  <section>
 
-    <!-- ANALYTICS PANEL -->
-    <div class="panel active" id="analyticsPanel">
-      <h2>📊 Analytics</h2>
-
-      <div class="analytics">
-        <div class="analytics-card">
-          Toplam Gönderi
-          <span id="totalPosts">0</span>
-        </div>
-        <div class="analytics-card">
-          Toplam Beğeni
-          <span id="totalLikes">0</span>
-        </div>
-        <div class="analytics-card">
-          Toplam Yorum
-          <span id="totalComments">0</span>
+    <!-- ANALYTICS -->
+    <section class="panel active" id="analyticsPanel">
+      <div class="panel-header">
+        <div class="panel-title">
+          📊 Analytics
+          <span class="panel-title-badge">Duvar Özeti</span>
         </div>
       </div>
-    </div>
 
-    <!-- PROFILE PANEL -->
-    <div class="panel" id="profilePanel">
-      <h2>Profil Ayarları</h2>
+      <div class="analytics-grid">
+        <article class="analytics-card">
+          <div class="analytics-label">Toplam Gönderi</div>
+          <div class="analytics-value" id="statPosts">0</div>
+        </article>
 
-      <label>Kapak Fotoğrafı URL</label>
-      <input id="coverPhoto">
+        <article class="analytics-card">
+          <div class="analytics-label">Toplam Beğeni</div>
+          <div class="analytics-value" id="statLikes">0</div>
+        </article>
 
-      <label>Profil Fotoğrafı URL</label>
-      <input id="profilePhoto">
-
-      <button class="btn-primary" id="saveProfile">Kaydet</button>
-
-      <!-- PREVIEW -->
-      <div class="profile-preview">
-        <img id="coverPreview" class="preview-cover">
-        <img id="avatarPreview" class="preview-avatar">
+        <article class="analytics-card">
+          <div class="analytics-label">Toplam Yorum</div>
+          <div class="analytics-value" id="statComments">0</div>
+        </article>
       </div>
-    </div>
+    </section>
 
-    <!-- NEW POST -->
-    <div class="panel" id="newPostPanel">
-      <h2>Yeni Gönderi</h2>
+    <!-- PROFİL -->
+    <section class="panel" id="profilePanel">
+      <div class="panel-header">
+        <div class="panel-title">
+          👤 Profil Ayarları
+          <span class="panel-title-badge">Yazar Kartın</span>
+        </div>
+      </div>
 
-      <textarea id="postText" placeholder="Gönderi metni..."></textarea>
-      <input id="postImage" placeholder="Görsel URL (opsiyonel)">
+      <div class="form-grid">
+        <!-- FORM -->
+        <form id="profileForm">
+          <div class="field-group">
+            <label class="field-label">Ad Soyad</label>
+            <input id="profileDisplayName" type="text" placeholder="Örn: Bulut Keleş">
+          </div>
 
-      <button class="btn-primary" id="addPost">Gönderiyi Paylaş</button>
-    </div>
+          <div class="field-group">
+            <label class="field-label">Ünvan / Rol</label>
+            <input id="profileTitle" type="text" placeholder="Co-Founder · Tech & Growth">
+          </div>
 
-    <!-- POSTS LIST -->
-    <div class="panel" id="postsPanel">
-      <h2>Gönderiler</h2>
-      <div id="postsList"></div>
-    </div>
+          <div class="field-group">
+            <label class="field-label">Profil Fotoğrafı URL</label>
+            <input id="profileAvatarUrl" type="text" placeholder="https://... .webp / .jpg">
+          </div>
 
-  </div>
+          <div class="field-group">
+            <label class="field-label">Kapak Fotoğrafı URL</label>
+            <input id="profileCoverUrl" type="text" placeholder="https://... .webp / .jpg">
+          </div>
 
-</div>
+          <button class="btn-primary" type="submit">Profili Kaydet</button>
+        </form>
 
+        <!-- PREVIEW -->
+        <aside class="profile-preview">
+          <div id="profileCoverPreview" class="profile-cover"></div>
+          <div id="profileAvatarPreview" class="profile-avatar">WM</div>
 
+          <div class="profile-meta">
+            <div class="profile-name" id="previewName">WeAreMorphera</div>
+            <div class="profile-title" id="previewTitle">Admin</div>
+          </div>
+        </aside>
+      </div>
+    </section>
 
-<!-- FIREBASE JS -->
+    <!-- YENİ GÖNDERİ -->
+    <section class="panel" id="newPostPanel">
+      <div class="panel-header">
+        <div class="panel-title">
+          📝 Yeni Gönderi
+          <span class="panel-title-badge">Morpheradan Notlar</span>
+        </div>
+      </div>
+
+      <form id="postForm">
+        <div class="field-group">
+          <label class="field-label">Gönderi Metni</label>
+          <textarea id="postText" placeholder="Kısa, net, içten bir not yaz..."></textarea>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label">Görsel URL (opsiyonel)</label>
+          <input id="postImageUrl" type="text" placeholder="https://... .webp / .jpg">
+        </div>
+
+        <button class="btn-primary" type="submit">Gönderiyi Paylaş</button>
+      </form>
+    </section>
+
+    <!-- GÖNDERİLER -->
+    <section class="panel" id="postsPanel">
+      <div class="panel-header">
+        <div class="panel-title">
+          🧱 Gönderiler
+          <span class="panel-title-badge">Sadece Senin Notların</span>
+        </div>
+      </div>
+
+      <div id="postList"></div>
+    </section>
+
+  </section>
+</main>
+
+<!-- FIREBASE + PANEL JS -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
   import {
     getFirestore,
     collection,
-    doc,
-    getDoc,
-    getDocs,
-    setDoc,
     addDoc,
+    getDocs,
+    doc,
     updateDoc,
     deleteDoc,
     query,
@@ -339,7 +523,6 @@ textarea { min-height: 120px; }
     serverTimestamp
   } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
 
-  // === Firebase Config ===
   const firebaseConfig = {
     apiKey: "AIzaSyCoLU3FES5QdNoD1WOHz9M7Z01U63hkn4U",
     authDomain: "morpheranotes.firebaseapp.com",
@@ -352,235 +535,193 @@ textarea { min-height: 120px; }
 
   const app = initializeApp(firebaseConfig);
   const db  = getFirestore(app);
+  const notesColRef = collection(db,"morpheraNotes");
 
-  // koleksiyon referansları
-  const notesColRef    = collection(db, "morpheraNotes");
-  const authorsColRef  = collection(db, "noteAuthors");
-
-  // === Hangi admin giriş yaptı? (notes.html'den geldi) ===
-  const username = localStorage.getItem("morpheraAdminUser");
-  if (!username) {
-    // güvenlik için, login yoksa geri yolla
-    window.location.href = "notes.html";
+  // ---- LIKE / COMMENT ----
+  async function addLike(noteId, userName) {
+    const likeRef = collection(db,"morpheraNotes",noteId,"likes");
+    await addDoc(likeRef,{ name:userName, createdAt:serverTimestamp() });
+    renderNotes();
   }
 
-  const authorDocRef = doc(authorsColRef, username);
-
-  // ==== DOM referansları (id'ler senin panel tasarımına göre) ====
-  const displayNameInput = document.getElementById("profileDisplayName");
-  const titleInput       = document.getElementById("profileTitle");
-  const avatarUrlInput   = document.getElementById("profileAvatarUrl");
-  const coverUrlInput    = document.getElementById("profileCoverUrl");
-
-  const avatarPreview    = document.getElementById("profileAvatarPreview");
-  const coverPreview     = document.getElementById("profileCoverPreview");
-
-  const profileForm      = document.getElementById("profileForm");
-
-  const postForm         = document.getElementById("postForm");
-  const postTextInput    = document.getElementById("postText");
-  const postImageInput   = document.getElementById("postImageUrl");
-  const postList         = document.getElementById("postList");
-
-  // analytics kartları
-  const statPostsEl      = document.getElementById("statPosts");
-  const statLikesEl      = document.getElementById("statLikes");
-  const statCommentsEl   = document.getElementById("statComments");
-
-  let currentProfile = null;
-
-  // === Kullanıcıya göre default profil değerleri ===
-  function getDefaultProfile(username) {
-    if (username === "bulutkeles") {
-      return {
-        displayName: "Bulut Keleş",
-        title: "Co-Founder · Tech & Growth",
-        avatarUrl: "",
-        coverUrl: ""
-      };
-    }
-    if (username === "busrakaraca") {
-      return {
-        displayName: "Büşra Karaca",
-        title: "Co-Founder · Creative & Ops",
-        avatarUrl: "",
-        coverUrl: ""
-      };
-    }
-    if (username === "eminekaraca") {
-      return {
-        displayName: "Emine Karaca",
-        title: "Community & Content",
-        avatarUrl: "",
-        coverUrl: ""
-      };
-    }
-    return {
-      displayName: username,
-      title: "",
-      avatarUrl: "",
-      coverUrl: ""
-    };
-  }
-
-  // === Profil formunu ve önizlemeyi doldur ===
-  function fillProfileForm() {
-    if (!currentProfile) return;
-    displayNameInput.value = currentProfile.displayName || "";
-    titleInput.value       = currentProfile.title || "";
-    avatarUrlInput.value   = currentProfile.avatarUrl || "";
-    coverUrlInput.value    = currentProfile.coverUrl || "";
-
-    if (currentProfile.avatarUrl) {
-      avatarPreview.style.backgroundImage = `url(${currentProfile.avatarUrl})`;
-      avatarPreview.classList.add("has-image");
-    } else {
-      avatarPreview.style.backgroundImage = "none";
-      avatarPreview.classList.remove("has-image");
-    }
-
-    if (currentProfile.coverUrl) {
-      coverPreview.style.backgroundImage = `url(${currentProfile.coverUrl})`;
-      coverPreview.classList.add("has-image");
-    } else {
-      coverPreview.style.backgroundImage = "none";
-      coverPreview.classList.remove("has-image");
-    }
-  }
-
-  // === Firestore'dan profil çek ===
-  async function loadProfile() {
-    const snap = await getDoc(authorDocRef);
-    if (snap.exists()) {
-      currentProfile = snap.data();
-    } else {
-      currentProfile = getDefaultProfile(username);
-      await setDoc(authorDocRef, currentProfile, { merge: true });
-    }
-    fillProfileForm();
-  }
-
-  // === Profil kaydet ===
-  profileForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
-
-    currentProfile = {
-      displayName: (displayNameInput.value || username).trim(),
-      title: (titleInput.value || "").trim(),
-      avatarUrl: (avatarUrlInput.value || "").trim(),
-      coverUrl: (coverUrlInput.value || "").trim()
-    };
-
-    await setDoc(authorDocRef, currentProfile, { merge: true });
-    fillProfileForm();
-    alert("Profil bilgilerin kaydedildi ✅");
-  });
-
-  // === Yeni gönderi ekle ===
-  postForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const text  = postTextInput.value.trim();
-    const image = postImageInput.value.trim();
-
-    if (!text) return;
-
-    // profil henüz çekilmediyse çek
-    if (!currentProfile) {
-      await loadProfile();
-    }
-
-    const initials = (currentProfile.displayName || username)
-      .split(" ")
-      .map(p => p.charAt(0))
-      .join("")
-      .slice(0, 2)
-      .toUpperCase();
-
-    await addDoc(notesColRef, {
-      text,
-      imageUrl: image || "",
-      createdAt: serverTimestamp(),
-
-      // NOT: notes.html bunları bekliyor
-      authorKey: username,
-      authorName: currentProfile.displayName || username,
-      authorRole: currentProfile.title || "",
-      authorInitials: initials,
-      avatarBg: "var(--accent1)",      // istersen role'lere göre değiştirebilirsin
-      avatarUrl: currentProfile.avatarUrl || ""
+  async function addComment(noteId,userName,commentText) {
+    const commentsRef = collection(db,"morpheraNotes",noteId,"comments");
+    await addDoc(commentsRef,{
+      name:userName,
+      comment:commentText,
+      createdAt:serverTimestamp()
     });
+    await renderNotes();
+  }
 
-    postTextInput.value  = "";
-    postImageInput.value = "";
+  document.addEventListener("DOMContentLoaded", () => {
+    const notesFeed  = document.getElementById("notesFeed");
+    const loginForm  = document.getElementById("loginForm");
+    const loginError = document.getElementById("loginError");
 
-    await Promise.all([loadAdminPosts(), loadAnalytics()]);
-  });
+    function escapeHtml(str){
+      return String(str)
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;");
+    }
 
-  // === Admin gönderilerini listele (isteğe bağlı, sadece panel için) ===
-  async function loadAdminPosts() {
-    const q = query(notesColRef, orderBy("createdAt", "desc"));
-    const snap = await getDocs(q);
+    async function loadNotes(){
+      const q = query(notesColRef,orderBy("createdAt","desc"));
+      const snap = await getDocs(q);
+      const notes = [];
 
-    const items = [];
-    snap.forEach(docSnap => {
-      const data = docSnap.data();
-      if (data.authorKey !== username) return; // sadece kendi postlarını göster
-      const date = data.createdAt?.toDate?.() || new Date();
-      const ts = date.toLocaleString("tr-TR", {
-        day: "2-digit",
-        month: "2-digit",
-        year: "numeric",
-        hour: "2-digit",
-        minute: "2-digit"
+      for (const docSnap of snap.docs){
+        const data = docSnap.data();
+        const id   = docSnap.id;
+
+        const likesRef    = collection(db,"morpheraNotes",id,"likes");
+        const commentsRef = collection(db,"morpheraNotes",id,"comments");
+        const [likesSnap,commentsSnap] = await Promise.all([
+          getDocs(likesRef),
+          getDocs(commentsRef)
+        ]);
+
+        notes.push({
+          id,
+          ...data,
+          likeCount: likesSnap.size,
+          commentCount: commentsSnap.size
+        });
+      }
+      return notes;
+    }
+
+    function attachInteractionEvents(){
+      document.querySelectorAll("[data-like]").forEach(btn=>{
+        btn.addEventListener("click",()=>{
+          const noteId = btn.dataset.like;
+          const name = prompt("Ad Soyad:");
+          if (name) addLike(noteId,name);
+        });
       });
 
-      items.push(`
-        <article class="admin-post-card">
-          <div class="admin-post-card__meta">
-            <span class="admin-post-card__date">${ts}</span>
-            <span class="admin-post-card__stats">
-              ❤️ ${data.likeCount || 0} · 💬 ${data.commentCount || 0}
-            </span>
-          </div>
-          <p class="admin-post-card__text">${(data.text || "").replace(/\n/g,"<br>")}</p>
-        </article>
-      `);
+      document.querySelectorAll("[data-toggle-comment]").forEach(btn=>{
+        btn.addEventListener("click",()=>{
+          const noteId = btn.dataset.toggleComment;
+          document.getElementById(`commentBox-${noteId}`).classList.toggle("hidden");
+        });
+      });
+
+      document.querySelectorAll("[data-send-comment]").forEach(btn=>{
+        btn.addEventListener("click",()=>{
+          const noteId = btn.dataset.sendComment;
+          const name = document.getElementById(`commentName-${noteId}`).value.trim();
+          const text = document.getElementById(`commentText-${noteId}`).value.trim();
+          if (!name || !text) return alert("Lütfen adınızı ve yorumunuzu yazın.");
+          addComment(noteId,name,text);
+        });
+      });
+    }
+
+    async function renderNotes(){
+      const notes = await loadNotes();
+
+      notesFeed.innerHTML = await Promise
+        .all(notes.map(async (note)=>{
+          const commentsRef = collection(db,"morpheraNotes",note.id,"comments");
+          const commentsSnap = await getDocs(commentsRef);
+
+          const commentsListHtml = commentsSnap.docs.map(c=>{
+            const d = c.data();
+            return `
+              <div class="comment-item">
+                <strong>${escapeHtml(d.name || "")}</strong>
+                <p>${escapeHtml(d.comment || "")}</p>
+              </div>
+            `;
+          }).join("");
+
+          // undefined önleme
+          const authorName  = note.authorName  || "Morphera Ekibi";
+          const authorRole  = note.authorRole  || "";
+          const initials    = (note.authorInitials ||
+            authorName.split(" ").map(p=>p.charAt(0)).join("").slice(0,2).toUpperCase());
+          const avatarBg    = note.avatarBg || "var(--accent1)";
+
+          const date = note.createdAt?.toDate?.() || new Date();
+          const ts = date.toLocaleString("tr-TR",{
+            day:"2-digit",month:"2-digit",year:"numeric",
+            hour:"2-digit",minute:"2-digit"
+          });
+
+          return `
+            <article class="note-card" data-id="${note.id}">
+              <header class="note-card__header">
+                <div class="note-card__avatar" style="background:${avatarBg}">
+                  <span>${initials}</span>
+                </div>
+                <div class="note-card__meta">
+                  <div class="note-card__author">${escapeHtml(authorName)}</div>
+                  <div class="note-card__role">${escapeHtml(authorRole)}</div>
+                  <time class="note-card__time">${ts}</time>
+                </div>
+              </header>
+
+              <div class="note-card__body">
+                <p>${escapeHtml(note.text || "").replace(/\n/g,"<br>")}</p>
+                ${note.imageUrl ? `
+                  <figure class="note-card__figure">
+                    <img src="${note.imageUrl}" loading="lazy">
+                  </figure>` : ""}
+              </div>
+
+              <footer class="note-card__footer">
+                <button class="note-like-btn" data-like="${note.id}">
+                  ❤️ Beğen (${note.likeCount})
+                </button>
+
+                <button class="note-comment-toggle" data-toggle-comment="${note.id}">
+                  💬 Yorum (${commentsSnap.size})
+                </button>
+
+                <div id="commentBox-${note.id}" class="comment-box hidden">
+                  <input id="commentName-${note.id}" placeholder="Ad Soyad">
+                  <textarea id="commentText-${note.id}" placeholder="Yorumun..."></textarea>
+                  <button data-send-comment="${note.id}">Gönder</button>
+                </div>
+
+                <div id="commentList-${note.id}" class="comment-list">
+                  ${commentsListHtml}
+                </div>
+              </footer>
+            </article>
+          `;
+        }))
+        .then(htmlArr => htmlArr.join(""));
+
+      attachInteractionEvents();
+    }
+
+    // ---- LOGIN → admin.html’e git ----
+    loginForm.addEventListener("submit",(e)=>{
+      e.preventDefault();
+      const formData = new FormData(loginForm);
+      const username = String(formData.get("username") || "").trim();
+      const password = String(formData.get("password") || "");
+
+      const USERS = {
+        "bulutkeles": { password:"Blt1995" },
+        "busrakaraca": { password:"Busra95" },
+        "eminekaraca": { password:"Emine95" }
+      };
+
+      const user = USERS[username];
+      if (!user || user.password !== password){
+        loginError.textContent = "Kullanıcı adı veya şifre hatalı.";
+        return;
+      }
+
+      localStorage.setItem("morpheraAdminUser",username);
+      window.location.href = "admin.html";
     });
 
-    if (postList) {
-      postList.innerHTML = items.join("") || "<p>Henüz bir gönderin yok.</p>";
-    }
-  }
-
-  // === Analytics: toplam gönderi / beğeni / yorum ===
-  async function loadAnalytics() {
-    const snap = await getDocs(notesColRef);
-    const notes = snap.docs;
-
-    let totalPosts = notes.length;
-    let totalLikes = 0;
-    let totalComments = 0;
-
-    await Promise.all(
-      notes.map(async (docSnap) => {
-        const id = docSnap.id;
-        const likesSnap = await getDocs(collection(db, "morpheraNotes", id, "likes"));
-        const commentsSnap = await getDocs(collection(db, "morpheraNotes", id, "comments"));
-        totalLikes += likesSnap.size;
-        totalComments += commentsSnap.size;
-      })
-    );
-
-    if (statPostsEl)    statPostsEl.textContent    = totalPosts;
-    if (statLikesEl)    statLikesEl.textContent    = totalLikes;
-    if (statCommentsEl) statCommentsEl.textContent = totalComments;
-  }
-
-  // === Sayfa yüklenince her şeyi başlat ===
-  window.addEventListener("DOMContentLoaded", async () => {
-    await loadProfile();
-    await loadAdminPosts();
-    await loadAnalytics();
+    renderNotes();
   });
 </script>
 
