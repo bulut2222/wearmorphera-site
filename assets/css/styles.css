@@ -5902,3 +5902,55 @@ body {
   padding: 4px 10px;
   border-radius: 999px;
   background: rgba(2
+  @media (max-width: 960px){
+    .chat-layout{
+      grid-template-columns:minmax(0,1fr);
+    }
+    .chat-main{
+      padding:12px;
+      min-height:220px;
+    }
+    .chat-side{
+      margin-top:12px;
+    }
+  }
+
+  @media (max-width: 640px){
+    .panel-header{
+      flex-direction:column;
+      align-items:flex-start;
+      gap:8px;
+    }
+
+    .chat-messages{
+      max-height:320px;
+    }
+
+    .chat-input-row{
+      flex-direction:column;
+      align-items:stretch;
+    }
+
+    #chatInput{
+      width:100%;
+    }
+
+    .chat-send-btn{
+      width:100%;
+      text-align:center;
+      box-shadow:0 10px 24px rgba(129,140,248,0.9);
+    }
+
+    .chat-side{
+      padding:12px;
+    }
+
+    .chat-status{
+      flex-direction:column;
+      align-items:flex-start;
+    }
+
+    #chatStatusSelect{
+      width:100%;
+    }
+  }
