@@ -803,6 +803,97 @@
   color:#0800ff;   /* Mavi çift tik */
   letter-spacing:-2px;
 }
+/* ------ Sabitlenmiş mesaj barı ------ */
+.pinned-bar{
+  margin-bottom:10px;
+  padding:10px 14px;
+  border-radius:18px;
+  background:linear-gradient(120deg,#6366f1,#ec4899);
+  box-shadow:0 0 18px rgba(236,72,153,0.6), 0 0 40px rgba(129,140,248,0.6);
+  color:#fff;
+  font-size:13px;
+  display:flex;
+  align-items:flex-start;
+  gap:10px;
+  position:relative;
+  overflow:hidden;
+}
+
+.pinned-bar::before{
+  content:"";
+  position:absolute;
+  inset:-40%;
+  background:conic-gradient(from 0deg,rgba(255,255,255,0.1),transparent,rgba(255,255,255,0.2));
+  animation:pinnedGlow 4s linear infinite;
+  opacity:.6;
+}
+
+@keyframes pinnedGlow{
+  0%   { transform:rotate(0deg); }
+  100% { transform:rotate(360deg); }
+}
+
+.pinned-bar-content{
+  position:relative;
+  z-index:1;
+}
+
+.pinned-bar-title{
+  font-size:11px;
+  text-transform:uppercase;
+  letter-spacing:.14em;
+  opacity:.9;
+  margin-bottom:4px;
+}
+
+.pinned-bar-text{
+  font-size:13px;
+}
+
+/* Pin butonu */
+.chat-pin{
+  background:none;
+  border:none;
+  font-size:11px;
+  color:#fde68a;
+  cursor:pointer;
+  margin-left:6px;
+  padding:0;
+}
+
+.chat-pin:hover{
+  text-decoration:underline;
+}
+
+/* Arama kutusu */
+.chat-search{
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+
+.chat-search input{
+  border-radius:999px;
+  border:1px solid rgba(148,163,184,0.7);
+  background:#020617;
+  color:#e5e7eb;
+  padding:6px 12px;
+  font-size:12px;
+  outline:none;
+  min-width:180px;
+}
+
+.chat-search input:focus{
+  border-color:#818cf8;
+  box-shadow:0 0 0 1px rgba(129,140,248,0.7);
+}
+
+/* Arama sonucu highlight */
+.chat-search-mark{
+  background:rgba(251,191,36,0.2);
+  padding:0 2px;
+  border-radius:4px;
+}
 
   </style>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
@@ -1031,6 +1122,11 @@ document.getElementById("scheduleEnable").addEventListener("change", function() 
       <div class="chat-layout">
         <!-- SOL: Mesajlar -->
         <div class="chat-box">
+            <!-- 📌 Sabitlenmiş mesaj alanı -->
+<div id="pinnedMessageBar"></div>
+
+
+
           <div class="chat-messages" id="chatMessages"></div>
 
          <form id="chatForm" class="chat-input-row">
@@ -1163,7 +1259,8 @@ async function markMessagesAsRead(docs) {
     getDocs,
     query,
     orderBy,
-    serverTimestamp
+    serverTimestamp,
+      where
   } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
   import { deleteDoc } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
 import { Timestamp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
@@ -1254,6 +1351,12 @@ window.logoutAdmin = function() {
   const statLikesEl      = document.getElementById("statLikes");
   const statCommentsEl   = document.getElementById("statComments");
   const chatMessagesEl = document.getElementById("chatMessages");
+  const pinnedBarEl     = document.getElementById("pinnedMessageBar");
+const chatSearchInput = document.getElementById("chatSearchInput");
+
+let lastChatDocs      = [];   // snapshot’ı burada tutacağız
+let currentSearchTerm = "";   // arama kelimesi
+
   // Kendi balonuna tıklayınca okuyanları göster
 chatMessagesEl.addEventListener("click", (e) => {
   const bubble = e.target.closest(".chat-bubble");
@@ -1308,6 +1411,14 @@ document.addEventListener("click", function unlockSound() {
 }, { once: true });
 
 const emojiToggle = document.getElementById("emojiToggle");
+// 🔍 Arama kutusu dinleyicisi
+if (chatSearchInput) {
+  chatSearchInput.addEventListener("input", (e) => {
+    currentSearchTerm = (e.target.value || "").trim().toLowerCase();
+    renderChatMessages();   // aynı datadan yeniden HTML üret
+  });
+}
+
 const emojiPanel  = document.getElementById("emojiPanel");
 if (emojiToggle && emojiPanel && chatInput) {
   emojiToggle.addEventListener("click", () => {
@@ -1450,102 +1561,151 @@ let chatStatus = "online";
 }
 
 
- function subscribeChatMessages() {
+ // 🔁 Mesajları HTML'e çeviren fonksiyon
+function renderChatMessages() {
+  const parts = [];
+  let pinnedHtml = "";
+
+  lastChatDocs.forEach(({ id, data: m }) => {
+    const ownerUsername = m.username || m.authorKey || "";
+    const displayName   = m.displayName || m.authorName || ownerUsername;
+    const avatarUrl     = m.avatarUrl || m.authorAvatar || "";
+    const isMe          = ownerUsername === username;
+    const isPinned      = !!m.pinned;
+
+    const date = m.createdAt?.toDate?.() || new Date();
+    const ts = date.toLocaleString("tr-TR", {
+      day:"2-digit", month:"2-digit", year:"numeric",
+      hour:"2-digit", minute:"2-digit"
+    });
+
+    const initials = (displayName || ownerUsername || "?")
+      .split(" ")
+      .map(p => p.charAt(0))
+      .join("")
+      .slice(0,2)
+      .toUpperCase();
+
+    const avatarStyle = avatarUrl
+      ? `background-image:url('${avatarUrl}');`
+      : "";
+
+    const canDelete = isMe || username === "bulutkeles";
+    const canPin    = username === "bulutkeles";
+
+    // Okundu bilgisi
+    const readBy  = m.readBy || {};
+    const readers = Object.keys(readBy).filter(u => u !== username);
+
+    let ticksHtml = "";
+    if (isMe) {
+      if (readers.length === 0) {
+        ticksHtml = `<span class="tick tick--single">✓</span>`;
+      } else {
+        ticksHtml = `<span class="tick tick--double">✓✓</span>`;
+      }
+    }
+
+    // 🔍 Arama highlight
+    const plainText = m.text || "";
+    let messageHtml;
+
+    if (currentSearchTerm && plainText.toLowerCase().includes(currentSearchTerm)) {
+      const safeTerm = currentSearchTerm.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+      const r        = new RegExp(safeTerm, "gi");
+      const marked   = plainText.replace(r, match => `<span class="chat-search-mark">${match}</span>`);
+      messageHtml    = marked.replace(/\n/g,"<br>");
+    } else {
+      messageHtml    = plainText.replace(/\n/g,"<br>");
+    }
+
+    // 📌 Pin butonu text'i
+let pinHtml = "";
+if (canPin) {
+  pinHtml = `
+    <button class="chat-pin"
+            onclick="event.stopPropagation(); togglePinChatMessage('${id}', ${isPinned ? "true" : "false"})">
+      ${isPinned ? "📌 Sabitlemeyi kaldır" : "📌 Sabitle"}
+    </button>
+  `;
+}
+
+
+    const deleteHtml = canDelete
+  ? `<span class="chat-delete"
+           onclick="event.stopPropagation(); deleteChatMessage('${id}','${ownerUsername}')">
+       Sil
+     </span>`
+  : "";
+
+
+    const bubbleHtml = `
+      <div class="chat-message ${isMe ? "chat-message--me" : ""}">
+        <div class="chat-avatar" style="${avatarStyle}">
+          ${avatarUrl ? "" : initials}
+        </div>
+        <div class="chat-bubble"
+             data-owner='${ownerUsername}'>
+          <div class="chat-meta">
+            <strong>${displayName}</strong> · ${ts}
+            ${ticksHtml}
+          </div>
+          <div>${messageHtml}</div>
+          <div class="chat-meta chat-meta-bottom">
+  <span>
+    ${pinHtml}
+  </span>
+  <span>
+    ${deleteHtml}
+  </span>
+</div>
+
+        </div>
+      </div>
+    `;
+
+    parts.push(bubbleHtml);
+
+    // Sabitli mesaj için ayrı bar
+    if (isPinned) {
+      pinnedHtml = `
+        <div class="pinned-bar">
+          <div class="pinned-bar-content">
+            <div class="pinned-bar-title">Sabitlenmiş Mesaj</div>
+            <div class="pinned-bar-text">
+              <strong>${displayName}:</strong> ${plainText}
+            </div>
+          </div>
+        </div>
+      `;
+    }
+  });
+
+  chatMessagesEl.innerHTML = parts.join("") || "<p>Henüz mesaj yok. İlk mesajı sen yaz. 😊</p>";
+  chatMessagesEl.scrollTop = chatMessagesEl.scrollHeight;
+
+  pinnedBarEl.innerHTML = pinnedHtml;
+}
+
+// 🔔 Firestore snapshot aboneliği
+function subscribeChatMessages() {
   const qChat = query(chatColRef, orderBy("createdAt","asc"));
 
   onSnapshot(qChat, (snap) => {
-    // 🔔 Yeni mesaj ses kontrolü
-    if (chatInitialized) {
-      snap.docChanges().forEach(change => {
-        if (change.type === "added") {
-          const m = change.doc.data();
-
-          // Eski alan adları ile uyumlu olsun
-          const ownerUsername = m.username || m.authorKey || "";
-
-          // KENDİ yazdığın mesaj için ses çalma
-          if (ownerUsername !== username) {
-            playChatSound();
-          }
-        }
-      });
-    }
-
-    // 🔹 Tüm görünen mesajları "okundu" işaretle
+    // okunma bilgisi
     markMessagesAsRead(snap.docs);
 
-    const parts = [];
+    // dokümanları global değişkende tut
+    lastChatDocs = snap.docs.map(ds => ({
+      id:   ds.id,
+      data: ds.data()
+    }));
 
-    snap.forEach(ds => {
-      const m  = ds.data();
-      const id = ds.id;
-
-      const ownerUsername = m.username || m.authorKey || "";
-      const displayName   = m.displayName || m.authorName || ownerUsername;
-      const avatarUrl     = m.avatarUrl || m.authorAvatar || "";
-      const isMe          = ownerUsername === username;
-
-      const date = m.createdAt?.toDate?.() || new Date();
-      const ts = date.toLocaleString("tr-TR", {
-        day:"2-digit", month:"2-digit", year:"numeric",
-        hour:"2-digit", minute:"2-digit"
-      });
-
-      const initials = (displayName || ownerUsername || "?")
-        .split(" ")
-        .map(p => p.charAt(0))
-        .join("")
-        .slice(0,2)
-        .toUpperCase();
-
-      const avatarStyle = avatarUrl
-        ? `background-image:url('${avatarUrl}');`
-        : "";
-
-      const canDelete = isMe || username === "bulutkeles";
-
-      // ✅ Okundu bilgisi
-      const readBy  = m.readBy || {};
-      const readers = Object.keys(readBy).filter(u => u !== username);
-
-      let ticksHtml = "";
-      if (isMe) {
-        if (readers.length === 0) {
-          ticksHtml = `<span class="tick tick--single">✓</span>`;
-        } else {
-          ticksHtml = `<span class="tick tick--double">✓✓</span>`;
-        }
-      }
-
-      parts.push(`
-        <div class="chat-message ${isMe ? "chat-message--me" : ""}">
-          <div class="chat-avatar" style="${avatarStyle}">
-            ${avatarUrl ? "" : initials}
-          </div>
-          <div class="chat-bubble"
-               data-readers='${JSON.stringify(readers)}'
-               data-owner='${ownerUsername}'>
-            <div class="chat-meta">
-              <strong>${displayName}</strong> · ${ts}
-              ${ticksHtml}
-            </div>
-            <div>${(m.text || "").replace(/\\n/g,"<br>")}</div>
-            ${canDelete
-              ? `<span class="chat-delete" onclick="deleteChatMessage('${id}','${ownerUsername}')">Sil</span>`
-              : ""
-            }
-          </div>
-        </div>
-      `);
-    });
-
-    chatMessagesEl.innerHTML = parts.join("") || "<p>Henüz mesaj yok. İlk mesajı sen yaz. 😊</p>";
-    chatMessagesEl.scrollTop = chatMessagesEl.scrollHeight;
-
-    // 🔐 İlk snapshot’tan sonra ses sistemi aktif olsun
-    chatInitialized = true;
+    // Güncel arama terimine göre yeniden çiz
+    renderChatMessages();
   });
 }
+
 
 
 
@@ -1586,6 +1746,36 @@ let chatStatus = "online";
 
     await deleteDoc(doc(chatColRef, messageId));
   };
+// 📌 Mesaj sabitleme / kaldırma
+window.togglePinChatMessage = async function(messageId, isPinned) {
+  if (username !== "bulutkeles") {
+    alert("Yalnızca oda sahibi mesaj sabitleyebilir.");
+    return;
+  }
+
+  try {
+    if (isPinned) {
+      // zaten sabitliyse kaldır
+      await updateDoc(doc(chatColRef, messageId), {
+        pinned: false
+      });
+    } else {
+      // önce diğer sabitli mesajları kaldır
+      const qPinned   = query(chatColRef, where("pinned","==",true));
+      const pinnedSnap = await getDocs(qPinned);
+      await Promise.all(pinnedSnap.docs.map(d => updateDoc(d.ref, { pinned: false })));
+
+      // sonra bu mesajı sabitle
+      await updateDoc(doc(chatColRef, messageId), {
+        pinned: true,
+        pinnedAt: serverTimestamp()
+      });
+    }
+  } catch (e) {
+    console.error("pin hata:", e);
+    alert("Mesaj sabitlenirken bir hata oluştu.");
+  }
+};
 
   function fillProfileForm() {
     if (!currentProfile) return;
