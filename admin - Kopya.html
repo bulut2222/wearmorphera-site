@@ -351,155 +351,6 @@
     }
     .sidebar-title{display:none;}
   }
-    /* ============ ADMIN SOHBET ODASI ============ */
-  .chat-layout{
-    display:grid;
-    grid-template-columns:minmax(0,2.2fr) minmax(0,1.2fr);
-    gap:20px;
-  }
-  .chat-box{
-    border-radius:22px;
-    padding:16px 16px 18px;
-    background:radial-gradient(circle at top left,rgba(129,140,248,0.22),rgba(15,23,42,0.97));
-    border:1px solid rgba(148,163,184,0.7);
-    display:flex;
-    flex-direction:column;
-    min-height:260px;
-    max-height:520px;
-  }
-  .chat-messages{
-    flex:1;
-    overflow-y:auto;
-    padding-right:4px;
-    display:flex;
-    flex-direction:column;
-    gap:10px;
-  }
-  .chat-message{
-    max-width:78%;
-    padding:10px 12px;
-    border-radius:18px;
-    position:relative;
-    font-size:13px;
-    line-height:1.4;
-  }
-  .chat-message.me{
-    margin-left:auto;
-    background:linear-gradient(135deg,#6366f1,#ec4899);
-    color:#fff;
-    border-bottom-right-radius:4px;
-  }
-  .chat-message.other{
-    margin-right:auto;
-    background:rgba(15,23,42,0.95);
-    border:1px solid rgba(148,163,184,0.7);
-    border-bottom-left-radius:4px;
-  }
-  .chat-message-header{
-    display:flex;
-    align-items:center;
-    gap:8px;
-    margin-bottom:4px;
-    font-size:12px;
-    opacity:.9;
-  }
-  .chat-avatar{
-    width:26px;
-    height:26px;
-    border-radius:999px;
-    background:#020617;
-    background-size:cover;
-    background-position:center;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:11px;
-    font-weight:600;
-    color:#e5e7eb;
-    box-shadow:0 8px 18px rgba(15,23,42,0.85);
-  }
-  .chat-meta{
-    font-size:11px;
-    opacity:.75;
-    margin-top:4px;
-    display:flex;
-    justify-content:space-between;
-    gap:8px;
-  }
-  .chat-input-row{
-    margin-top:12px;
-    display:flex;
-    gap:10px;
-  }
-  .chat-input-row input{
-    flex:1;
-    border-radius:999px;
-    border:1px solid rgba(148,163,184,0.7);
-    background:rgba(15,23,42,0.95);
-    color:#e5e7eb;
-    padding:10px 14px;
-    font-size:14px;
-    outline:none;
-  }
-
-  .chat-members{
-    border-radius:22px;
-    padding:14px;
-    background:radial-gradient(circle at top,rgba(129,140,248,0.25),rgba(15,23,42,0.98));
-    border:1px solid rgba(148,163,184,0.7);
-    max-height:520px;
-    overflow-y:auto;
-  }
-  .chat-member{
-    display:flex;
-    align-items:center;
-    gap:10px;
-    padding:8px 6px;
-    border-radius:12px;
-  }
-  .chat-member-main{
-    flex:1;
-  }
-  .chat-member-name{
-    font-size:13px;
-    font-weight:600;
-  }
-  .chat-member-title{
-    font-size:11px;
-    color:#9ca3af;
-  }
-  .chat-status-dot{
-    width:8px;
-    height:8px;
-    border-radius:999px;
-    background:#22c55e;
-    box-shadow:0 0 0 4px rgba(34,197,94,0.32);
-  }
-  .chat-status-text{
-    font-size:11px;
-    color:#9ca3af;
-  }
-  .chat-delete{
-    background:none;
-    border:none;
-    color:rgba(248,250,252,0.9);
-    font-size:11px;
-    cursor:pointer;
-    padding:0;
-    margin-left:4px;
-    opacity:.7;
-  }
-  .chat-delete:hover{
-    opacity:1;
-    text-decoration:underline;
-  }
-
-  @media (max-width: 960px){
-    .chat-layout{
-      grid-template-columns:minmax(0,1fr);
-    }
-  }
-
   </style>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
 
@@ -551,10 +402,6 @@
    <div class="menu-item" data-panel="postsPanel" onclick="showPanel('postsPanel')">
   <span class="icon lottie" data-json="assets/img/admin/gönderi.json"></span> Gönderiler
 </div>
-<div class="menu-item" data-panel="chatPanel" onclick="showPanel('chatPanel')">
-  <span class="icon">💬</span> Sohbet Odası
-</div>
-
    <div class="menu-item" style="margin-top:auto;background:#ff1744cc;border:1px solid #ff8a80;" onclick="logoutAdmin()">
   <span class="icon lottie" data-json="assets/img/admin/çıkış.json"></span> Çıkış Yap
 </div>
@@ -710,58 +557,6 @@ document.getElementById("scheduleEnable").addEventListener("change", function() 
         <button class="btn-primary" type="submit">Gönderiyi Paylaş</button>
       </form>
     </section>
-    <!-- SOHBET ODASI -->
-    <section class="panel" id="chatPanel">
-      <div class="panel-header">
-        <div class="panel-title">
-          💬 Admin Sohbet Odası
-          <span class="panel-title-badge">Canlı · Morpheradan Notlar Ekibi</span>
-        </div>
-      </div>
-
-      <div class="chat-layout">
-        <!-- SOL: Mesajlar -->
-        <div class="chat-box">
-          <div class="chat-messages" id="chatMessages"></div>
-
-          <form id="chatForm" class="chat-input-row">
-            <input id="chatInput" type="text"
-                   placeholder="Odadan ekibe kısa bir not bırak..."
-                   autocomplete="off" />
-            <button class="btn-primary" type="submit">Gönder</button>
-          </form>
-        </div>
-
-        <!-- SAĞ: Üye listesi + oda yöneticisi araçları -->
-        <aside class="chat-members">
-          <h3 style="margin:0 0 10px;font-size:14px;">Grup Üyeleri</h3>
-          <p style="margin:0 0 12px;font-size:12px;color:#9ca3af;">
-            Bu odadaki adminler Morpheradan Notlar duvarını birlikte yönetir.
-          </p>
-
-          <div id="chatMembers"></div>
-
-          <!-- Sadece Bulut (oda sahibi) görecek -->
-          <div id="chatOwnerBox"
-               style="margin-top:14px;padding-top:10px;border-top:1px dashed rgba(148,163,184,0.6);display:none;">
-            <label style="font-size:11px;color:#9ca3af;display:block;margin-bottom:6px;">
-              Yeni üye ekle (kullanıcı adı)
-            </label>
-            <div style="display:flex;gap:8px;">
-              <input id="chatNewMember" type="text" placeholder="busrakaraca"
-                     style="flex:1;border-radius:999px;border:1px solid rgba(148,163,184,0.7);background:#020617;color:#e5e7eb;padding:8px 12px;font-size:12px;">
-              <button id="chatAddMemberBtn" type="button"
-                      class="btn-primary" style="padding-inline:14px;font-size:12px;">
-                Ekle
-              </button>
-            </div>
-            <p style="margin-top:6px;font-size:11px;color:#9ca3af;">
-              Eklediğin kişi admin paneline girdiğinde sohbeti görecek.
-            </p>
-          </div>
-        </aside>
-      </div>
-    </section>
 
     <!-- GÖNDERİLER -->
     <section class="panel" id="postsPanel">
@@ -859,8 +654,6 @@ window.logoutAdmin = function() {
 
   const notesColRef   = collection(db, "morpheraNotes");
   const authorsColRef = collection(db, "noteAuthors");
-  const chatMessagesRef = collection(db, "adminChatMessages");
-  const chatMembersRef  = collection(db, "adminChatMembers");
 
   // ---- Giriş yapan admin bilgisi ----
   const username = localStorage.getItem("morpheraAdminUser");
@@ -887,13 +680,6 @@ window.logoutAdmin = function() {
   const postTextInput    = document.getElementById("postText");
   const postImageInput   = document.getElementById("postImageUrl");
   const postList         = document.getElementById("postList");
-  const chatMessagesEl   = document.getElementById("chatMessages");
-  const chatMembersEl    = document.getElementById("chatMembers");
-  const chatForm         = document.getElementById("chatForm");
-  const chatInput        = document.getElementById("chatInput");
-  const chatOwnerBox     = document.getElementById("chatOwnerBox");
-  const chatNewMemberInp = document.getElementById("chatNewMember");
-  const chatAddMemberBtn = document.getElementById("chatAddMemberBtn");
 
   const statPostsEl      = document.getElementById("statPosts");
   const statLikesEl      = document.getElementById("statLikes");
@@ -944,15 +730,6 @@ window.logoutAdmin = function() {
     previewName.textContent  = currentProfile.displayName || username;
     previewTitle.textContent = currentProfile.title || "Morphera Admin";
   }
-    function getInitials(nameOrUsername) {
-    return (nameOrUsername || "")
-      .split(" ")
-      .map(p => p.charAt(0))
-      .join("")
-      .slice(0,2)
-      .toUpperCase();
-  }
-
 import { onSnapshot } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
 
 onSnapshot(notesColRef, (snap) => {
@@ -1145,15 +922,13 @@ if (enableSchedule) {
   }
 
   // ---- İlk yükleme ----
-    window.addEventListener("DOMContentLoaded", async () => {
-    await loadProfile();
-    await loadAdminPosts();
-    await loadComments();
-    await loadScheduledPosts();
-    await loadAnalytics();
-    await initChat();   // 🟣 admin sohbet odası
-  });
-
+  window.addEventListener("DOMContentLoaded", async () => {
+  await loadProfile();
+  await loadAdminPosts();
+  await loadComments();
+  await loadScheduledPosts();
+  await loadAnalytics();
+});
 
   window.deletePost = async function(postId) {
   if (!confirm("Bu gönderiyi silmek istediğine emin misin?")) return;
