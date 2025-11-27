@@ -753,6 +753,56 @@
     padding:4px 10px;
     outline:none;
   }
+.chat-emoji-btn{
+  border:none;
+  width:42px;
+  height:42px;
+  border-radius:999px;
+  background:rgba(15,23,42,0.95);
+  color:#f9fafb;
+  font-size:20px;
+  cursor:pointer;
+  box-shadow:0 8px 24px rgba(15,23,42,0.6);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.emoji-panel{
+  display:none;
+  margin-top:6px;
+  padding:8px 10px;
+  border-radius:14px;
+  background:rgba(15,23,42,0.96);
+  border:1px solid rgba(148,163,184,0.4);
+  max-width:480px;
+  font-size:20px;
+  line-height:1.8;
+  flex-wrap:wrap;
+}
+
+.emoji-panel span{
+  cursor:pointer;
+  margin:2px 4px;
+}
+
+.emoji-panel.open{
+  display:flex;
+}
+
+/* Tik (okundu bilgisi) stilleri */
+.tick{
+  font-size:12px;
+}
+
+.tick--single{
+  color:#9ca3af;   /* Gri tek tik */
+}
+
+.tick--double{
+  color:#38bdf8;   /* Mavi çift tik */
+  letter-spacing:-2px;
+}
 
   </style>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
@@ -983,12 +1033,21 @@ document.getElementById("scheduleEnable").addEventListener("change", function() 
         <div class="chat-box">
           <div class="chat-messages" id="chatMessages"></div>
 
-          <form id="chatForm" class="chat-input-row">
-            <input id="chatInput" type="text"
-                   placeholder="Odadan ekibe kısa bir not bırak..."
-                   autocomplete="off" />
-            <button class="btn-primary" type="submit">Gönder</button>
-          </form>
+         <form id="chatForm" class="chat-input-row">
+  <button type="button" id="emojiToggle" class="chat-emoji-btn">😊</button>
+
+  <input id="chatInput" type="text"
+         placeholder="Odadan ekibe kısa bir not bırak..."
+         autocomplete="off" />
+
+  <button class="chat-send-btn" type="submit">Gönder</button>
+</form>
+
+<!-- Emoji paneli -->
+<div id="emojiPanel" class="emoji-panel">
+  😀 😃 😄 😅 😂 🤔 🙌 ✨ ❤️ 🔥 😎 😍 😴 😇 😢 😡
+</div>
+
         </div>
 
         <!-- SAĞ: Üye listesi + oda yöneticisi araçları -->
@@ -1061,6 +1120,25 @@ document.querySelectorAll(".lottie").forEach(el => {
 
   el.animation = anim;
 });
+import { updateDoc } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
+
+async function markMessagesAsRead(docs){
+  if (!username) return; // current admin
+
+  const updates = docs.map(d => {
+    const data = d.data();
+    if (!data.readBy || !data.readBy[username]) {
+      return updateDoc(d.ref, {
+        [`readBy.${username}`]: true
+      });
+    }
+    return null;
+  }).filter(Boolean);
+
+  if (updates.length) {
+    await Promise.all(updates);
+  }
+}
 
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
   import {
@@ -1164,9 +1242,60 @@ window.logoutAdmin = function() {
   const statLikesEl      = document.getElementById("statLikes");
   const statCommentsEl   = document.getElementById("statComments");
   const chatMessagesEl = document.getElementById("chatMessages");
+  // Kendi balonuna tıklayınca okuyanları göster
+chatMessagesEl.addEventListener("click", (e) => {
+  const bubble = e.target.closest(".chat-bubble");
+  if (!bubble) return;
+
+  const parent = bubble.parentElement;
+  const isMine = parent && parent.classList.contains("chat-message--me");
+  if (!isMine) return;
+
+  const readers = JSON.parse(bubble.dataset.readers || "[]");
+  if (!readers.length) {
+    alert("Bu mesajı henüz sadece sen okudun.");
+    return;
+  }
+
+  const nameMap = {
+    bulutkeles: "Bulut Keleş",
+    busrakaraca: "Büşra Karaca",
+    eminekaraca: "Emine Karaca"
+  };
+
+  const pretty = readers.map(r => nameMap[r] || r).join(", ");
+  alert("Bu mesajı okuyanlar: " + pretty);
+});
+
   const chatMembersEl  = document.getElementById("chatMembers");
   const chatForm       = document.getElementById("chatForm");
   const chatInput      = document.getElementById("chatInput");
+
+const emojiToggle = document.getElementById("emojiToggle");
+const emojiPanel  = document.getElementById("emojiPanel");
+if (emojiToggle && emojiPanel && chatInput) {
+  emojiToggle.addEventListener("click", () => {
+    emojiPanel.classList.toggle("open");
+  });
+
+  emojiPanel.innerHTML = emojiPanel.textContent
+    .split(" ")
+    .filter(Boolean)
+    .map(e => `<span>${e}</span>`)
+    .join("");
+
+  emojiPanel.addEventListener("click", (e) => {
+    const span = e.target.closest("span");
+    if (!span) return;
+    chatInput.value += span.textContent;
+    chatInput.focus();
+  });
+
+  // input odaktan çıkınca paneli kapat
+  chatInput.addEventListener("blur", () => {
+    setTimeout(() => emojiPanel.classList.remove("open"), 150);
+  });
+}
 
   let currentProfile = null;
 let chatStatus = "online";
@@ -1284,57 +1413,86 @@ let chatStatus = "online";
   });
 }
 
+
   function subscribeChatMessages() {
-    const qChat = query(chatColRef, orderBy("createdAt","asc"));
+  const qChat = query(chatColRef, orderBy("createdAt","asc"));
 
-    onSnapshot(qChat, (snap) => {
-      const parts = [];
+  onSnapshot(qChat, (snap) => {
+    // 🔥 Görünen tüm mesajları "okundu" işaretle
+    markMessagesAsRead(snap.docs);
 
-      snap.forEach(ds => {
-        const m = ds.data();
-        const id = ds.id;
+    const parts = [];
 
-        const isMe = m.username === username;
+    snap.forEach(ds => {
+      const m  = ds.data();
+      const id = ds.id;
 
-        const date = m.createdAt?.toDate?.() || new Date();
-        const ts = date.toLocaleString("tr-TR", {
-          day:"2-digit", month:"2-digit", year:"numeric",
-          hour:"2-digit", minute:"2-digit"
-        });
+      // Eski alan adları ile uyumlu olsun diye:
+      const ownerUsername = m.username || m.authorKey || "";
+      const displayName   = m.displayName || m.authorName || ownerUsername;
+      const avatarUrl     = m.avatarUrl || m.authorAvatar || "";
 
-        const initials = (m.displayName || m.username || "?")
-          .split(" ")
-          .map(p => p.charAt(0))
-          .join("")
-          .slice(0,2)
-          .toUpperCase();
+      const isMe = ownerUsername === username;
 
-        const avatarStyle = m.avatarUrl
-          ? `background-image:url('${m.avatarUrl}');`
-          : "";
-
-        const canDelete = isMe || username === "bulutkeles";
-
-        parts.push(`
-          <div class="chat-message ${isMe ? "chat-message--me" : ""}">
-            <div class="chat-avatar" style="${avatarStyle}">
-              ${m.avatarUrl ? "" : initials}
-            </div>
-            <div class="chat-bubble">
-              <div class="chat-meta">
-                <strong>${m.displayName || m.username}</strong> · ${ts}
-              </div>
-              <div>${(m.text || "").replace(/\n/g,"<br>")}</div>
-              ${canDelete ? `<span class="chat-delete" onclick="deleteChatMessage('${id}','${m.username}')">Sil</span>` : ""}
-            </div>
-          </div>
-        `);
+      const date = m.createdAt?.toDate?.() || new Date();
+      const ts = date.toLocaleString("tr-TR", {
+        day:"2-digit", month:"2-digit", year:"numeric",
+        hour:"2-digit", minute:"2-digit"
       });
 
-      chatMessagesEl.innerHTML = parts.join("") || "<p>Henüz mesaj yok. İlk mesajı sen yaz. 😊</p>";
-      chatMessagesEl.scrollTop = chatMessagesEl.scrollHeight;
+      const initials = (displayName || ownerUsername || "?")
+        .split(" ")
+        .map(p => p.charAt(0))
+        .join("")
+        .slice(0,2)
+        .toUpperCase();
+
+      const avatarStyle = avatarUrl
+        ? `background-image:url('${avatarUrl}');`
+        : "";
+
+      const canDelete = isMe || username === "bulutkeles";
+
+      // 🔹 Okundu bilgisi
+      const readBy  = m.readBy || {};
+      const readers = Object.keys(readBy).filter(u => u !== username);
+
+      let ticksHtml = "";
+      if (isMe) {
+        if (readers.length === 0) {
+          ticksHtml = `<span class="tick tick--single">✓</span>`;
+        } else {
+          ticksHtml = `<span class="tick tick--double">✓✓</span>`;
+        }
+      }
+
+      parts.push(`
+        <div class="chat-message ${isMe ? "chat-message--me" : ""}">
+          <div class="chat-avatar" style="${avatarStyle}">
+            ${avatarUrl ? "" : initials}
+          </div>
+          <div class="chat-bubble"
+               data-readers='${JSON.stringify(readers)}'
+               data-owner='${ownerUsername}'>
+            <div class="chat-meta">
+              <strong>${displayName}</strong> · ${ts}
+              ${ticksHtml}
+            </div>
+            <div>${(m.text || "").replace(/\\n/g,"<br>")}</div>
+            ${canDelete
+              ? `<span class="chat-delete" onclick="deleteChatMessage('${id}','${ownerUsername}')">Sil</span>`
+              : ""
+            }
+          </div>
+        </div>
+      `);
     });
-  }
+
+    chatMessagesEl.innerHTML = parts.join("") || "<p>Henüz mesaj yok. İlk mesajı sen yaz. 😊</p>";
+    chatMessagesEl.scrollTop = chatMessagesEl.scrollHeight;
+  });
+}
+
 
   // Mesaj gönderme
   if (chatForm) {
@@ -1345,13 +1503,18 @@ let chatStatus = "online";
 
       if (!currentProfile) { await loadProfile(); }
 
-      await addDoc(chatColRef, {
-        username,
-        displayName: currentProfile.displayName || username,
-        avatarUrl: currentProfile.avatarUrl || "",
-        text,
-        createdAt: serverTimestamp()
-      });
+    await addDoc(chatColRef, {
+  text,
+  username: username,
+  displayName: currentProfile.displayName || username,
+  avatarUrl: currentProfile.avatarUrl || "",
+  createdAt: serverTimestamp(),
+  readBy: {
+    [username]: true   // gönderen otomatik okumuş
+  }
+});
+
+
 
       chatInput.value = "";
     });
