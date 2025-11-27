@@ -338,6 +338,185 @@
     font-size:14px;
     color:#e5e7eb;
   }
+  /* ========== ADMIN SOHBET ODASI ========== */
+
+  .chat-layout{
+    display:grid;
+    grid-template-columns:minmax(0,2.2fr) minmax(0,1.2fr);
+    gap:20px;
+  }
+
+  .chat-main{
+    background:radial-gradient(circle at top left,rgba(129,140,248,0.25),rgba(15,23,42,0.96));
+    border-radius:20px;
+    border:1px solid rgba(148,163,184,0.6);
+    padding:16px;
+    display:flex;
+    flex-direction:column;
+    min-height:260px;
+  }
+
+  .chat-messages{
+    flex:1;
+    overflow-y:auto;
+    padding:4px 4px 10px;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+  }
+
+  .chat-message{
+    display:flex;
+    align-items:flex-start;
+    gap:10px;
+    max-width:80%;
+  }
+
+  .chat-message--me{
+    margin-left:auto;
+    flex-direction:row-reverse;
+  }
+
+  .chat-avatar{
+    width:38px;
+    height:38px;
+    border-radius:999px;
+    background:#111827;
+    background-size:cover;
+    background-position:center;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:14px;
+    font-weight:600;
+    color:#f9fafb;
+    box-shadow:0 8px 18px rgba(15,23,42,0.9);
+  }
+
+  .chat-bubble{
+    padding:10px 12px;
+    border-radius:16px;
+    background:rgba(15,23,42,0.9);
+    border:1px solid rgba(148,163,184,0.6);
+    font-size:14px;
+    color:#e5e7eb;
+    position:relative;
+  }
+
+  .chat-message--me .chat-bubble{
+    background:var(--gradient);
+    border-color:rgba(248,250,252,0.5);
+  }
+
+  .chat-meta{
+    font-size:11px;
+    opacity:0.7;
+    margin-bottom:4px;
+  }
+
+  .chat-delete{
+    position:absolute;
+    bottom:4px;
+    right:6px;
+    font-size:11px;
+    opacity:0.6;
+    cursor:pointer;
+  }
+
+  .chat-delete:hover{
+    opacity:1;
+  }
+
+  .chat-input-row{
+    margin-top:12px;
+    display:flex;
+    gap:10px;
+    align-items:center;
+  }
+
+  #chatInput{
+    flex:1;
+    border-radius:999px;
+    border:1px solid rgba(148,163,184,0.6);
+    background:#020617;
+    color:#e5e7eb;
+    padding:10px 14px;
+    font-size:14px;
+    outline:none;
+  }
+
+  #chatInput:focus{
+    border-color:#818cf8;
+    box-shadow:0 0 0 1px rgba(129,140,248,0.7);
+  }
+
+  .chat-send-btn{
+    border:none;
+    border-radius:999px;
+    padding:10px 20px;
+    background:var(--gradient);
+    color:#fff;
+    font-weight:600;
+    font-size:14px;
+    cursor:pointer;
+    box-shadow:0 14px 30px rgba(129,140,248,0.9);
+  }
+
+  .chat-side{
+    background:rgba(15,23,42,0.96);
+    border-radius:20px;
+    border:1px solid rgba(148,163,184,0.6);
+    padding:16px;
+  }
+
+  .chat-side-title{
+    margin:0 0 4px;
+    font-size:16px;
+    font-weight:600;
+  }
+
+  .chat-side-subtitle{
+    margin:0 0 12px;
+    font-size:13px;
+    color:#9ca3af;
+  }
+
+  .chat-members{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+  }
+
+  .chat-member{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    padding:6px 8px;
+    border-radius:10px;
+    background:rgba(15,23,42,0.9);
+  }
+
+  .chat-member-dot{
+    width:8px;
+    height:8px;
+    border-radius:999px;
+    margin-right:4px;
+  }
+
+  .chat-member-name{
+    font-size:13px;
+  }
+
+  .chat-member-role{
+    font-size:11px;
+    color:#9ca3af;
+  }
+
+  @media (max-width: 960px){
+    .chat-layout{
+      grid-template-columns:minmax(0,1fr);
+    }
+  }
 
   @media (max-width: 960px){
     .wrapper{
@@ -542,22 +721,27 @@
     <div class="menu-item active" data-panel="analyticsPanel" onclick="showPanel('analyticsPanel')">
   <span class="icon lottie" data-json="assets/img/admin/analiz.json"></span> Analytics
 </div>
-    <div class="menu-item" data-panel="profilePanel" onclick="showPanel('profilePanel')">
+   <div class="menu-item" data-panel="profilePanel" onclick="showPanel('profilePanel')">
   <span class="icon lottie" data-json="assets/img/admin/profil3.json"></span> Profil Ayarları
 </div>
-    <div class="menu-item" data-panel="newPostPanel" onclick="showPanel('newPostPanel')">
+
+<div class="menu-item" data-panel="newPostPanel" onclick="showPanel('newPostPanel')">
   <span class="icon lottie" data-json="assets/img/admin/gönderi.json"></span> Yeni Gönderi
 </div>
-   <div class="menu-item" data-panel="postsPanel" onclick="showPanel('postsPanel')">
+
+<div class="menu-item" data-panel="postsPanel" onclick="showPanel('postsPanel')">
   <span class="icon lottie" data-json="assets/img/admin/gönderi.json"></span> Gönderiler
 </div>
+
+<!-- 🔥 YENİ: Sohbet Odası menü maddesi -->
 <div class="menu-item" data-panel="chatPanel" onclick="showPanel('chatPanel')">
-  <span class="icon">💬</span> Sohbet Odası
+  <span class="icon lottie" data-json="assets/img/admin/sohbet.json"></span> Sohbet Odası
 </div>
 
-   <div class="menu-item" style="margin-top:auto;background:#ff1744cc;border:1px solid #ff8a80;" onclick="logoutAdmin()">
+<div class="menu-item" style="margin-top:auto;background:#ff1744cc;border:1px solid #ff8a80;" onclick="logoutAdmin()">
   <span class="icon lottie" data-json="assets/img/admin/çıkış.json"></span> Çıkış Yap
 </div>
+
 
   </aside>
 
@@ -859,8 +1043,9 @@ window.logoutAdmin = function() {
 
   const notesColRef   = collection(db, "morpheraNotes");
   const authorsColRef = collection(db, "noteAuthors");
-  const chatMessagesRef = collection(db, "adminChatMessages");
-  const chatMembersRef  = collection(db, "adminChatMembers");
+    const chatColRef     = collection(db, "adminChatMessages");
+  const chatMembersRef = collection(db, "adminChatMembers");
+  
 
   // ---- Giriş yapan admin bilgisi ----
   const username = localStorage.getItem("morpheraAdminUser");
@@ -887,10 +1072,7 @@ window.logoutAdmin = function() {
   const postTextInput    = document.getElementById("postText");
   const postImageInput   = document.getElementById("postImageUrl");
   const postList         = document.getElementById("postList");
-  const chatMessagesEl   = document.getElementById("chatMessages");
-  const chatMembersEl    = document.getElementById("chatMembers");
-  const chatForm         = document.getElementById("chatForm");
-  const chatInput        = document.getElementById("chatInput");
+  
   const chatOwnerBox     = document.getElementById("chatOwnerBox");
   const chatNewMemberInp = document.getElementById("chatNewMember");
   const chatAddMemberBtn = document.getElementById("chatAddMemberBtn");
@@ -898,6 +1080,10 @@ window.logoutAdmin = function() {
   const statPostsEl      = document.getElementById("statPosts");
   const statLikesEl      = document.getElementById("statLikes");
   const statCommentsEl   = document.getElementById("statComments");
+  const chatMessagesEl = document.getElementById("chatMessages");
+  const chatMembersEl  = document.getElementById("chatMembers");
+  const chatForm       = document.getElementById("chatForm");
+  const chatInput      = document.getElementById("chatInput");
 
   let currentProfile = null;
 
@@ -913,6 +1099,175 @@ window.logoutAdmin = function() {
     }
     return { displayName: username, title: "", avatarUrl: "", coverUrl: "" };
   }
+  // 🔥 Sohbet için varsayılan üyeler
+  async function ensureDefaultChatMembers() {
+    const baseUsers = ["bulutkeles","busrakaraca","eminekaraca"];
+
+    await Promise.all(
+      baseUsers.map(async (u) => {
+        const ref  = doc(chatMembersRef, u);
+        const snap = await getDoc(ref);
+        if (!snap.exists()) {
+          const def = defaultProfile(u);
+          await setDoc(ref, {
+            username: u,
+            displayName: def.displayName,
+            title: def.title,
+            avatarUrl: def.avatarUrl || "",
+            isAdmin: u === "bulutkeles",
+            lastSeen: serverTimestamp()
+          }, { merge:true });
+        }
+      })
+    );
+  }
+
+  // Giriş yapan adminin profilini sohbet üyelerine yansıt
+  async function syncMyChatMemberDoc() {
+    if (!currentProfile) return;
+    const ref = doc(chatMembersRef, username);
+    await setDoc(ref, {
+      username,
+      displayName: currentProfile.displayName || username,
+      title: currentProfile.title || "",
+      avatarUrl: currentProfile.avatarUrl || "",
+      isAdmin: username === "bulutkeles",
+      lastSeen: serverTimestamp()
+    }, { merge:true });
+  }
+
+  // Presence (çevrim içi / dışı)
+  async function updatePresence() {
+    try {
+      await setDoc(doc(chatMembersRef, username), {
+        lastSeen: serverTimestamp()
+      }, { merge:true });
+    } catch(e){ console.warn("Presence hatası:", e); }
+  }
+
+  function startPresenceHeartbeat() {
+    updatePresence();
+    setInterval(updatePresence, 60_000); // her 1 dakikada bir
+  }
+
+    function subscribeChatMembers() {
+    onSnapshot(chatMembersRef, (snap) => {
+      const now = new Date();
+      const items = [];
+
+      snap.forEach(ds => {
+        const m = ds.data();
+        let statusText = "Çevrim dışı";
+        let dotColor   = "#64748b";
+
+        if (m.lastSeen && m.lastSeen.toDate) {
+          const diff = now - m.lastSeen.toDate();
+          if (diff < 3 * 60 * 1000) { // 3 dk içinde hareket varsa online
+            statusText = "Çevrim içi";
+            dotColor   = "#22c55e";
+          }
+        }
+
+        items.push(`
+          <div class="chat-member">
+            <div class="chat-member-dot" style="background:${dotColor};"></div>
+            <div>
+              <div class="chat-member-name">${m.displayName || m.username}</div>
+              <div class="chat-member-role">
+                ${m.isAdmin ? "Admin · " : ""}${statusText}
+              </div>
+            </div>
+          </div>
+        `);
+      });
+
+      chatMembersEl.innerHTML = items.join("") || "<p>Henüz üye yok.</p>";
+    });
+  }
+  function subscribeChatMessages() {
+    const qChat = query(chatColRef, orderBy("createdAt","asc"));
+
+    onSnapshot(qChat, (snap) => {
+      const parts = [];
+
+      snap.forEach(ds => {
+        const m = ds.data();
+        const id = ds.id;
+
+        const isMe = m.username === username;
+
+        const date = m.createdAt?.toDate?.() || new Date();
+        const ts = date.toLocaleString("tr-TR", {
+          day:"2-digit", month:"2-digit", year:"numeric",
+          hour:"2-digit", minute:"2-digit"
+        });
+
+        const initials = (m.displayName || m.username || "?")
+          .split(" ")
+          .map(p => p.charAt(0))
+          .join("")
+          .slice(0,2)
+          .toUpperCase();
+
+        const avatarStyle = m.avatarUrl
+          ? `background-image:url('${m.avatarUrl}');`
+          : "";
+
+        const canDelete = isMe || username === "bulutkeles";
+
+        parts.push(`
+          <div class="chat-message ${isMe ? "chat-message--me" : ""}">
+            <div class="chat-avatar" style="${avatarStyle}">
+              ${m.avatarUrl ? "" : initials}
+            </div>
+            <div class="chat-bubble">
+              <div class="chat-meta">
+                <strong>${m.displayName || m.username}</strong> · ${ts}
+              </div>
+              <div>${(m.text || "").replace(/\n/g,"<br>")}</div>
+              ${canDelete ? `<span class="chat-delete" onclick="deleteChatMessage('${id}','${m.username}')">Sil</span>` : ""}
+            </div>
+          </div>
+        `);
+      });
+
+      chatMessagesEl.innerHTML = parts.join("") || "<p>Henüz mesaj yok. İlk mesajı sen yaz. 😊</p>";
+      chatMessagesEl.scrollTop = chatMessagesEl.scrollHeight;
+    });
+  }
+
+  // Mesaj gönderme
+  if (chatForm) {
+    chatForm.addEventListener("submit", async (e) => {
+      e.preventDefault();                     // 🔥 Artık hiçbir yere yönlenmiyor
+      const text = (chatInput.value || "").trim();
+      if (!text) return;
+
+      if (!currentProfile) { await loadProfile(); }
+
+      await addDoc(chatColRef, {
+        username,
+        displayName: currentProfile.displayName || username,
+        avatarUrl: currentProfile.avatarUrl || "",
+        text,
+        createdAt: serverTimestamp()
+      });
+
+      chatInput.value = "";
+    });
+  }
+
+  // Mesaj silme
+  window.deleteChatMessage = async function(messageId, ownerUsername) {
+    if (username !== ownerUsername && username !== "bulutkeles") {
+      alert("Yalnızca kendi mesajını silebilirsin.");
+      return;
+    }
+
+    if (!confirm("Bu mesajı silmek istediğine emin misin?")) return;
+
+    await deleteDoc(doc(chatColRef, messageId));
+  };
 
   function fillProfileForm() {
     if (!currentProfile) return;
@@ -1145,14 +1500,23 @@ if (enableSchedule) {
   }
 
   // ---- İlk yükleme ----
-    window.addEventListener("DOMContentLoaded", async () => {
+     // ---- İlk yükleme ----
+  window.addEventListener("DOMContentLoaded", async () => {
     await loadProfile();
+    await ensureDefaultChatMembers();
+    await syncMyChatMemberDoc();
+
     await loadAdminPosts();
     await loadComments();
     await loadScheduledPosts();
     await loadAnalytics();
-    await initChat();   // 🟣 admin sohbet odası
+
+    // Sohbet
+    subscribeChatMembers();
+    subscribeChatMessages();
+    startPresenceHeartbeat();
   });
+
 
 
   window.deletePost = async function(postId) {
