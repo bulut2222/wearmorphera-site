@@ -673,10 +673,85 @@
     text-decoration:underline;
   }
 
-  @media (max-width: 960px){
+    @media (max-width: 960px){
     .chat-layout{
       grid-template-columns:minmax(0,1fr);
     }
+    .chat-main{
+      padding:12px;
+      min-height:220px;
+    }
+    .chat-side{
+      margin-top:12px;
+    }
+  }
+
+  @media (max-width: 640px){
+    .panel-header{
+      flex-direction:column;
+      align-items:flex-start;
+      gap:8px;
+    }
+
+    .chat-messages{
+      max-height:320px;
+    }
+
+    .chat-input-row{
+      flex-direction:column;
+      align-items:stretch;
+    }
+
+    #chatInput{
+      width:100%;
+    }
+
+    .chat-send-btn{
+      width:100%;
+      text-align:center;
+      box-shadow:0 10px 24px rgba(129,140,248,0.9);
+    }
+
+    .chat-side{
+      padding:12px;
+    }
+
+    .chat-status{
+      flex-direction:column;
+      align-items:flex-start;
+    }
+
+    #chatStatusSelect{
+      width:100%;
+    }
+  }
+
+  .chat-status{
+    margin-bottom:14px;
+    padding:8px 10px;
+    border-radius:12px;
+    background:rgba(15,23,42,0.9);
+    border:1px solid rgba(148,163,184,0.6);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:8px;
+  }
+
+  .chat-status label{
+    font-size:12px;
+    color:#e5e7eb;
+  }
+
+  #chatStatusSelect{
+    flex:0 0 auto;
+    border-radius:999px;
+    border:1px solid rgba(148,163,184,0.8);
+    background:#020617;
+    color:#e5e7eb;
+    font-size:12px;
+    padding:4px 10px;
+    outline:none;
   }
 
   </style>
@@ -922,7 +997,15 @@ document.getElementById("scheduleEnable").addEventListener("change", function() 
           <p style="margin:0 0 12px;font-size:12px;color:#9ca3af;">
             Bu odadaki adminler Morpheradan Notlar duvarını birlikte yönetir.
           </p>
-
+ <!-- ⭐ Yeni: kendi durumun -->
+  <div class="chat-status">
+    <label for="chatStatusSelect">Senin durumun</label>
+    <select id="chatStatusSelect">
+      <option value="online">Çevrim içi</option>
+      <option value="busy">Müsait değil</option>
+      <option value="offline">Çevrim dışı</option>
+    </select>
+  </div>
           <div id="chatMembers"></div>
 
           <!-- Sadece Bulut (oda sahibi) görecek -->
@@ -1101,49 +1184,54 @@ window.logoutAdmin = function() {
   }
   // 🔥 Sohbet için varsayılan üyeler
   async function ensureDefaultChatMembers() {
-    const baseUsers = ["bulutkeles","busrakaraca","eminekaraca"];
+  const baseUsers = ["bulutkeles","busrakaraca","eminekaraca"];
 
-    await Promise.all(
-      baseUsers.map(async (u) => {
-        const ref  = doc(chatMembersRef, u);
-        const snap = await getDoc(ref);
-        if (!snap.exists()) {
-          const def = defaultProfile(u);
-          await setDoc(ref, {
-            username: u,
-            displayName: def.displayName,
-            title: def.title,
-            avatarUrl: def.avatarUrl || "",
-            isAdmin: u === "bulutkeles",
-            lastSeen: serverTimestamp()
-          }, { merge:true });
-        }
-      })
-    );
-  }
+  await Promise.all(
+    baseUsers.map(async (u) => {
+      const ref  = doc(chatMembersRef, u);
+      const snap = await getDoc(ref);
+      if (!snap.exists()) {
+        const def = defaultProfile(u);
+        await setDoc(ref, {
+          username: u,
+          displayName: def.displayName,
+          title: def.title,
+          avatarUrl: def.avatarUrl || "",
+          isAdmin: u === "bulutkeles",
+          status: "offline"          // ⭐ ilk kurulumda herkes offline
+        }, { merge:true });
+      }
+    })
+  );
+}
+
 
   // Giriş yapan adminin profilini sohbet üyelerine yansıt
   async function syncMyChatMemberDoc() {
-    if (!currentProfile) return;
-    const ref = doc(chatMembersRef, username);
-    await setDoc(ref, {
-      username,
-      displayName: currentProfile.displayName || username,
-      title: currentProfile.title || "",
-      avatarUrl: currentProfile.avatarUrl || "",
-      isAdmin: username === "bulutkeles",
-      lastSeen: serverTimestamp()
-    }, { merge:true });
-  }
+  if (!currentProfile) return;
+  const ref = doc(chatMembersRef, username);
+  await setDoc(ref, {
+    username,
+    displayName: currentProfile.displayName || username,
+    title: currentProfile.title || "",
+    avatarUrl: currentProfile.avatarUrl || "",
+    isAdmin: username === "bulutkeles",
+    status: chatStatus,              // ⭐ seçilen durum
+    lastSeen: serverTimestamp()
+  }, { merge:true });
+}
+
 
   // Presence (çevrim içi / dışı)
   async function updatePresence() {
-    try {
-      await setDoc(doc(chatMembersRef, username), {
-        lastSeen: serverTimestamp()
-      }, { merge:true });
-    } catch(e){ console.warn("Presence hatası:", e); }
-  }
+  try {
+    await setDoc(doc(chatMembersRef, username), {
+      status: chatStatus,            // ⭐ status alanı
+      lastSeen: serverTimestamp()
+    }, { merge:true });
+  } catch(e){ console.warn("Presence hatası:", e); }
+}
+
 
   function startPresenceHeartbeat() {
     updatePresence();
@@ -1151,39 +1239,51 @@ window.logoutAdmin = function() {
   }
 
     function subscribeChatMembers() {
-    onSnapshot(chatMembersRef, (snap) => {
-      const now = new Date();
-      const items = [];
+  onSnapshot(chatMembersRef, (snap) => {
+    const now = new Date();
+    const items = [];
 
-      snap.forEach(ds => {
-        const m = ds.data();
-        let statusText = "Çevrim dışı";
-        let dotColor   = "#64748b";
+    snap.forEach(ds => {
+      const m = ds.data();
 
-        if (m.lastSeen && m.lastSeen.toDate) {
-          const diff = now - m.lastSeen.toDate();
-          if (diff < 3 * 60 * 1000) { // 3 dk içinde hareket varsa online
+      let statusText = "Çevrim dışı";
+      let dotColor   = "#64748b";
+
+      if (m.lastSeen && m.lastSeen.toDate) {
+        const diff = now - m.lastSeen.toDate();
+        const isActive = diff < 3 * 60 * 1000; // son 3 dk içinde hareket
+
+        if (isActive) {
+          if (m.status === "online") {
             statusText = "Çevrim içi";
             dotColor   = "#22c55e";
+          } else if (m.status === "busy") {
+            statusText = "Müsait değil";
+            dotColor   = "#f97316";
+          } else {
+            statusText = "Çevrim dışı";
+            dotColor   = "#64748b";
           }
         }
+      }
 
-        items.push(`
-          <div class="chat-member">
-            <div class="chat-member-dot" style="background:${dotColor};"></div>
-            <div>
-              <div class="chat-member-name">${m.displayName || m.username}</div>
-              <div class="chat-member-role">
-                ${m.isAdmin ? "Admin · " : ""}${statusText}
-              </div>
+      items.push(`
+        <div class="chat-member">
+          <div class="chat-member-dot" style="background:${dotColor};"></div>
+          <div>
+            <div class="chat-member-name">${m.displayName || m.username}</div>
+            <div class="chat-member-role">
+              ${m.isAdmin ? "Admin · " : ""}${statusText}
             </div>
           </div>
-        `);
-      });
-
-      chatMembersEl.innerHTML = items.join("") || "<p>Henüz üye yok.</p>";
+        </div>
+      `);
     });
-  }
+
+    chatMembersEl.innerHTML = items.join("") || "<p>Henüz üye yok.</p>";
+  });
+}
+
   function subscribeChatMessages() {
     const qChat = query(chatColRef, orderBy("createdAt","asc"));
 
@@ -1501,7 +1601,7 @@ if (enableSchedule) {
 
   // ---- İlk yükleme ----
      // ---- İlk yükleme ----
-  window.addEventListener("DOMContentLoaded", async () => {
+    window.addEventListener("DOMContentLoaded", async () => {
     await loadProfile();
     await ensureDefaultChatMembers();
     await syncMyChatMemberDoc();
@@ -1511,11 +1611,30 @@ if (enableSchedule) {
     await loadScheduledPosts();
     await loadAnalytics();
 
-    // Sohbet
+    // ⭐ Sohbet
     subscribeChatMembers();
     subscribeChatMessages();
     startPresenceHeartbeat();
+
+    // ⭐ Durum seçici (online/meşgul/offline)
+    const statusSelect = document.getElementById("chatStatusSelect");
+    if (statusSelect) {
+      // Varsa Firestore'daki son durumu oku
+      try {
+        const mySnap = await getDoc(doc(chatMembersRef, username));
+        if (mySnap.exists()) {
+          chatStatus = mySnap.data().status || "online";
+          statusSelect.value = chatStatus;
+        }
+      } catch(e){}
+
+      statusSelect.addEventListener("change", async (e) => {
+        chatStatus = e.target.value;
+        await updatePresence();
+      });
+    }
   });
+
 
 
 
