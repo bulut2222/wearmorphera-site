@@ -1436,30 +1436,25 @@ let chatStatus = "online";
 }
 
 
- function subscribeChatMessages() {
+  function subscribeChatMessages() {
   const qChat = query(chatColRef, orderBy("createdAt","asc"));
 
   onSnapshot(qChat, (snap) => {
-    // 🔔 Yeni mesaj sesi – sadece ilk yüklemeden SONRA gelen "added" kayıtlar için
-    if (chatInitialized) {
-      snap.docChanges().forEach(change => {
-        if (change.type === "added") {
-          const m = change.doc.data();
-          // kendi yazdığın mesaja ses çalmasın:
-          if (m.username !== username) {
-            playChatSound();
-          }
-        }
-      });
-    }
+    // 🔥 Görünen tüm mesajları "okundu" işaretle
+    markMessagesAsRead(snap.docs);
 
-    // 👇 Eski render kısmın aynen devam ediyor
     const parts = [];
 
     snap.forEach(ds => {
       const m  = ds.data();
       const id = ds.id;
-      const isMe = m.username === username;
+
+      // Eski alan adları ile uyumlu olsun diye:
+      const ownerUsername = m.username || m.authorKey || "";
+      const displayName   = m.displayName || m.authorName || ownerUsername;
+      const avatarUrl     = m.avatarUrl || m.authorAvatar || "";
+
+      const isMe = ownerUsername === username;
 
       const date = m.createdAt?.toDate?.() || new Date();
       const ts = date.toLocaleString("tr-TR", {
@@ -1467,30 +1462,49 @@ let chatStatus = "online";
         hour:"2-digit", minute:"2-digit"
       });
 
-      const initials = (m.displayName || m.username || "?")
+      const initials = (displayName || ownerUsername || "?")
         .split(" ")
         .map(p => p.charAt(0))
         .join("")
         .slice(0,2)
         .toUpperCase();
 
-      const avatarStyle = m.avatarUrl
-        ? `background-image:url('${m.avatarUrl}');`
+      const avatarStyle = avatarUrl
+        ? `background-image:url('${avatarUrl}');`
         : "";
 
       const canDelete = isMe || username === "bulutkeles";
 
+      // 🔹 Okundu bilgisi
+      const readBy  = m.readBy || {};
+      const readers = Object.keys(readBy).filter(u => u !== username);
+
+      let ticksHtml = "";
+      if (isMe) {
+        if (readers.length === 0) {
+          ticksHtml = `<span class="tick tick--single">✓</span>`;
+        } else {
+          ticksHtml = `<span class="tick tick--double">✓✓</span>`;
+        }
+      }
+
       parts.push(`
         <div class="chat-message ${isMe ? "chat-message--me" : ""}">
           <div class="chat-avatar" style="${avatarStyle}">
-            ${m.avatarUrl ? "" : initials}
+            ${avatarUrl ? "" : initials}
           </div>
-          <div class="chat-bubble">
+          <div class="chat-bubble"
+               data-readers='${JSON.stringify(readers)}'
+               data-owner='${ownerUsername}'>
             <div class="chat-meta">
-              <strong>${m.displayName || m.username}</strong> · ${ts}
+              <strong>${displayName}</strong> · ${ts}
+              ${ticksHtml}
             </div>
             <div>${(m.text || "").replace(/\\n/g,"<br>")}</div>
-            ${canDelete ? `<span class="chat-delete" onclick="deleteChatMessage('${id}','${m.username}')">Sil</span>` : ""}
+            ${canDelete
+              ? `<span class="chat-delete" onclick="deleteChatMessage('${id}','${ownerUsername}')">Sil</span>`
+              : ""
+            }
           </div>
         </div>
       `);
@@ -1498,9 +1512,6 @@ let chatStatus = "online";
 
     chatMessagesEl.innerHTML = parts.join("") || "<p>Henüz mesaj yok. İlk mesajı sen yaz. 😊</p>";
     chatMessagesEl.scrollTop = chatMessagesEl.scrollHeight;
-
-    // İlk snapshot’tan sonra flag’i true yapıyoruz
-    chatInitialized = true;
   });
 }
 
