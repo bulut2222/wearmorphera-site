@@ -1169,7 +1169,7 @@ window.logoutAdmin = function() {
   const chatInput      = document.getElementById("chatInput");
 
   let currentProfile = null;
-
+let chatStatus = "online";
   function defaultProfile(username) {
     if (username === "bulutkeles") {
       return { displayName: "Bulut Keleş", title: "Co-Founder · Tech & Growth", avatarUrl: "", coverUrl: "" };
