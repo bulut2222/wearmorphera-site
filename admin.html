@@ -1293,6 +1293,20 @@ function playChatSound() {
     // mobilde kullanıcı henüz etkileşim vermediyse hata atabilir, görmezden geliyoruz
   });
 } 
+// 🔓 Tarayıcı ses kilidini açmak için – ilk tıklamada sessizce çal/pause
+document.addEventListener("click", function unlockSound() {
+  const audio = document.getElementById("chatSound");
+  if (!audio) return;
+
+  audio.play().then(() => {
+    audio.pause();
+    audio.currentTime = 0;
+    document.removeEventListener("click", unlockSound);
+  }).catch(() => {
+    // engellenirse sorun değil, sonraki tıklamada tekrar dener
+  });
+}, { once: true });
+
 const emojiToggle = document.getElementById("emojiToggle");
 const emojiPanel  = document.getElementById("emojiPanel");
 if (emojiToggle && emojiPanel && chatInput) {
@@ -1436,11 +1450,28 @@ let chatStatus = "online";
 }
 
 
-  function subscribeChatMessages() {
+ function subscribeChatMessages() {
   const qChat = query(chatColRef, orderBy("createdAt","asc"));
 
   onSnapshot(qChat, (snap) => {
-    // 🔥 Görünen tüm mesajları "okundu" işaretle
+    // 🔔 Yeni mesaj ses kontrolü
+    if (chatInitialized) {
+      snap.docChanges().forEach(change => {
+        if (change.type === "added") {
+          const m = change.doc.data();
+
+          // Eski alan adları ile uyumlu olsun
+          const ownerUsername = m.username || m.authorKey || "";
+
+          // KENDİ yazdığın mesaj için ses çalma
+          if (ownerUsername !== username) {
+            playChatSound();
+          }
+        }
+      });
+    }
+
+    // 🔹 Tüm görünen mesajları "okundu" işaretle
     markMessagesAsRead(snap.docs);
 
     const parts = [];
@@ -1449,12 +1480,10 @@ let chatStatus = "online";
       const m  = ds.data();
       const id = ds.id;
 
-      // Eski alan adları ile uyumlu olsun diye:
       const ownerUsername = m.username || m.authorKey || "";
       const displayName   = m.displayName || m.authorName || ownerUsername;
       const avatarUrl     = m.avatarUrl || m.authorAvatar || "";
-
-      const isMe = ownerUsername === username;
+      const isMe          = ownerUsername === username;
 
       const date = m.createdAt?.toDate?.() || new Date();
       const ts = date.toLocaleString("tr-TR", {
@@ -1475,7 +1504,7 @@ let chatStatus = "online";
 
       const canDelete = isMe || username === "bulutkeles";
 
-      // 🔹 Okundu bilgisi
+      // ✅ Okundu bilgisi
       const readBy  = m.readBy || {};
       const readers = Object.keys(readBy).filter(u => u !== username);
 
@@ -1512,8 +1541,12 @@ let chatStatus = "online";
 
     chatMessagesEl.innerHTML = parts.join("") || "<p>Henüz mesaj yok. İlk mesajı sen yaz. 😊</p>";
     chatMessagesEl.scrollTop = chatMessagesEl.scrollHeight;
+
+    // 🔐 İlk snapshot’tan sonra ses sistemi aktif olsun
+    chatInitialized = true;
   });
 }
+
 
 
   // Mesaj gönderme
