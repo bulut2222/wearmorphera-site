@@ -1122,23 +1122,35 @@ document.querySelectorAll(".lottie").forEach(el => {
 });
 import { updateDoc } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
 
-async function markMessagesAsRead(docs){
-  if (!username) return; // current admin
+async function markMessagesAsRead(docs) {
+  if (!username) return;
 
   const updates = docs.map(d => {
-    const data = d.data();
-    if (!data.readBy || !data.readBy[username]) {
-      return updateDoc(d.ref, {
-        [`readBy.${username}`]: true
-      });
-    }
-    return null;
+    const data   = d.data();
+    const readBy = data.readBy || {};
+
+    // Zaten bu kullanıcı okunmuş olarak işaretliyse geç
+    if (readBy[username]) return null;
+
+    const newReadBy = {
+      ...readBy,
+      [username]: true   // bu admin de okudu
+    };
+
+    return updateDoc(d.ref, {
+      readBy: newReadBy   // komple map'i güncelliyoruz
+    });
   }).filter(Boolean);
 
   if (updates.length) {
-    await Promise.all(updates);
+    try {
+      await Promise.all(updates);
+    } catch (err) {
+      console.error("okundu bilgisi güncellenirken hata:", err);
+    }
   }
 }
+
 
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
   import {
