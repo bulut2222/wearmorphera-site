@@ -106,7 +106,7 @@
     .hero-copy{
       padding:var(--s4);
       border-radius:var(--radius-lg);
-      
+      border-radius: var(--radius-lg) 0 0 var(--radius-lg); /* sadece sol köşeler yuvarlak */
       background:
         linear-gradient(135deg,rgba(99,102,241,0.18),rgba(236,72,153,0.10)),
         radial-gradient(circle at top left,rgba(37,99,235,0.35),rgba(15,23,42,0.95));
@@ -172,7 +172,7 @@
     }
 
     .hero-img{
-      border-radius:var(--radius-lg);
+     border-radius: 0 var(--radius-lg) var(--radius-lg) 0; /* sağ köşeler yuvarlak */
       background:
         linear-gradient(135deg,rgba(99,102,241,0.25),rgba(236,72,153,0.18)),
         url("assets/img/teknik/hero.jpeg") center/cover no-repeat;
