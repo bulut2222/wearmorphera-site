@@ -5919,3 +5919,141 @@ body {
   align-items:center;
   gap:6px;
 }
+/* =========== TEAM LAYOUT + MAIL PANEL =========== */
+
+.team-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 2.2fr) minmax(320px, 1.2fr);
+  gap: var(--s5, 32px);
+  align-items: flex-start;
+}
+
+/* team-grid zaten var; geniş ekranda biraz daha sıkı dursun */
+.team-layout .team-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: var(--s4, 24px);
+}
+
+/* Mail paneli – cam efekt + gradient border */
+.team-mail-panel {
+  position: sticky;
+  top: 120px;
+  padding: 20px 22px;
+  border-radius: 24px;
+  background: radial-gradient(
+      circle at top left,
+      rgba(99, 102, 241, 0.18),
+      rgba(15, 23, 42, 0.96)
+    );
+  border: 1px solid rgba(148, 163, 184, 0.55);
+  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.9);
+  backdrop-filter: blur(18px);
+  color: #e5e7eb;
+}
+
+/* Başlık kısmı */
+.team-mail-eyebrow {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: #230C54;
+  margin: 0 0 6px;
+}
+
+.team-mail-title {
+  margin: 0 0 8px;
+  font-size: 20px;
+  font-weight: 700;
+  background: linear-gradient(135deg, #6366f1, #ec4899);
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.team-mail-text {
+  margin: 0 0 14px;
+  font-size: 13px;
+  color: #cbd5f5;
+}
+
+/* Mail listesi */
+.team-mail-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.team-mail-item {
+  display: flex;
+  gap: 10px;
+  padding: 10px 9px;
+  border-radius: 16px;
+  background: rgba(15, 23, 42, 0.95);
+  border: 1px solid rgba(148, 163, 184, 0.4);
+}
+
+/* Avatar balonu (ilk harf) */
+.team-mail-avatar {
+  flex: 0 0 32px;
+  height: 32px;
+  border-radius: 999px;
+  background: radial-gradient(circle at top, #6366f1, #ec4899);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 700;
+  color: #f9fafb;
+  box-shadow: 0 10px 24px rgba(79, 70, 229, 0.85);
+}
+
+.team-mail-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.team-mail-name {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.team-mail-link {
+  font-size: 13px;
+  color: #a5b4fc;
+  text-decoration: none;
+  word-break: break-all;
+}
+
+.team-mail-link:hover {
+  text-decoration: underline;
+  color: #e0e7ff;
+}
+
+.team-mail-role {
+  font-size: 11px;
+  color: #9ca3af;
+}
+
+.team-mail-footnote {
+  margin-top: 10px;
+  font-size: 11px;
+  color: #94a3b8;
+  border-top: 1px dashed rgba(148, 163, 184, 0.5);
+  padding-top: 8px;
+}
+
+/* Mobil uyum: mail panel altta gelsin */
+@media (max-width: 960px) {
+  .team-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .team-mail-panel {
+    position: static;
+    margin-top: var(--s4, 24px);
+  }
+}
