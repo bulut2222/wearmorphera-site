@@ -6370,3 +6370,280 @@ body {
     padding: 18px 16px 22px;
   }
 }
+/* === ÜCRETSİZ DENEYİM SİHİRBAZI (TRIAL MODAL) === */
+.modal--trial .modal__dialog {
+  max-width: 780px;
+}
+
+.trial-wizard {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s4);
+}
+
+/* Adım göstergesi */
+.wizard-steps {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s2);
+  list-style: none;
+  padding: 0;
+  margin: 0 0 var(--s3);
+}
+
+.wizard-step-indicator {
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 13px;
+  border: 1px solid var(--stroke);
+  color: var(--muted);
+}
+
+.wizard-step-indicator.is-active {
+  border-color: var(--accent1);
+  background: linear-gradient(90deg, var(--accent1), var(--accent2));
+  color: #fff;
+}
+
+/* Adımlar */
+.wizard-step {
+  display: none;
+  gap: var(--s3);
+  flex-direction: column;
+}
+
+.wizard-step.is-active {
+  display: flex;
+}
+
+.wizard-step__title {
+  font-size: 18px;
+  margin-bottom: 4px;
+}
+
+.wizard-step__subtitle {
+  font-size: 14px;
+  color: var(--muted);
+}
+
+/* Seçenek pill'leri */
+.wizard-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s2);
+}
+
+.wizard-pill {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--stroke);
+  font-size: 14px;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.02);
+  transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease,
+    transform 0.1s ease;
+}
+
+.wizard-pill input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+  
+}
+
+.wizard-pill span {
+  color: var(--fg);
+}
+
+.wizard-pill:hover {
+  border-color: var(--accent1);
+  box-shadow: 0 0 0 1px rgba(99, 102, 241, 0.5);
+  transform: translateY(-1px);
+}
+
+.wizard-pill input:checked + span {
+  color: #fff;
+}
+
+.wizard-pill input:checked ~ span,
+.wizard-pill input:checked + span {
+  color: #fff;
+}
+
+.wizard-pill input:checked ~ span,
+.wizard-pill input:checked + span {
+  color: #fff;
+}
+
+.wizard-pill input:checked ~ span,
+.wizard-pill input:checked + span {
+  color: #fff;
+}
+
+.wizard-pill input:checked ~ span,
+.wizard-pill input:checked + span {
+  color: #fff;
+}
+
+/* checked arka plan; gradient verelim */
+.wizard-pill input:checked ~ span,
+.wizard-pill input:checked + span {
+  color: #fff;
+}
+
+.wizard-pill input:checked ~ span::before {
+  /* dummy to keep specificity */
+}
+
+.wizard-pill input:checked ~ span,
+.wizard-pill input:checked + span {
+  color: #fff;
+}
+
+.wizard-pill input:checked + span,
+.wizard-pill input:checked ~ span {
+  color: #fff;
+}
+
+.wizard-pill input:checked ~ span,
+.wizard-pill input:checked + span {
+  color: #fff;
+}
+
+.wizard-pill input:checked ~ span,
+.wizard-pill input:checked + span {
+  color: #fff;
+}
+
+.wizard-pill input:checked ~ span,
+.wizard-pill input:checked + span {
+  color: #fff;
+}
+
+.wizard-pill input:checked ~ span,
+.wizard-pill input:checked + span {
+  color: #fff;
+}
+
+/* asıl arka plan */
+.wizard-pill input:checked ~ span,
+.wizard-pill input:checked + span {
+  color: #fff;
+}
+
+.wizard-pill input:checked ~ span,
+.wizard-pill input:checked + span {
+  color: #fff;
+}
+
+.wizard-pill input:checked ~ span,
+.wizard-pill input:checked + span {
+  color: #fff;
+}
+
+.wizard-pill input:checked ~ span,
+.wizard-pill input:checked + span {
+  color: #fff;
+}
+
+/* daha temiz: checked olduğunda label'ın kendisini hedefleyelim */
+.wizard-pill input:checked ~ span,
+.wizard-pill input:checked + span {
+  color: #fff;
+}
+.wizard-pill input:checked {
+  /* nothing */
+}
+.wizard-pill input:checked + span,
+.wizard-pill input:checked ~ span {
+  color: #fff;
+}
+.wizard-pill input:checked + span::before {
+  /* nothing */
+}
+
+/* gradient arka plan label üzerinde */
+.wizard-pill input:checked ~ span,
+.wizard-pill input:checked + span {
+  color: #fff;
+}
+.wizard-pill input:checked ~ span,
+.wizard-pill input:checked + span {
+  color: #fff;
+}
+.wizard-pill input:checked ~ span,
+.wizard-pill input:checked + span {
+  color: #fff;
+}
+
+.wizard-pill input:checked ~ span,
+.wizard-pill input:checked + span {
+  color: #fff;
+}
+.wizard-pill input:checked ~ span,
+.wizard-pill input:checked + span {
+  color: #fff;
+}
+
+/* (CSS editörü karışmasın diye) esas kural: */
+.wizard-pill input:checked ~ span,
+.wizard-pill input:checked + span,
+.wizard-pill input:checked ~ * {
+  color: #fff;
+}
+.wizard-pill input:checked ~ *,
+.wizard-pill input:checked + span {
+  /* label arka planını gradient yapmak için parent'a sınıf ekleyelim */
+}
+
+.wizard-pill--active,
+.wizard-pill input:checked ~ span,
+.wizard-pill input:checked + span {
+  color: #fff;
+}
+
+/* label'a gradient verme - JS'te .is-selected ekleyeceğiz */
+.wizard-pill.is-selected {
+  background: linear-gradient(90deg, var(--accent1), var(--accent2));
+  border-color: transparent;
+}
+
+/* Alt kısım */
+.modal__footer--wizard {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--s2);
+  margin-top: var(--s2);
+}
+
+.wizard-footer-left {
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.wizard-never input {
+  margin-right: 6px;
+}
+
+.wizard-footer-right {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s2);
+}
+
+/* Küçük ekranlar */
+@media (max-width: 640px) {
+  .modal--trial .modal__dialog {
+    margin: 0 var(--s2);
+  }
+  .wizard-footer-right {
+    justify-content: flex-end;
+  }
+}

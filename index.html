@@ -845,6 +845,165 @@ document.addEventListener('DOMContentLoaded', function () {
   (function () {
     const slider = document.querySelector('.hero-slider');
     if (!slider) return;
+  /* === ÜCRETSİZ DENEYİM WIZARD === */
+  (function () {
+    const modal = document.getElementById('freeTrialModal');
+    if (!modal) return;
+
+    const form = document.getElementById('trialForm');
+    const steps = Array.from(modal.querySelectorAll('.wizard-step'));
+    const indicators = Array.from(
+      modal.querySelectorAll('.wizard-step-indicator')
+    );
+
+    const btnNext = modal.querySelector('[data-action="next"]');
+    const btnPrev = modal.querySelector('[data-action="prev"]');
+    const btnSubmit = modal.querySelector('[data-action="submit"]');
+    const btnSkip = modal.querySelector('[data-action="skip"]');
+    const closeTargets = modal.querySelectorAll('[data-action="close"]');
+
+    const neverCb = document.getElementById('trialNever');
+    const summaryInput = document.getElementById('trialSummary');
+
+    const HIDE_KEY = 'morphera_free_trial_hide';
+
+    let currentStep = 0;
+
+    function setBodyLock(lock) {
+      document.body.classList.toggle('no-scroll', lock);
+    }
+
+    function openModal() {
+      if (!modal || modal.classList.contains('is-open')) return;
+      modal.classList.add('is-open');
+      modal.setAttribute('aria-hidden', 'false');
+      setBodyLock(true);
+      showStep(0);
+    }
+
+    function closeModal(permanent) {
+      if (!modal) return;
+      modal.classList.remove('is-open');
+      modal.setAttribute('aria-hidden', 'true');
+      setBodyLock(false);
+      if (permanent || (neverCb && neverCb.checked)) {
+        try {
+          localStorage.setItem(HIDE_KEY, '1');
+        } catch (e) {}
+      }
+    }
+
+    function showStep(index) {
+      currentStep = Math.max(0, Math.min(index, steps.length - 1));
+      steps.forEach((step, i) =>
+        step.classList.toggle('is-active', i === currentStep)
+      );
+      indicators.forEach((ind, i) =>
+        ind.classList.toggle('is-active', i === currentStep)
+      );
+
+      // Buton durumları
+      if (btnPrev) btnPrev.style.display = currentStep === 0 ? 'none' : '';
+      if (btnNext) btnNext.style.display = currentStep === steps.length - 1 ? 'none' : '';
+      if (btnSubmit) btnSubmit.style.display = currentStep === steps.length - 1 ? '' : 'none';
+    }
+
+    // Pill seçimi için görsel state
+    modal.querySelectorAll('.wizard-pill input[type="checkbox"]').forEach((input) => {
+      const label = input.closest('.wizard-pill');
+      if (!label) return;
+      input.addEventListener('change', () => {
+        if (input.checked) {
+          label.classList.add('is-selected');
+        } else {
+          label.classList.remove('is-selected');
+        }
+      });
+    });
+
+    if (btnNext) {
+      btnNext.addEventListener('click', (e) => {
+        e.preventDefault();
+        showStep(currentStep + 1);
+      });
+    }
+
+    if (btnPrev) {
+      btnPrev.addEventListener('click', (e) => {
+        e.preventDefault();
+        showStep(currentStep - 1);
+      });
+    }
+
+    if (btnSkip) {
+      btnSkip.addEventListener('click', (e) => {
+        e.preventDefault();
+        closeModal(true); // skip eden için de bir daha gösterme
+      });
+    }
+
+    closeTargets.forEach((btn) =>
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        closeModal(false);
+      })
+    );
+
+    // ESC ile kapatma
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeModal(false);
+      }
+    });
+
+    // Form gönderilmeden önce özet alanını doldur
+    if (form) {
+      form.addEventListener('submit', (e) => {
+        // Seçili hizmetleri topla
+        const selected = Array.from(
+          form.querySelectorAll('input[name="services"]:checked')
+        ).map((i) => i.value);
+
+        const details = (form.elements['details']?.value || '').trim();
+        const name = (form.elements['name']?.value || '').trim();
+        const brand = (form.elements['brand']?.value || '').trim();
+
+        const summaryParts = [];
+        if (selected.length) {
+          summaryParts.push('Seçilen alanlar: ' + selected.join(', '));
+        }
+        if (details) {
+          summaryParts.push('Notlar: ' + details);
+        }
+        if (brand) {
+          summaryParts.push('Marka/Site: ' + brand);
+        }
+        if (name) {
+          summaryParts.push('İlgili kişi: ' + name);
+        }
+
+        if (summaryInput) {
+          summaryInput.value = summaryParts.join(' | ');
+        }
+
+        try {
+          localStorage.setItem(HIDE_KEY, '1');
+        } catch (err) {}
+        // Form normal şekilde Netlify'a gidecek
+      });
+    }
+
+    // İlk girişte otomatik göster (daha önce kapatmamışsa)
+    try {
+      const hide = localStorage.getItem(HIDE_KEY);
+      if (!hide) {
+        setTimeout(openModal, 4500); // 4.5 sn sonra aç
+      }
+    } catch (err) {
+      // localStorage yoksa direkt göster
+      setTimeout(openModal, 4500);
+    }
+  })();
 
     const track   = slider.querySelector('.hero-slider__track');
     const slides  = Array.from(slider.querySelectorAll('.hero-slider__slide'));
@@ -1125,6 +1284,163 @@ document.addEventListener('DOMContentLoaded', function () {
     Bulut Yazılım
   </div>
 
+</div>
+<!-- ÜCRETSİZ DENEYİM SİHİRBAZI MODALI -->
+<div id="freeTrialModal" class="modal modal--trial" aria-hidden="true">
+  <div class="modal__backdrop" data-action="close"></div>
+
+  <div class="modal__dialog" role="dialog" aria-modal="true" aria-labelledby="freeTrialTitle">
+    <button class="modal__close" type="button" data-action="close" aria-label="Pencereyi kapat">×</button>
+
+    <header class="modal__header">
+      <p class="modal__eyebrow">Ücretsiz mini çalışma</p>
+      <h2 id="freeTrialTitle">Markanız için ücretsiz deneme hizmeti</h2>
+      <p class="modal__subtitle">
+        Sadece birkaç seçeneği işaretleyin; sizin için hızlı bir ön analiz ve mini aksiyon planı hazırlayıp
+        e-posta ile geri dönelim.
+      </p>
+    </header>
+
+    <!-- Netlify form: Bu formu Netlify panelinden info@wearemorphera.com’a yönlendir -->
+    <form
+  id="trialForm"
+  class="modal-form trial-wizard"
+  name="free-trial-wizard"
+  method="POST"
+  data-netlify="true"
+  data-netlify-honeypot="bot-field"
+>
+  <input type="hidden" name="form-name" value="free-trial-wizard" />
+  <p style="display:none;">
+    <label>Bot değil misin? <input name="bot-field" /></label>
+  </p>
+
+      <!-- Adım göstergesi -->
+      <ol class="wizard-steps" aria-label="Adımlar">
+        <li class="wizard-step-indicator is-active" data-step-indicator="1">1. İhtiyaçlar</li>
+        <li class="wizard-step-indicator" data-step-indicator="2">2. Bilgileriniz</li>
+      </ol>
+
+      <!-- ADIM 1: Seçenekler -->
+      <section class="wizard-step is-active" data-step="1">
+        <h3 class="wizard-step__title">Hangi alan(lar) için ücretsiz çalışma istiyorsunuz?</h3>
+        <p class="wizard-step__subtitle">
+          Birden fazla alan seçebilirsiniz. Seçimlerinize göre mini rapor ve aksiyon önerisi hazırlayacağız.
+        </p>
+
+        <div class="wizard-pills">
+          <label class="wizard-pill">
+            <input type="checkbox" name="services" value="Sosyal medya hesabım" />
+            <span>Sosyal medya hesabım</span>
+          </label>
+
+          <label class="wizard-pill">
+            <input type="checkbox" name="services" value="Web sitem" />
+            <span>Web sitem</span>
+          </label>
+
+          <label class="wizard-pill">
+            <input type="checkbox" name="services" value="Danışmanlık & strateji" />
+            <span>Danışmanlık & strateji</span>
+          </label>
+
+          <label class="wizard-pill">
+            <input type="checkbox" name="services" value="Blog & SEO içerikleri" />
+            <span>Blog & SEO içerikleri</span>
+          </label>
+
+          <label class="wizard-pill">
+            <input type="checkbox" name="services" value="Logo / marka kimliği" />
+            <span>Logo / marka kimliği</span>
+          </label>
+
+          <label class="wizard-pill">
+            <input type="checkbox" name="services" value="E-ticaret / satış mağazalarım" />
+            <span>E-ticaret & satış mağazalarım</span>
+          </label>
+        </div>
+
+        <div class="field field--full">
+          <label>Kısaca bahseder misiniz?</label>
+          <textarea
+            name="details"
+            placeholder="Örneğin: Instagram hesabımda satışa odaklanmak istiyorum, Trendyol mağazam yeni açıldı, web sitem yavaş çalışıyor vb."
+          ></textarea>
+        </div>
+      </section>
+
+      <!-- ADIM 2: İletişim bilgileri -->
+      <section class="wizard-step" data-step="2">
+        <h3 class="wizard-step__title">Size nasıl ulaşalım?</h3>
+        <p class="wizard-step__subtitle">
+          Seçtiğiniz alanlar için hazırlayacağımız özet raporu ve mini yol haritasını buradaki bilgiler üzerinden paylaşacağız.
+        </p>
+
+        <div class="modal-form__grid">
+          <div class="field">
+            <label>İsim Soyisim *</label>
+            <input name="name" required placeholder="İsim Soyisim" />
+          </div>
+
+          <div class="field">
+            <label>E-posta *</label>
+            <input type="email" name="email" required placeholder="ornek@marka.com" />
+          </div>
+
+          <div class="field">
+            <label>Marka / Site / Mağaza Adı *</label>
+            <input name="brand" required placeholder="Marka, web site veya mağaza adı" />
+          </div>
+
+          <div class="field">
+            <label>Telefon</label>
+            <input name="phone" placeholder="05xx xxx xx xx (opsiyonel)" />
+          </div>
+        </div>
+
+        <div class="field field--full">
+          <label>Tercih ettiğiniz geri dönüş şekli</label>
+          <select name="contact_preference">
+            <option value="E-posta">E-posta</option>
+            <option value="WhatsApp">WhatsApp</option>
+            <option value="Telefon">Telefon</option>
+            <option value="Esnek / fark etmez">Esnek / fark etmez</option>
+          </select>
+        </div>
+
+        <!-- Özet için gizli alan -->
+        <input type="hidden" name="summary" id="trialSummary" />
+      </section>
+
+      <!-- ALT BUTONLAR -->
+      <footer class="modal__footer modal__footer--wizard">
+        <div class="wizard-footer-left">
+          <label class="wizard-never">
+            <input type="checkbox" id="trialNever" />
+            <span>Bir daha gösterme</span>
+          </label>
+        </div>
+
+        <div class="wizard-footer-right">
+          <button type="button" class="btn btn--ghost" data-action="skip">
+            Şimdilik istemiyorum
+          </button>
+
+          <button type="button" class="btn btn--ghost" data-action="prev">
+            Geri
+          </button>
+
+          <button type="button" class="btn btn--primary" data-action="next">
+            Devam et
+          </button>
+
+          <button type="submit" class="btn btn--primary" data-action="submit">
+            Seçimlerimi Gönder
+          </button>
+        </div>
+      </footer>
+    </form>
+  </div>
 </div>
 
 </body>
