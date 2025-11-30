@@ -6453,7 +6453,7 @@ body {
 
 .wizard-step__title {
   font-size: 18px;
-  margin-bottom: 4px;
+  margin-bottom: 1px;
 }
 
 .wizard-step__subtitle {
@@ -6469,6 +6469,7 @@ body {
 }
 
 .wizard-pill {
+  
   position: relative;
   display: inline-flex;
   align-items: center;
@@ -6480,6 +6481,7 @@ body {
   background: rgba(255, 255, 255, 0.02);
   transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease,
     transform 0.1s ease;
+    
 }
 
 .wizard-pill input {
@@ -6893,7 +6895,7 @@ body {
   align-items: center;
   box-shadow: 0 30px 70px rgba(0,0,0,0.35);
   border: 1px solid rgba(255,255,255,0.08);
-  margin-top: 60px;
+  margin-top: 50px;
 }
 
 .free-trial-left {
@@ -6937,4 +6939,122 @@ body {
   font-size: 12px;
   color: #aab0c5;
   margin-top: 4px;
+}
+/* ===== Notlar + Ücretsiz Mini Çalışma ortak satır ===== */
+.notes-trial-row .container {
+  max-width: 2500px; /* daha geniş alan */
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.notes-trial-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  align-items: stretch;
+}
+
+/* her iki kart da eşit yükseklik ve düzgün hizalama */
+.notes-cta--enhanced,
+.free-trial-box--inline {
+  height: 90%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  padding: 36px 40px; /* aynı iç boşluk */
+}
+
+.notes-col,
+.trial-col {
+  display: flex;
+}
+
+.notes-col > *,
+.trial-col > * {
+  width: 100%;
+}
+
+/* Morpheradan Notlar iç düzeni */
+.notes-cta__content {
+  max-width: 70%;
+}
+
+.notes-cta__eyebrow {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: #b9c0ff;
+  margin-bottom: 10px;
+}
+
+.notes-cta__title {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.notes-cta__text {
+  font-size: 15px;
+  line-height: 1.6;
+  color: #e2e4f2;
+}
+
+.notes-cta__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+  padding: 0;
+  list-style: none;
+}
+
+.notes-cta__tags li {
+  font-size: 12px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #d4d7f5;
+}
+
+.btn--notes {
+  white-space: nowrap;
+}
+
+/* Ücretsiz mini çalışma tarafı */
+.free-trial-left {
+  max-width: 65%;
+}
+
+.free-trial-right {
+  text-align: center;
+}
+
+/* Mobil uyum */
+@media (max-width: 992px) {
+  .notes-trial-grid {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+
+  .notes-cta--enhanced,
+  .free-trial-box--inline {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .notes-cta__content,
+  .free-trial-left {
+    max-width: 100%;
+  }
+
+  .free-trial-right,
+  .btn--notes {
+    width: 100%;
+    text-align: center;
+  }
+}
+.wizard-pills .wizard-pill span {
+color:#f2e9e5;
 }
