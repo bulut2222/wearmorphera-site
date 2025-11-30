@@ -5079,37 +5079,72 @@ html[data-theme="light"] .team-splash__inner {
   pointer-events: auto;
 }
 /* === Morpheradan Notlar CTA (anasayfa) === */
+/* Morpheradan Notlar kartı */
 .notes-cta {
-  margin-top: var(--s5);
-  padding: var(--s4);
-  border-radius: 24px;
-  background: radial-gradient(circle at top left, rgba(99,102,241,.18), transparent 55%),
-              radial-gradient(circle at bottom right, rgba(233,14,47,.18), transparent 55%),
-              var(--card);
-  border: 1px solid rgba(255,255,255,0.08);
-  display: flex;
-  gap: var(--s4);
+  margin: var(--s6) auto;
+  padding: clamp(24px, 4vw, 40px);
+  border-radius: 32px;
+  max-width: var(--container);
+  background:
+    radial-gradient(circle at 0 0, rgba(99, 102, 241, 0.20), transparent 55%),
+    radial-gradient(circle at 100% 100%, rgba(236, 72, 153, 0.18), transparent 55%),
+    linear-gradient(120deg, #020617, #0f172a);
+  box-shadow: 0 40px 80px rgba(15, 23, 42, 0.7);
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+  gap: clamp(24px, 4vw, 48px);
   align-items: center;
-  justify-content: space-between;
-  box-shadow: 0 18px 45px rgba(15,23,42,0.35);
+  color: #e5e7eb;
+  position: relative;
+  overflow: hidden;
 }
 
-.notes-cta__text h3 {
-  font-size: 1.4rem;
-  margin-bottom: 4px;
+.notes-cta::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  border: 1px solid rgba(148, 163, 184, 0.26);
+  pointer-events: none;
 }
 
-.notes-cta__text p {
-  margin: 0;
-  font-size: .95rem;
+.notes-cta__content h2 {
+  font-size: clamp(28px, 3vw, 36px);
+  margin-bottom: var(--s3);
+  color: #ffffff;
+}
+
+.notes-cta__content p {
+  max-width: 48rem;
+  margin-bottom: var(--s4);
   color: var(--muted);
 }
 
-.btn--notes {
-  white-space: nowrap;
-  border-radius: 999px;
-  padding-inline: var(--s4);
+.notes-cta__media {
+  display: flex;
+  justify-content: center;
 }
+
+.notes-cta__media img {
+  width: 100%;
+  max-width: 420px;
+  display: block;
+  border-radius: 24px;
+  object-fit: cover;
+  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.8);
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .notes-cta {
+    grid-template-columns: 1fr;
+  }
+
+  .notes-cta__media {
+    order: -1;           /* Mobilde görseli üste alır */
+  }
+}
+
 
 /* Mobil uyum */
 @media (max-width: 768px) {
@@ -6646,4 +6681,260 @@ body {
   .wizard-footer-right {
     justify-content: flex-end;
   }
+}
+/* ===== Ücretsiz Hizmet CTA Bölümü ===== */
+
+.free-trial-cta {
+  padding: var(--s6) 0;
+}
+
+.free-trial-cta__inner {
+  position: relative;
+  border-radius: 32px;
+  padding: var(--s5);
+  background: radial-gradient(circle at 0% 0%, rgba(99,102,241,0.18), transparent 55%),
+              radial-gradient(circle at 100% 100%, rgba(236,72,153,0.18), transparent 55%),
+              linear-gradient(135deg, rgba(15,23,42,1), rgba(15,23,42,0.96));
+  box-shadow:
+    0 22px 40px rgba(15,23,42,0.55),
+    0 0 0 1px rgba(148,163,184,0.18);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s5);
+  color: #f9fafb;
+  overflow: hidden;
+}
+
+.free-trial-cta__inner::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 20% 0%, rgba(56,189,248,0.16), transparent 55%);
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.free-trial-cta__text {
+  max-width: 560px;
+  position: relative;
+  z-index: 1;
+}
+
+.free-trial-cta__title {
+  font-size: clamp(1.5rem, 1.8vw + 1rem, 2.1rem);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  margin-bottom: var(--s2);
+}
+
+.free-trial-cta__desc {
+  font-size: 0.98rem;
+  line-height: 1.6;
+  color: rgba(226,232,240,0.9);
+}
+
+.free-trial-cta__actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--s2);
+  position: relative;
+  z-index: 1;
+}
+
+.free-trial-cta__btn {
+  padding-inline: clamp(1.9rem, 3vw, 2.6rem);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.free-trial-cta__hint {
+  font-size: 0.78rem;
+  color: rgba(148,163,184,0.9);
+}
+
+/* Responsive */
+
+@media (max-width: 900px) {
+  .free-trial-cta__inner {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: var(--s4);
+  }
+
+  .free-trial-cta__actions {
+    align-items: flex-start;
+  }
+
+  .free-trial-cta__btn {
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 600px) {
+  .free-trial-cta {
+    padding: var(--s5) 0;
+  }
+
+  .free-trial-cta__inner {
+    border-radius: 24px;
+  }
+
+  .free-trial-cta__title {
+    font-size: 1.35rem;
+  }
+
+  .free-trial-cta__desc {
+    font-size: 0.9rem;
+  }
+}
+/* ===== Promo strip ortak stil ===== */
+.promo-strip {
+  margin: var(--s5) auto 0;
+  border-radius: 32px;
+  padding: var(--s5);
+  max-width: var(--container);
+  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.35);
+}
+
+/* Notlar için açık, soft arka plan */
+.promo-strip--notes {
+  background:
+    radial-gradient(circle at 0 0, rgba(255, 255, 255, 0.6), transparent 55%),
+    radial-gradient(circle at 100% 100%, rgba(255, 255, 255, 0.7), transparent 55%),
+    linear-gradient(90deg, #fdf2f8, #e0f2fe);
+  color: var(--fg);
+}
+
+/* Ücretsiz analiz için koyu, mor-mavi arka plan */
+.promo-strip--free-trial {
+  background:
+    radial-gradient(circle at 0 0, rgba(236, 72, 153, 0.35), transparent 60%),
+    radial-gradient(circle at 100% 100%, rgba(59, 130, 246, 0.35), transparent 60%),
+    linear-gradient(120deg, #020617, #0f172a);
+  color: #f9fafb;
+}
+
+.promo-strip__inner {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1.5fr);
+  gap: var(--s5);
+  align-items: center;
+}
+
+.promo-strip__title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: var(--s3);
+}
+
+.promo-strip__text {
+  font-size: 0.98rem;
+  line-height: 1.7;
+  margin-bottom: var(--s4);
+  color: rgba(15, 23, 42, 0.8);
+}
+
+.promo-strip--free-trial .promo-strip__text {
+  color: rgba(248, 250, 252, 0.85);
+}
+
+.promo-strip__note {
+  margin-top: var(--s2);
+  font-size: 0.85rem;
+  opacity: 0.9;
+}
+
+/* Görsel tarafı */
+.promo-strip__media {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.promo-strip__media img {
+  width: 100%;
+  max-width: 360px;
+  border-radius: 24px;
+  display: block;
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.55);
+}
+
+/* Mobil uyum */
+@media (max-width: 768px) {
+  .promo-strip {
+    padding: var(--s4);
+  }
+
+  .promo-strip__inner {
+    grid-template-columns: 1fr;
+  }
+
+  /* Mobilde görsel üstte gözüksün istersen: */
+  .promo-strip__media {
+    order: -1;
+    justify-content: center;
+    margin-bottom: var(--s3);
+  }
+
+  .promo-strip__title {
+    font-size: 1.4rem;
+  }
+}
+/* ====== Ücretsiz Mini Çalışma — Sayfa Kartı ====== */
+.free-trial-box {
+  background: linear-gradient(135deg, rgba(15,18,44,0.88), rgba(36,15,44,0.87));
+  padding: 40px 50px;
+  border-radius: 32px;
+  display: flex;
+  gap: 40px;
+  align-items: center;
+  box-shadow: 0 30px 70px rgba(0,0,0,0.35);
+  border: 1px solid rgba(255,255,255,0.08);
+  margin-top: 60px;
+}
+
+.free-trial-left {
+  flex: 1.4;
+}
+
+.free-trial-right {
+  flex: 1;
+  text-align: center;
+}
+
+.free-trial-eyebrow {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: .2em;
+  color: #b9c0ff;
+  margin-bottom: 10px;
+}
+
+.free-trial-title {
+  font-size: 26px;
+  font-weight: 700;
+  margin-bottom: 14px;
+  color: #fff;
+}
+
+.free-trial-text {
+  color: #d6d9e8;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.free-trial-btn {
+  width: 100%;
+  padding: 14px 26px;
+  border-radius: 999px;
+  margin-bottom: 12px;
+}
+
+.free-trial-note {
+  font-size: 12px;
+  color: #aab0c5;
+  margin-top: 4px;
 }

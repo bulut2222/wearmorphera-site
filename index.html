@@ -72,10 +72,12 @@
         <a href="#blog">Blog</a>
         <a href="contact.html" class="btn btn--ghost" rel="noopener">İletişim</a>
         <a href="notes.html">Morpheradan Notlar</a>
+        
       </nav>
     </div>
 
   </div>
+  
 </header>
 
 
@@ -202,7 +204,38 @@
     Morpheradan Notlar
   </a>
 </div>
+
   </section>
+
+<!-- =========================================
+   ÜCRETSİZ MİNİ ÇALIŞMA — SABİT SITE CARD
+========================================= -->
+<section class="section free-trial-card">
+  <div class="container free-trial-box">
+
+    <div class="free-trial-left">
+      <p class="free-trial-eyebrow">Ücretsiz Mini Çalışma</p>
+      <h3 class="free-trial-title">Markan için hızlı bir ücretsiz analiz ister misin?</h3>
+
+      <p class="free-trial-text">
+        Sosyal medya, web sitesi, içerik, e-ticaret veya marka kimliği için
+        <strong>15 dakikalık ücretsiz mini çalışma</strong> hazırlıyoruz.
+        Seçim yap, kısaca anlat, mini raporun mailine gelsin.
+      </p>
+    </div>
+
+    <div class="free-trial-right">
+      <button class="btn btn--primary free-trial-btn js-open-trial">
+        Ücretsiz Mini Çalışmayı Başlat
+      </button>
+
+      <p class="free-trial-note">
+        Bu kart, ilk girişte açılan popup’ın sabit versiyonudur.
+      </p>
+    </div>
+
+  </div>
+</section>
 
 
 
@@ -880,6 +913,14 @@ document.addEventListener('DOMContentLoaded', function () {
       setBodyLock(true);
       showStep(0);
     }
+    // Sayfa içindeki "Ücretsiz Mini Çalışmayı Başlat" butonları için tetikleyici
+    const trialTriggers = document.querySelectorAll('.js-open-trial');
+    trialTriggers.forEach(btn => {
+      btn.addEventListener('click', function (e) {
+        e.preventDefault();
+        openModal();
+      });
+    });
 
     function closeModal(permanent) {
       if (!modal) return;
