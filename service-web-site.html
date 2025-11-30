@@ -1,0 +1,1299 @@
+<!doctype html>
+<html lang="tr" data-theme="dark">
+<head>
+  <meta charset="utf-8" />
+  <title>Web Site Tasarım & Geliştirme | WeAreMorphera</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Inter font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ===========================
+       DESIGN TOKENS
+    ============================ */
+    :root {
+      --bg:#050816;
+      --bg-soft:#060b1d;
+      --fg:#f9fafb;
+      --muted:#9ca3af;
+
+      --accent1:#6366f1;
+      --accent2:#ec4899;
+      --accent3:#f97316;
+      --accent4:#22c55e;
+
+      --card:#0b1020;
+      --card-soft:#0f172a;
+      --stroke:rgba(148,163,184,0.35);
+
+      --container:1180px;
+      --radius-lg:28px;
+      --radius-md:20px;
+
+      --s1:8px;
+      --s2:12px;
+      --s3:16px;
+      --s4:24px;
+      --s5:32px;
+      --s6:48px;
+      --s7:72px;
+    }
+
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{
+      min-height:100vh;
+      font-family:"Inter",system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      background:
+        radial-gradient(circle at top,#111827 0,#020617 55%,#020617 100%);
+      color:var(--fg);
+      -webkit-font-smoothing:antialiased;
+    }
+
+    .page{
+      max-width:var(--container);
+      margin:0 auto;
+      padding:var(--s5) var(--s3) var(--s6);
+    }
+
+    .section-title{
+      font-size:clamp(28px,3vw,36px);
+      font-weight:700;
+      letter-spacing:0.01em;
+      margin-bottom:var(--s2);
+    }
+
+    .section-subtitle{
+      max-width:720px;
+      font-size:14px;
+      line-height:1.7;
+      color:var(--muted);
+    }
+
+    .eyebrow-pill{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:4px 12px;
+      border-radius:999px;
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:0.14em;
+      background:rgba(15,23,42,0.85);
+      border:1px solid rgba(148,163,184,0.55);
+      color:#e5e7eb;
+    }
+    .eyebrow-pill span.dot{
+      width:7px;height:7px;border-radius:999px;
+      background:var(--accent2);
+      box-shadow:0 0 0 5px rgba(236,72,153,0.35);
+    }
+
+    section{margin-bottom:var(--s6);}
+
+    /* ===========================
+       HERO
+    ============================ */
+    .hero-web{
+      display:grid;
+      grid-template-columns:minmax(0,1.4fr) minmax(0,1.1fr);
+      gap:var(--s4);
+      margin-top:var(--s4);
+    }
+
+    .hero-left{
+      padding:var(--s4);
+      border-radius:var(--radius-lg);
+      background:
+        linear-gradient(135deg,rgba(99,102,241,0.25),rgba(236,72,153,0.16)),
+        radial-gradient(circle at top left,rgba(15,23,42,0.96),rgba(15,23,42,1));
+      border:1px solid rgba(129,140,248,0.75);
+      box-shadow:0 26px 70px rgba(15,23,42,0.98);
+      position:relative;
+      overflow:hidden;
+    }
+    .hero-left::after{
+      content:"";
+      position:absolute;
+      inset:-40%;
+      background:
+        radial-gradient(circle at 0 0,rgba(244,114,182,0.18),transparent 55%),
+        radial-gradient(circle at 100% 100%,rgba(56,189,248,0.18),transparent 55%);
+      opacity:.9;
+      mix-blend-mode:screen;
+      pointer-events:none;
+    }
+    .hero-left-inner{position:relative;z-index:1;}
+
+    .hero-kpi-row{
+      display:flex;
+      flex-wrap:wrap;
+      gap:var(--s3);
+      margin-top:var(--s4);
+    }
+    .hero-kpi{
+      flex:1;
+      min-width:150px;
+      padding:10px 14px;
+      border-radius:18px;
+      background:rgba(15,23,42,0.96);
+      border:1px solid rgba(148,163,184,0.55);
+      font-size:12px;
+      color:var(--muted);
+    }
+    .hero-kpi strong{
+      display:block;
+      font-size:18px;
+      margin-bottom:2px;
+      color:#f9fafb;
+    }
+
+    .hero-tags{
+      display:flex;
+      flex-wrap:wrap;
+      gap:6px;
+      margin-top:var(--s3);
+    }
+    .hero-tags span{
+      font-size:11px;
+      padding:5px 10px;
+      border-radius:999px;
+      background:rgba(15,23,42,0.9);
+      border:1px solid rgba(148,163,184,0.55);
+      color:#e5e7eb;
+    }
+
+    .hero-actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:var(--s2);
+      margin-top:var(--s4);
+      
+    }
+
+    .btn{
+      border:none;
+      cursor:pointer;
+      font-size:13px;
+      font-weight:500;
+      border-radius:999px;
+      padding:11px 22px;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      white-space:nowrap;
+      text-decoration:none;
+    }
+    .btn--primary{
+      background:linear-gradient(135deg,var(--accent3),var(--accent2),var(--accent1));
+      color:#fff;
+      box-shadow:0 18px 42px rgba(236,72,153,0.6);
+      transition:transform .18s ease, box-shadow .18s ease, filter .18s ease;
+    }
+    .btn--primary:hover{
+      transform:translateY(-1px);
+      filter:brightness(1.05);
+      box-shadow:0 26px 60px rgba(236,72,153,0.8);
+    }
+    .btn--ghost{
+      background:rgba(15,23,42,0.96);
+      color:var(--muted);
+      border:1px solid rgba(148,163,184,0.6);
+      box-shadow:0 14px 30px rgba(15,23,42,0.8);
+    }
+
+    .hero-right{
+      border-radius:var(--radius-lg);
+      background:
+        radial-gradient(circle at top,#1d243f,rgba(15,23,42,0.98));
+      border:1px solid rgba(148,163,184,0.45);
+      box-shadow:0 26px 70px rgba(15,23,42,0.98);
+      padding:var(--s4);
+      position:relative;
+      overflow:hidden;
+    }
+    .hero-right::before{
+      content:"";
+      position:absolute;
+      inset:-40%;
+      background:radial-gradient(circle at 0 0,rgba(34,197,94,0.22),transparent 55%);
+      opacity:.7;
+      pointer-events:none;
+    }
+    .hero-right-inner{position:relative;z-index:1;}
+
+    .hero-right h3{
+      font-size:16px;
+      margin-bottom:var(--s2);
+      color:#fff;
+    }
+    .price-pill-row{
+      display:flex;
+      flex-wrap:wrap;
+      gap:var(--s2);
+      margin-bottom:var(--s3);
+    }
+    .price-pill{
+      flex:1;
+      min-width:120px;
+      padding:10px 12px;
+      border-radius:18px;
+      background:rgba(15,23,42,0.96);
+      border:1px solid rgba(148,163,184,0.55);
+      font-size:12px;
+      color:var(--muted);
+    }
+    .price-pill strong{
+      display:block;
+      color:#f9fafb;
+      font-size:15px;
+    }
+    .hero-right ul{
+      font-size:13px;
+      list-style:none;
+      padding-left:0;
+      margin:0;
+      color:var(--muted);
+    }
+    .hero-right li{
+      position:relative;
+      padding-left:18px;
+      margin-bottom:6px;
+    }
+    .hero-right li::before{
+      content:"•";
+      position:absolute;
+      left:4px;
+      color:var(--accent4);
+    }
+
+    /* ===========================
+       PACKAGE GRID
+    ============================ */
+    .packages-section{
+      background:rgba(11,15,32,0.96);
+      border-radius:var(--radius-lg);
+      padding:var(--s4);
+      border:1px solid var(--stroke);
+      box-shadow:0 24px 70px rgba(15,23,42,0.98);
+      position:relative;
+      overflow:hidden;
+    }
+    .packages-section::before{
+      content:"";
+      position:absolute;
+      inset:-40%;
+      background:
+        radial-gradient(circle at 0 0,rgba(99,102,241,0.22),transparent 55%),
+        radial-gradient(circle at 100% 100%,rgba(236,72,153,0.16),transparent 55%);
+      opacity:0.7;
+      mix-blend-mode:screen;
+      pointer-events:none;
+    }
+    .packages-inner{position:relative;z-index:1;}
+
+    .packages-grid{
+      margin-top:var(--s4);
+      display:grid;
+      grid-template-columns:repeat(4,minmax(0,1fr));
+      gap:var(--s3);
+    }
+
+    .package-card{
+      background:rgba(15,23,42,0.96);
+      border-radius:var(--radius-md);
+      padding:var(--s3);
+      border:1px solid rgba(148,163,184,0.55);
+      position:relative;
+      overflow:hidden;
+      transition:transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+    }
+    .package-card::after{
+      content:"";
+      position:absolute;
+      inset:-40%;
+      background:radial-gradient(circle at 0 0,rgba(236,72,153,0.12),transparent 55%);
+      opacity:0;
+      pointer-events:none;
+      transition:opacity .2s ease;
+    }
+    .package-card:hover{
+      transform:translateY(-4px);
+      box-shadow:0 22px 52px rgba(15,23,42,0.98);
+      border-color:rgba(129,140,248,0.9);
+    }
+    .package-card:hover::after{opacity:1;}
+
+    .package-tag{
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:.12em;
+      color:#a5b4fc;
+      margin-bottom:4px;
+    }
+    .package-title{
+      font-size:17px;
+      font-weight:600;
+      margin-bottom:4px;
+      color:#ece2b6;
+    }
+    .package-price{
+      font-size:15px;
+      font-weight:600;
+      color:#e5e7eb;
+      margin-bottom:4px;
+    }
+    .package-price span{
+      font-size:11px;
+      font-weight:400;
+      color:var(--muted);
+    }
+    .package-note{
+      font-size:11px;
+      color:var(--muted);
+      margin-bottom:var(--s2);
+    }
+    .package-list{
+      font-size:13px;
+      list-style:none;
+      padding-left:0;
+      margin:0 0 var(--s3);
+      color:var(--muted);
+    }
+    .package-list li{
+      position:relative;
+      padding-left:18px;
+      margin-bottom:6px;
+    }
+    .package-list li::before{
+      content:"✓";
+      position:absolute;
+      left:3px;
+      top:0;
+      font-size:11px;
+      color:var(--accent1);
+    }
+
+    .package-badge{
+      position:absolute;
+      top:0px;
+      right:70px;
+      padding:1px 1px;
+      border-radius:999px;
+      font-size:8px;
+      text-transform:uppercase;
+      letter-spacing:.12em;
+      background:rgba(34,197,94,0.2);
+      border:1px solid rgba(34,197,94,0.7);
+      color:#bbf7d0;
+    }
+
+    /* ===========================
+       PRICE GUIDE / COMPARISON
+    ============================ */
+    .guide-grid{
+      display:grid;
+      grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);
+      gap:var(--s4);
+      margin-top:var(--s4);
+    }
+    .guide-box{
+      background:rgba(15,23,42,0.96);
+      border-radius:var(--radius-md);
+      padding:var(--s3);
+      border:1px solid rgba(148,163,184,0.55);
+      font-size:13px;
+      color:var(--muted);
+      line-height:1.7;
+    }
+    .guide-box strong{color:#f9fafb;}
+
+    .compare-table{
+      width:100%;
+      border-collapse:collapse;
+      font-size:12px;
+      margin-top:var(--s2);
+    }
+    .compare-table th,
+    .compare-table td{
+      padding:8px 9px;
+      border-bottom:1px solid rgba(148,163,184,0.35);
+    }
+    .compare-table th{
+      text-align:left;
+      color:#9ca3af;
+      font-weight:500;
+    }
+    .compare-table tr:last-child td{border-bottom:none;}
+    .badge-soft{
+      display:inline-block;
+      padding:3px 8px;
+      border-radius:999px;
+      background:rgba(96,165,250,0.18);
+      border:1px solid rgba(96,165,250,0.6);
+      font-size:10px;
+      color:#e0f2fe;
+    }
+
+    /* ===========================
+       PRICE CALCULATOR
+    ============================ */
+    .calc-section{
+      background:rgba(15,23,42,0.96);
+      border-radius:var(--radius-lg);
+      padding:var(--s4);
+      border:1px solid rgba(129,140,248,0.6);
+      box-shadow:0 22px 60px rgba(15,23,42,1);
+      position:relative;
+      overflow:hidden;
+    }
+    .calc-section::before{
+      content:"";
+      position:absolute;
+      inset:-40%;
+      background:radial-gradient(circle at 0 0,rgba(244,114,182,0.18),transparent 55%);
+      opacity:.8;
+      pointer-events:none;
+    }
+    .calc-inner{position:relative;z-index:1;}
+
+    .calc-grid{
+      display:grid;
+      grid-template-columns:minmax(0,1.2fr) minmax(0,0.9fr);
+      gap:var(--s4);
+      margin-top:var(--s3);
+      align-items:flex-start;
+    }
+    .calc-control{
+      font-size:13px;
+      color:var(--muted);
+    }
+    .calc-control label{
+      display:flex;
+      justify-content:space-between;
+      margin-bottom:4px;
+      font-size:12px;
+    }
+    .calc-control input[type="range"]{
+      width:100%;
+      margin-bottom:var(--s2);
+      accent-color:var(--accent1);
+    }
+    .calc-checks{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin-top:6px;
+    }
+    .calc-checks label{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding:6px 10px;
+      border-radius:999px;
+      background:rgba(15,23,42,0.9);
+      border:1px solid rgba(148,163,184,0.6);
+      font-size:12px;
+      cursor:pointer;
+    }
+    .calc-checks input{accent-color:var(--accent2);}
+
+    .calc-result{
+      background:rgba(23, 29, 44, 0.96);
+      border-radius:22px;
+      padding:var(--s3);
+      border:1px solid rgba(148,163,184,0.7);
+      text-align:center;
+    }
+    .calc-result h3{
+
+      font-size:16px;
+      margin-bottom:4px;
+      color:#9ca3af;
+    }
+    .calc-estimate{
+      font-size:26px;
+      font-weight:700;
+      background:linear-gradient(135deg,#fde68a,#fb7185,#a5b4fc);
+      -webkit-background-clip:text;
+      color:transparent;
+      margin-bottom:4px;
+    }
+    .calc-chip-row{
+      display:flex;
+      justify-content:center;
+      gap:8px;
+      flex-wrap:wrap;
+      margin-top:8px;
+      font-size:11px;
+      color:#9ca3af;
+    }
+    .calc-chip{
+      padding:4px 10px;
+      border-radius:999px;
+      background:rgba(15,23,42,0.9);
+      border:1px solid rgba(148,163,184,0.5);
+    }
+
+    /* ===========================
+       FAQ / ACCORDION
+    ============================ */
+    .faq-section{
+      background:rgba(11,15,32,0.96);
+      border-radius:var(--radius-lg);
+      padding:var(--s4);
+      border:1px solid var(--stroke);
+      box-shadow:0 22px 60px rgba(15,23,42,0.98);
+    }
+    .faq-list{
+      margin-top:var(--s3);
+      border-radius:20px;
+      overflow:hidden;
+      border:1px solid rgba(148,163,184,0.45);
+    }
+    .faq-item + .faq-item{
+      border-top:1px solid rgba(55,65,81,0.9);
+    }
+    .faq-button{
+      width:100%;
+      text-align:left;
+      background:rgba(15,23,42,0.98);
+      color:var(--fg);
+      border:none;
+      padding:16px 18px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      cursor:pointer;
+      font-size:14px;
+    }
+    .faq-button span{
+      flex:1;
+      margin-right:12px;
+    }
+    .faq-icon{
+      width:22px;height:22px;border-radius:999px;
+      border:1px solid rgba(148,163,184,0.7);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:14px;
+      color:#9ca3af;
+      transition:transform .16s ease, background .16s ease;
+    }
+    .faq-item.active .faq-icon{
+      transform:rotate(90deg);
+      background:linear-gradient(135deg,var(--accent1),var(--accent2));
+      color:#fff;
+      border-color:transparent;
+    }
+    .faq-panel{
+      max-height:0;
+      overflow:hidden;
+      background:#020617;
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.7;
+      padding:0 18px;
+      transition:max-height .22s ease;
+    }
+    .faq-panel-inner{
+      padding:0 0 14px 0;
+    }
+
+    /* ===========================
+       PROCESS TIMELINE
+    ============================ */
+    .process-section{
+      background:rgba(11,15,32,0.96);
+      border-radius:var(--radius-lg);
+      padding:var(--s4);
+      border:1px solid var(--stroke);
+      box-shadow:0 20px 60px rgba(15,23,42,1);
+    }
+    .process-scroll{
+      margin-top:var(--s3);
+      padding-bottom:6px;
+      overflow-x:auto;
+    }
+    .process-steps{
+      display:flex;
+      gap:var(--s3);
+      min-width:720px;
+    }
+    .process-step{
+      flex:1;
+      min-width:180px;
+      background:rgba(15,23,42,0.98);
+      border-radius:22px;
+      padding:var(--s3);
+      border:1px solid rgba(148,163,184,0.55);
+      position:relative;
+    }
+    .process-step::before{
+      content:attr(data-step);
+      position:absolute;
+      top:10px;
+      left:12px;
+      font-size:10px;
+      text-transform:uppercase;
+      letter-spacing:0.16em;
+      color:#a5b4fc;
+    }
+    .process-step h3{
+      margin-top:18px;
+      font-size:14px;
+      margin-bottom:4px;
+      color:#ced2e4;
+    }
+    .process-step p{
+      font-size:12px;
+      color:var(--muted);
+    }
+
+    /* ===========================
+       CTA BAND
+    ============================ */
+    .cta-band{
+      background:radial-gradient(circle at top left,rgba(129,140,248,0.2),rgba(15,23,42,0.98));
+      border-radius:var(--radius-lg);
+      padding:var(--s4);
+      border:1px solid rgba(148,163,184,0.6);
+      text-align:center;
+      box-shadow:0 22px 70px rgba(15,23,42,1);
+    }
+    .cta-band h2{
+      font-size:22px;
+      margin-bottom:var(--s2);
+      color:#ced2e4;
+    }
+    .cta-band p{
+      font-size:13px;
+      color:var(--muted);
+      max-width:680px;
+      margin:0 auto var(--s3);
+    }
+    .cta-actions{
+      display:flex;
+      flex-wrap:wrap;
+      justify-content:center;
+      gap:var(--s2);
+    }
+
+    /* ===========================
+       RESPONSIVE
+    ============================ */
+    @media (max-width:1024px){
+      .hero-web{
+        grid-template-columns:minmax(0,1fr);
+      }
+      .hero-right{order:-1;}
+      .packages-grid{
+        grid-template-columns:repeat(2,minmax(0,1fr));
+      }
+      .guide-grid{
+        grid-template-columns:minmax(0,1fr);
+      }
+      .calc-grid{
+        grid-template-columns:minmax(0,1fr);
+      }
+    }
+
+    @media (max-width:720px){
+      .page{padding:var(--s4) var(--s2) var(--s5);}
+      .hero-left,
+      .hero-right,
+      .packages-section,
+      .faq-section,
+      .process-section,
+      .calc-section,
+      .cta-band{
+        padding:var(--s3);
+      }
+      .packages-grid{
+        grid-template-columns:minmax(0,1fr);
+      }
+    }
+    /* HERO içindeki butonları zorla düzelt */
+.hero-actions .btn--primary{
+  background: linear-gradient(135deg, #f97316, #ec4899, #6366f1);
+  color: #ffffff !important;
+  box-shadow: 0 18px 42px rgba(236,72,153,0.6);
+}
+
+.hero-actions .btn--ghost{
+  background: rgba(15,23,42,0.96);
+  color: #9ca3af !important;
+  border: 1px solid rgba(148,163,184,0.6);
+  box-shadow: 0 14px 30px rgba(15,23,42,0.8);
+}
+/* CTA alanındaki "Proje Özeti Gönder" butonu için */
+.cta-band .cta-actions .btn.btn--ghost{
+  color:#282726 !important;      /* yazı beyaz */
+  border-color:rgba(59,130,246,0.9); /* istersen mavi çerçeve */
+}
+
+  </style>
+
+  <!-- Genel site CSS'in -->
+  <link rel="stylesheet" href="assets/css/styles.css?v=3" />
+</head>
+<body>
+<header class="header">
+  <div class="container header__inner">
+    <div class="header__row header__row--top">
+      <a class="brand brand--pill" href="index.html#top" aria-label="WeAreMorphera anasayfa">
+        <img src="assets/img/logo/morphera.png" alt="WeAreMorphera Logo" class="brand__logo" loading="lazy" />
+        <span class="brand__text">WeAreMorphera</span>
+      </a>
+
+      <div class="header__cta only-desktop" id="socials" aria-label="Sosyal bağlantılar">
+        <a class="lottie-icon" id="iconTikTok" href="https://www.tiktok.com/@wearemorpheraagency" target="_blank"></a>
+        <a class="lottie-icon" id="iconInstagram" href="http://instagram.com/wearemorphera" target="_blank"></a>
+        <a class="lottie-icon" id="iconYouTube" href="https://www.youtube.com/@wemorphera" target="_blank"></a>
+        <a class="lottie-icon" id="iconFacebook" href="http://facebook.com/WeAreMorpheraDijitalAjans" target="_blank"></a>
+        <a class="lottie-icon" id="iconX" href="http://x.com/WeAreMorphera" target="_blank"></a>
+        <a class="lottie-icon" id="iconNsosyal" href="https://sosyal.teknofest.app/@wearemorpherasosyalmedyaajansi" target="_blank"></a>
+      </div>
+
+      <button class="quote-btn js-open-quote" id="openQuote" type="button" aria-label="Hızlı Teklif Formu Aç">
+        <img src="assets/img/logo/teklif.png" alt="Teklif Al" class="quote-btn__icon" loading="lazy" />
+      </button>
+    </div>
+
+    <div class="header__row header__row--bottom">
+      <nav class="nav" id="nav">
+        <a href="index.html#services">Hizmetler</a>
+        <a href="index.html#resultsTable">Başarı Tablomuz</a>
+        <a href="team.html">Ekibimiz</a>
+        <a href="index.html#process">Süreç</a>
+        <a href="index.html#plans">Paketler</a>
+        <a href="index.html#work">Portföy</a>
+        <a href="index.html#blog">Blog</a>
+        <a href="contact.html" class="btn btn--ghost">İletişim</a>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<main class="page">
+
+  <!-- HERO -->
+  <section aria-labelledby="hero-title">
+    <div class="eyebrow-pill">
+      <span class="dot"></span>
+      WEB SİTESİ TASARIM & GELİŞTİRME
+    </div>
+
+    <div class="hero-web">
+      <div class="hero-left">
+        <div class="hero-left-inner">
+          <h1 class="section-title" id="hero-title">
+            2025'e Hazır, Satış Odaklı Web Site Tasarımları
+          </h1>
+          <p class="section-subtitle">
+            Web siteniz artık sadece “kartvizit” değil; satış makineniz. WeAreMorphera olarak;
+            SEO uyumlu, mobil öncelikli ve performans odaklı web siteleriyle markanızı dijitalde
+            üst lige taşıyoruz.
+          </p>
+
+          <div class="hero-tags">
+            <span>Kurumsal Web Site</span>
+            <span>E-Ticaret</span>
+            <span>Landing Page & Funnel</span>
+            <span>Blog / İçerik Portalları</span>
+          </div>
+
+          <div class="hero-kpi-row">
+            <div class="hero-kpi">
+              <strong>8.000 – 18.000 TL</strong>
+              Profesyonel kurumsal site aralığı
+            </div>
+            <div class="hero-kpi">
+              <strong>15.000 – 45.000 TL</strong>
+              E-ticaret & gelişmiş projeler
+            </div>
+            <div class="hero-kpi">
+              <strong>4–6 Hafta</strong>
+              Ortalama canlıya çıkış süresi
+            </div>
+          </div>
+
+          <div class="hero-actions">
+            <a href="contact.html#form" class="btn btn--primary">
+              15 Dakikalık Proje Analizi Planla
+            </a>
+            <a href="#paketler" class="btn btn--ghost">
+              Paketleri & Fiyat Rehberini Gör
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <aside class="hero-right" aria-label="Web site fiyat özeti">
+        <div class="hero-right-inner">
+          <h3>İş Tipine Göre Ortalama Aralıklar</h3>
+
+          <div class="price-pill-row">
+            <div class="price-pill">
+              <strong>Landing / Tek Sayfa</strong>
+              5.000 – 10.000 TL
+            </div>
+            <div class="price-pill">
+              <strong>Kurumsal Site</strong>
+              8.000 – 20.000 TL
+            </div>
+            <div class="price-pill">
+              <strong>E-Ticaret</strong>
+              18.000 TL'den itibaren
+            </div>
+          </div>
+
+          <ul>
+            <li>Fiyatlar; sayfa sayısı, dil sayısı, entegrasyon ve özel tasarım seviyesine göre şekillenir.</li>
+            <li>Her proje için net kapsam & teslim listesi oluşturarak ilerliyoruz.</li>
+            <li>Uzun vadeli bakım ve büyüme planı isteyen markalar için aylık yönetim opsiyonu sunuyoruz.</li>
+          </ul>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- PACKAGES -->
+  <section class="packages-section" id="paketler">
+    <div class="packages-inner">
+      <h2 class="section-title">Web Site Tasarım Paketleri</h2>
+      <p class="section-subtitle">
+        Hazır şablon yerine, markanıza özel tasarımlar. Aşağıdaki paketler başlangıç noktasıdır;
+        her proje için kapsamı birlikte netleştirip size özel teklif hazırlıyoruz.
+      </p>
+
+      <div class="packages-grid">
+        <!-- Paket 1 -->
+        <article class="package-card">
+          <div class="package-tag">Yeni Başlayanlar İçin</div>
+          <h3 class="package-title">Starter Landing</h3>
+          <div class="package-price">8.000 TL <span>+ KDV · Tek seferlik</span></div>
+          <p class="package-note">Kampanya, ürün lansmanı veya hızlı testler için tek sayfalık odaklı tasarım.</p>
+          <ul class="package-list">
+            <li>3 sayfa, conversion odaklı tasarım</li>
+            <li>Mobil & hız optimizasyonu</li>
+            <li>Form / WhatsApp / çağrı aksiyonu</li>
+            <li>Temel SEO ayarları (meta, başlık, sitemap)</li>
+            <li>Google Analytics / Pixel kurulumu</li>
+          </ul>
+          <a href="contact.html#form" class="btn btn--primary">Bu Paket İçin Teklif Al</a>
+        </article>
+
+        <!-- Paket 2 -->
+        <article class="package-card">
+          <div class="package-tag">Büyümek İsteyen Markalar</div>
+          <div class="package-badge">En Çok Tercih Edilen</div>
+          <h3 class="package-title">Kurumsal Plus</h3>
+          <div class="package-price">15.000 – 22.000 TL <span>+ KDV</span></div>
+          <p class="package-note">Kurumsal kimliği güçlü, çok sayfalı marka siteleri için ideal.</p>
+          <ul class="package-list">
+            <li>8–12 sayfalık özel tasarım (Hakkımızda, Hizmetler, Referanslar vb.)</li>
+            <li>Çift dil desteği (TR + EN veya başka bir dil)</li>
+            <li>Blog / Haber modülü</li>
+            <li>İletişim formları, harita, randevu / teklif formu</li>
+            <li>Temel hız ve Core Web Vitals optimizasyonu</li>
+          </ul>
+          <a href="contact.html#form" class="btn btn--primary">Kurumsal Plus İçin Teklif Al</a>
+        </article>
+
+        <!-- Paket 3 -->
+        <article class="package-card">
+          <div class="package-tag">Ürün / Hizmet Satışı</div>
+          <h3 class="package-title">E-Ticaret Core</h3>
+          <div class="package-price">22.000 – 35.000 TL <span>+ KDV</span></div>
+          <p class="package-note">Katalog mantığında, büyümeye açık e-ticaret altyapısı.</p>
+          <ul class="package-list">
+            <li>100 ürüne kadar ürün & kategori yapısı</li>
+            <li>Kredi kartı / havale / kapıda ödeme entegrasyonları</li>
+            <li>Kargo ve fatura modülleri</li>
+            <li>Sepet, kupon ve kampanya altyapısı</li>
+            <li>GA4 + e-ticaret dönüşüm ölçümlemesi</li>
+          </ul>
+          <a href="contact.html#form" class="btn btn--primary">E-Ticaret Core İçin Teklif Al</a>
+        </article>
+
+        <!-- Paket 4 -->
+        <article class="package-card">
+          <div class="package-tag">Özel Projeler</div>
+          <h3 class="package-title">Growth / Web App</h3>
+          <div class="package-price">35.000 TL + <span>değişken</span></div>
+          <p class="package-note">Üyelik sistemi, panel, özel entegrasyonlar ve mikro-uygulamalar için.</p>
+          <ul class="package-list">
+            <li>Üyelik & rol bazlı kullanıcı yönetimi</li>
+            <li>CRM / ERP / pazar yeri entegrasyonları</li>
+            <li>Özel dashboard ve raporlama ekranları</li>
+            <li>Teknik dokümantasyon & dev handoff</li>
+            <li>Aylık geliştirme & bakım opsiyonları</li>
+          </ul>
+          <a href="contact.html#form" class="btn btn--primary">Proje Bazlı Görüşme Planla</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICE GUIDE & COMPARISON -->
+  <section>
+    <h2 class="section-title">Fiyatları Etkileyen 3 Ana Faktör</h2>
+    <p class="section-subtitle">
+      Web site fiyatı her markada farklıdır; fakat temel denklem aynıdır. Aşağıdaki şablon, bütçenizi
+      planlarken hangi kalemleri düşünmeniz gerektiğini netleştirir.
+    </p>
+
+    <div class="guide-grid">
+      <div class="guide-box">
+        <strong>1. Site Yapısı & İçerik Derinliği</strong><br />
+        Sayfa sayısı, içerik yoğunluğu, blog / haber akışı, dil sayısı ve görsel / video içerik ihtiyacı
+        arttıkça projenin kapsamı da büyür.<br /><br />
+
+        <strong>2. Tasarım Seviyesi & Marka Kimliği</strong><br />
+        Hazır tema mı, tamamen özel UI/UX tasarım mı? İkon setleri, illüstrasyonlar, mikro animasyonlar
+        ve marka kılavuzuna uygun tasarım seviyesi fiyatı belirler.<br /><br />
+
+        <strong>3. Entegrasyonlar & Teknik Gereksinimler</strong><br />
+        Ödeme sistemleri, CRM / ERP bağlantıları, rezervasyon altyapısı, pazar yerleri, çoklu rol yapısı,
+        web uygulaması mantığı gibi alanlar teknik zamanı artırır.<br /><br />
+
+        <em>WeAreMorphera'da, bütün bu maddeleri proje başında tek bir “kapsam dokümanı”nda topluyor,
+        sürpriz maliyet çıkarmadan ilerliyoruz.</em>
+      </div>
+
+      <div class="guide-box">
+        <strong>Ajans mı, freelancer mı, hazır site mi?</strong>
+        <table class="compare-table">
+          <thead>
+          <tr>
+            <th>Model</th>
+            <th>Maliyet</th>
+            <th>Avantaj</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td>Hazır Site / Site Builder</td>
+            <td>700 – 2.000 TL / yıl</td>
+            <td>Hızlı başlama, düşük maliyet</td>
+          </tr>
+          <tr>
+            <td>Freelancer</td>
+            <td>5.000 – 15.000 TL</td>
+            <td>Uygun bütçe, orta seviye esneklik</td>
+          </tr>
+          <tr>
+            <td>Ajans (Bizim segment)</td>
+            <td>15.000 – 50.000 TL</td>
+            <td>Strateji + tasarım + teknik + büyüme</td>
+          </tr>
+          </tbody>
+        </table>
+
+        <p style="margin-top:10px;">
+          <span class="badge-soft">Bizim Modelimiz</span>
+          &nbsp;Tasarım, yazılım, ölçümleme ve pazarlama ekiplerini tek çatı altında buluşturan
+          <strong>“full-service dijital ajans”</strong> yaklaşımıdır.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICE CALCULATOR -->
+  <section class="calc-section" aria-labelledby="calc-title">
+    <div class="calc-inner">
+      <h2 class="section-title" id="calc-title">Hızlı Fiyat Simülasyonu</h2>
+      <p class="section-subtitle">
+        Aşağıdaki basit hesaplayıcı; proje bütçenizin yaklaşık hangi bandın içine gireceğini görmeniz için
+        tasarlandı. Çıkan rakam net teklif değildir, ama ilk toplantı öncesi gerçekçi bir çerçeve sunar.
+      </p>
+
+      <div class="calc-grid">
+        <div class="calc-control">
+          <label for="pageCount">
+            Sayfa sayısı
+            <span><span id="pageCountLabel">6</span> sayfa</span>
+          </label>
+          <input type="range" id="pageCount" min="3" max="30" value="6" />
+
+          <p style="margin-top:10px;margin-bottom:4px;">Dahil etmek istediğiniz özellikler:</p>
+          <div class="calc-checks">
+            <label>
+              <input type="checkbox" class="calc-feature" data-cost="4000" />
+              Blog / Haber Alanı
+            </label>
+            <label>
+              <input type="checkbox" class="calc-feature" data-cost="6000" />
+              E-Ticaret / Ödeme
+            </label>
+            <label>
+              <input type="checkbox" class="calc-feature" data-cost="3500" />
+              Çoklu Dil
+            </label>
+            <label>
+              <input type="checkbox" class="calc-feature" data-cost="2500" />
+              Özel Entegrasyon
+            </label>
+          </div>
+
+          <p style="margin-top:12px;font-size:12px;color:var(--muted);">
+            Bu simülasyon; sayfa başına ortalama tasarım + geliştirme maliyeti ve seçilen modüller üzerinden
+            kaba bir aralık hesaplar. Net rakam için markanızın ihtiyaçlarını projelendirmemiz gerekir.
+          </p>
+        </div>
+
+        <aside class="calc-result" aria-label="Hesaplanan tahmini bütçe">
+          <h3>Tahmini Proje Bütçesi</h3>
+          <div class="calc-estimate" id="calcEstimate">18.000 TL – 24.000 TL</div>
+          <p style="font-size:12px;color:var(--muted);">
+            Bu aralık, tipik bir <strong>kurumsal web site</strong> projesi için öngördüğümüz banttır.
+          </p>
+          <div class="calc-chip-row">
+            <span class="calc-chip">Detaylı keşif & kapsam dokümanı</span>
+            <span class="calc-chip">Tasarım + yazılım + test süreci</span>
+            <span class="calc-chip">SEO & hız optimizasyonu</span>
+          </div>
+          <div style="margin-top:16px;">
+            <a href="contact.html#form" class="btn btn--primary">
+              Çıkan Sonuca Göre Net Teklif İste
+            </a>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="faq-section" aria-labelledby="faq-title">
+    <h2 class="section-title" id="faq-title">Sık Sorulan Sorular</h2>
+    <p class="section-subtitle">
+      Toplantılarda en çok aldığımız soruları derledik. Daha detaylı bir şey sormak istersen,
+      her zaman WhatsApp veya mail üzerinden bize ulaşabilirsin.
+    </p>
+
+    <div class="faq-list">
+      <div class="faq-item">
+        <button class="faq-button" type="button">
+          <span>1. Web sitem ne kadar sürede yayına alınır?</span>
+          <div class="faq-icon">›</div>
+        </button>
+        <div class="faq-panel">
+          <div class="faq-panel-inner">
+            Projelerin büyük kısmını <strong>4–6 hafta</strong> arasında teslim ediyoruz.
+            Kapsam büyüdükçe (e-ticaret, özel entegrasyonlar, çoklu dil vb.) süre de buna paralel
+            olarak artıyor. Sürecin başında beraber bir <em>timeline</em> çıkarıp, her haftanın
+            kilometre taşlarını netliyoruz.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-button" type="button">
+          <span>2. Sitenin içeriğini kim hazırlıyor? Metin & görseller sizden mi?</span>
+          <div class="faq-icon">›</div>
+        </button>
+        <div class="faq-panel">
+          <div class="faq-panel-inner">
+            İçerik tarafında üç farklı modelle çalışıyoruz:
+            <ul style="margin:8px 0 0 18px;">
+              <li>Metinler sizden, biz düzenliyoruz.</li>
+              <li>Strateji + ton belirleyip metinleri tamamen biz yazıyoruz.</li>
+              <li>Mevcut dokümanlarınızı UX odaklı şekilde yeniden kurguluyoruz.</li>
+            </ul>
+            Görsel tarafında stok görseller, özel çekimler veya illüstrasyon setleri kullanabiliyoruz.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-button" type="button">
+          <span>3. Bakım, güncelleme ve güvenlik işlemleri fiyata dahil mi?</span>
+          <div class="faq-icon">›</div>
+        </button>
+        <div class="faq-panel">
+          <div class="faq-panel-inner">
+            Proje sonrası <strong>30 günlük garanti & destek</strong> sürecimiz var.
+            Sonrasında aylık bakım paketleri öneriyoruz: güvenlik güncellemeleri, içerik ekleme,
+            hız optimizasyonu ve küçük geliştirmeleri bu paketlerle sürdürebilirsiniz.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-button" type="button">
+          <span>4. Web sitem SEO ve reklam için hazır olacak mı?</span>
+          <div class="faq-icon">›</div>
+        </button>
+        <div class="faq-panel">
+          <div class="faq-panel-inner">
+            Evet. Tüm projelerde teknik SEO, temel yapılandırma ve ölçümleme altyapısını kuruyoruz
+            (GA4, Search Console, Tag Manager vb.). İsterseniz lansman sonrası
+            <strong>Google Ads, Meta Ads ve içerik stratejisi</strong> için de sürekli çalışma modeliyle devam ediyoruz.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-button" type="button">
+          <span>5. Ödeme modeliniz nasıl? Peşin mi, taksit mi?</span>
+          <div class="faq-icon">›</div>
+        </button>
+        <div class="faq-panel">
+          <div class="faq-panel-inner">
+            Çoğu projede <strong>2 veya 3 parçalı ödeme</strong> modeliyle çalışıyoruz:
+            proje başlangıcı, tasarım onayı ve canlıya çıkış. Uzun vadeli iş ortaklıklarında
+            aylık sabit ücret + gelişen ihtiyaçlara göre ek sprint modelleri de kurgulayabiliyoruz.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROCESS -->
+  <section class="process-section">
+    <h2 class="section-title">Web Site Proje Sürecimiz</h2>
+    <p class="section-subtitle">
+      Ajans tarafındaki tüm karmaşayı sizin için sadeleştiriyoruz. Her adımda hangi çıktıyı
+      alacağınızı ve kimin ne yapacağını net şekilde görebileceğiniz bir süreçle ilerliyoruz.
+    </p>
+
+    <div class="process-scroll">
+      <div class="process-steps">
+        <div class="process-step" data-step="ADIM 01">
+          <h3>Discovery & İhtiyaç Analizi</h3>
+          <p>Hedef kitlenizi, rakipleri, dönüşüm hedeflerini ve teknik gereksinimleri masaya yatırıyoruz.</p>
+        </div>
+        <div class="process-step" data-step="ADIM 02">
+          <h3>Bilgi Mimarisi & Wireframe</h3>
+          <p>Site haritası, sayfa yapıları ve kullanıcı akışlarını çıkararak net bir iskelet oluşturuyoruz.</p>
+        </div>
+        <div class="process-step" data-step="ADIM 03">
+          <h3>UI Tasarım & İçerik</h3>
+          <p>Marka kimliğinize uygun, modern UI tasarımlar ve SEO uyumlu içerik taslağı hazırlıyoruz.</p>
+        </div>
+        <div class="process-step" data-step="ADIM 04">
+          <h3>Geliştirme & Entegrasyon</h3>
+          <p>Responsive geliştirme, CMS kurulumu, entegrasyonlar ve ölçümleme altyapısı tamamlanır.</p>
+        </div>
+        <div class="process-step" data-step="ADIM 05">
+          <h3>Test, Launch & Eğitim</h3>
+          <p>Cross-browser testler, hız optimizasyonu, canlıya çıkış ve panel kullanımı için eğitim.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-band">
+    <h2>Markanız İçin Özel Web Site Yol Haritası Çıkaralım</h2>
+    <p>
+      İki taraflı bir discovery call sonrasında; mevcut durumunuzu, rakiplerinizi ve hedeflerinizi analiz edip
+      size özel net bir kapsam dökümanı ve fiyat aralığı hazırlıyoruz. Teklif, sadece tasarım değil; büyüme
+      stratejinizi de içeriyor.
+    </p>
+    <div class="cta-actions">
+      <a href="contact.html#form" class="btn btn--primary">
+        Ücretsiz 20 Dakikalık Görüşme Planla
+      </a>
+      <a href="mailto:info@wearemorphera.com?subject=Web%20Site%20Teklif%20Talebi" class="btn btn--ghost">
+        Proje Özeti Gönder
+      </a>
+    </div>
+  </section>
+
+</main>
+
+<script>
+  // ====== HEADER SCROLL: aşağı inerken kaybol, yukarı çıkarken gelsin ======
+  (function () {
+    const header = document.querySelector('.header');
+    if (!header) return;
+
+    let lastScrollY = window.scrollY;
+    const THRESHOLD = 80;
+
+    window.addEventListener('scroll', () => {
+      const currentY = window.scrollY;
+      if (currentY > lastScrollY && currentY > THRESHOLD) {
+        header.classList.add('header--hidden');
+      } else {
+        header.classList.remove('header--hidden');
+      }
+      lastScrollY = currentY;
+    });
+  })();
+
+  // ====== Fiyat hesaplayıcı ======
+  (function () {
+    const pageRange = document.getElementById('pageCount');
+    const pageLabel = document.getElementById('pageCountLabel');
+    const features = Array.from(document.querySelectorAll('.calc-feature'));
+    const estimateEl = document.getElementById('calcEstimate');
+
+    if (!pageRange || !pageLabel || !estimateEl) return;
+
+    function recalc() {
+      const pages = Number(pageRange.value) || 0;
+      pageLabel.textContent = pages;
+
+      // Basit formül: sayfa başı 1.200–1.600 TL aralığı
+      const baseMin = pages * 1200;
+      const baseMax = pages * 1600;
+
+      let extras = 0;
+      features.forEach(f => {
+        if (f.checked) extras += Number(f.dataset.cost || 0);
+      });
+
+      const totalMin = baseMin + extras;
+      const totalMax = baseMax + extras + 3000; // küçük buffer
+
+      const fmt = v => new Intl.NumberFormat('tr-TR').format(v);
+
+      estimateEl.textContent = fmt(totalMin) + ' TL – ' + fmt(totalMax) + ' TL';
+    }
+
+    pageRange.addEventListener('input', recalc);
+    features.forEach(f => f.addEventListener('change', recalc));
+
+    recalc();
+  })();
+
+  // ====== FAQ Accordion ======
+  (function () {
+    const items = document.querySelectorAll('.faq-item');
+    items.forEach(item => {
+      const btn = item.querySelector('.faq-button');
+      const panel = item.querySelector('.faq-panel');
+
+      if (!btn || !panel) return;
+
+      btn.addEventListener('click', () => {
+        const isActive = item.classList.contains('active');
+        // tekli açılma istiyorsan diğerlerini kapat:
+        items.forEach(i => {
+          i.classList.remove('active');
+          const p = i.querySelector('.faq-panel');
+          if (p) p.style.maxHeight = null;
+        });
+
+        if (!isActive) {
+          item.classList.add('active');
+          panel.style.maxHeight = panel.scrollHeight + 'px';
+        }
+      });
+    });
+
+    // ilk soruyu açık başlat
+    if (items[0]) {
+      const firstPanel = items[0].querySelector('.faq-panel');
+      items[0].classList.add('active');
+      if (firstPanel) firstPanel.style.maxHeight = firstPanel.scrollHeight + 'px';
+    }
+  })();
+</script>
+
+</body>
+</html>
