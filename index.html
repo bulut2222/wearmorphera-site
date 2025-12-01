@@ -239,9 +239,7 @@
             Ücretsiz Mini Çalışmayı Başlat
           </button>
 
-          <p class="free-trial-note">
-            Bu kart, ilk girişte açılan popup’ın sabit versiyonudur.
-          </p>
+         
         </div>
       </div>
     </div>
@@ -616,6 +614,58 @@
       </div>
     </div>
   </section>
+ <section class="why morphera-section">
+  <div class="container">
+    <h2 class="morph-title">Neden Morphera?</h2>
+
+    <div class="morph-grid">
+
+      <div class="morph-card">
+        <h3>Gerçek Sonuç Odaklı</h3>
+        <p>Gösterişli sunum değil; büyüme getiren metrikler üretiyoruz.</p>
+      </div>
+
+      <div class="morph-card">
+        <h3>Hızlı & Esnek</h3>
+        <p>Ağır ajans süreçleri yok. Hızlı teslim + anlık iletişim.</p>
+      </div>
+
+      <div class="morph-card">
+        <h3>Tek Orkestrasyon</h3>
+        <p>Sosyal medya, reklam, web, e-ticaret — hepsi tek merkezde.</p>
+      </div>
+
+      <div class="morph-card">
+        <h3>Şeffaf Raporlama</h3>
+        <p>Aylık rapor + haftalık iletişim ritmi = tam şeffaflık.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="faq-section">
+  <div class="container">
+    <h2 class="morph-title">Sık Sorulan Sorular</h2>
+
+    <div class="faq-item">
+      <button class="faq-q">Aylık çalışma süreciniz nasıl ilerliyor?</button>
+      <div class="faq-a">Keşif → Yol Haritası → İlk Ay MVP → Optimizasyon → Scale.</div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q">İçerikleri ne kadar hızlı teslim ediyorsunuz?</button>
+      <div class="faq-a">24–48 saat içinde teslim ediyoruz.</div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q">Web siteleri kaç günde hazırlanıyor?</button>
+      <div class="faq-a">4–10 gün içinde yayına alıyoruz.</div>
+    </div>
+
+  </div>
+</section>
+
 <!-- HİZMETLER OVERLAY / MODAL -->
 <div id="servicesOverlay" class="services-overlay" aria-hidden="true">
   <div class="services-overlay__backdrop"></div>
@@ -721,6 +771,7 @@
         <a href="#">KVKK</a>
         <a href="#">Çerez Politikası</a>
         <a href="#">Hizmet Koşulları</a>
+        <a href="about.html">Hakkımızda</a>
         <span>© <span id="year"></span> WeAreMorphera</span>
       </div>
     </div>
@@ -1208,6 +1259,19 @@ document.addEventListener('DOMContentLoaded', function () {
 })();
 
 </script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.faq-item').forEach(function (item) {
+      var btn = item.querySelector('.faq-q');
+      if (!btn) return;
+
+      btn.addEventListener('click', function () {
+        item.classList.toggle('open');
+      });
+    });
+  });
+</script>
+
 <script src="assets/js/main.js" defer></script>
 <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
 

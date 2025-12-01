@@ -732,6 +732,133 @@
   color:#282726 !important;      /* yazı beyaz */
   border-color:rgba(59,130,246,0.9); /* istersen mavi çerçeve */
 }
+/* ===========================
+   TECH STACK SECTION
+=========================== */
+.tech-section {
+  background: rgba(11,15,32,0.96);
+  border-radius: var(--radius-lg);
+  padding: var(--s4);
+  border: 1px solid var(--stroke);
+  box-shadow: 0 22px 60px rgba(15,23,42,1);
+  margin-bottom: var(--s6);
+}
+
+.tech-inner { position: relative; }
+
+.tech-grid {
+  margin-top: var(--s4);
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0,1fr));
+  gap: var(--s3);
+}
+
+.tech-card {
+  display: flex;
+  gap: 14px;
+  padding: var(--s3);
+  background: rgba(15,23,42,0.96);
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(148,163,184,0.45);
+  transition: .2s ease;
+  align-items: flex-start;
+}
+
+.tech-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(129,140,248,0.8);
+  box-shadow: 0 18px 50px rgba(15,23,42,1);
+}
+
+.tech-icon {
+  width: 32px;
+  height: 32px;
+  opacity: 0.9;
+}
+
+.tech-card h3 {
+  font-size: 15px;
+  color: #f1f5f9;
+  margin-bottom: 4px;
+  font-weight: 600;
+}
+
+.tech-card p {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+@media(max-width: 960px) {
+  .tech-grid {
+    grid-template-columns: repeat(2, minmax(0,1fr));
+  }
+}
+
+@media(max-width: 600px) {
+  .tech-grid {
+    grid-template-columns: minmax(0,1fr);
+  }
+}
+/* ===========================
+   TECH STACK (LOTTIE ICONS)
+=========================== */
+
+.tech-lottie {
+  width: 48px;
+  height: 48px;
+  margin-top: 4px;
+  flex-shrink: 0;
+  filter: drop-shadow(0 0 10px rgba(129,140,248,0.35));
+}
+
+.tech-card {
+  display: flex;
+  gap: 18px;
+  padding: var(--s3);
+  background: rgba(15,23,42,0.92);
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(148,163,184,0.45);
+  align-items: flex-start;
+  transition: .2s ease;
+}
+
+.tech-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(129,140,248,0.65);
+  box-shadow: 0 18px 45px rgba(15,23,42,1);
+}
+
+.tech-card h3 {
+  font-size: 15px;
+  margin-bottom: 4px;
+  font-weight: 700;
+  color: #f1f5f9;
+}
+
+.tech-card p {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.tech-grid {
+  margin-top: var(--s4);
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0,1fr));
+  gap: var(--s3);
+}
+
+@media(max-width: 960px) {
+  .tech-grid {
+    grid-template-columns: repeat(2, minmax(0,1fr));
+  }
+}
+@media(max-width: 600px) {
+  .tech-grid {
+    grid-template-columns: 1fr;
+  }
+}
 
   </style>
 
@@ -874,7 +1001,7 @@
           <div class="package-tag">Yeni Başlayanlar İçin</div>
           <h3 class="package-title">Starter Landing</h3>
           <div class="package-price">8.000 TL <span>+ KDV · Tek seferlik</span></div>
-          <p class="package-note">Kampanya, ürün lansmanı veya hızlı testler için tek sayfalık odaklı tasarım.</p>
+          <p class="package-note">Kampanya, ürün lansmanı veya hızlı testler için 3 sayfalık odaklı tasarım.</p>
           <ul class="package-list">
             <li>3 sayfa, conversion odaklı tasarım</li>
             <li>Mobil & hız optimizasyonu</li>
@@ -936,6 +1063,92 @@
       </div>
     </div>
   </section>
+<!-- ===========================
+     TECH STACK SECTION
+=========================== -->
+<!-- ===========================
+     TECH STACK SECTION (LOTTIE)
+=========================== -->
+<section class="tech-section">
+  <div class="tech-inner">
+
+    <div class="eyebrow-pill">
+      <span class="dot"></span>
+      Hangi Teknolojilerle Çalışıyoruz?
+    </div>
+
+    <h2 class="section-title tech-title">
+      Projene En Uygun Altyapıyı Seçiyor, Seni Tek Bir Platforma Mahkûm Bırakmıyoruz
+    </h2>
+
+    <p class="section-subtitle tech-subtitle">
+      Web sitelerini; ihtiyaç, sektör ve bütçeye göre doğru teknolojiyi kullanarak geliştiriyoruz.
+      Tasarım – performans – SEO – güvenlik dengesini en iyi sağlayan altyapıyı öneriyoruz.
+    </p>
+
+    <div class="tech-grid">
+
+      <!-- WordPress -->
+      <div class="tech-card">
+        <lottie-player
+          src="assets/img/json/wp.json"
+          class="tech-lottie"
+          loop
+          autoplay>
+        </lottie-player>
+        <div>
+          <h3>WordPress / WooCommerce</h3>
+          <p>Kurumsal web siteleri ve butik e-ticaret projeleri için en esnek altyapı.</p>
+        </div>
+      </div>
+
+      <!-- Webflow -->
+      <div class="tech-card">
+        <lottie-player
+          src="assets/img/json/webflow.json"
+          class="tech-lottie"
+          loop
+          autoplay>
+        </lottie-player>
+        <div>
+          <h3>Webflow</h3>
+          <p>Hızlı açılış, premium tasarım ve no-code geliştirme için modern çözüm.</p>
+        </div>
+      </div>
+
+      <!-- Özel Kodlama -->
+      <div class="tech-card">
+        <lottie-player
+          src="assets/img/json/code.json"
+          class="tech-lottie"
+          loop
+          autoplay>
+        </lottie-player>
+        <div>
+          <h3>Özel Kodlama</h3>
+          <p>HTML + CSS + JS, Next.js veya React ile tam kontrol ve yüksek performans.</p>
+        </div>
+      </div>
+
+      <!-- Shopify -->
+      <div class="tech-card">
+        <lottie-player
+          src="assets/img/json/shopify.json"
+          class="tech-lottie"
+          loop
+          autoplay>
+        </lottie-player>
+        <div>
+          <h3>Shopify / Wix</h3>
+          <p>Hızlıca satışa geçmek isteyen markalar için pratik e-ticaret çözümleri.</p>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
 
   <!-- PRICE GUIDE & COMPARISON -->
   <section>
@@ -1201,6 +1414,7 @@
         Proje Özeti Gönder
       </a>
     </div>
+    
   </section>
 
 </main>
@@ -1294,6 +1508,7 @@
     }
   })();
 </script>
+<script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
 
 </body>
 </html>

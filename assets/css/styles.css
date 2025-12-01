@@ -7055,6 +7055,750 @@ body {
     text-align: center;
   }
 }
-.wizard-pills .wizard-pill span {
-color:#f2e9e5;
+.wizard-pill span {
+  color: rgba(255, 255, 255, 0.92) !important;
+}
+/* ===================================== */
+/* ABOUT SAYFASI BLOKLARI – YENİ         */
+/* ===================================== */
+
+/* HERO (Biz kimiz?) */
+.about-hero {
+  padding: var(--s7) var(--gutter) var(--s6);
+  background:
+    radial-gradient(circle at top right, rgba(99,102,241,0.18), transparent 55%),
+    radial-gradient(circle at bottom left, rgba(233,14,47,0.12), transparent 55%),
+    linear-gradient(to bottom, #f4f4ff 0%, #fdf7ff 45%, #f9fafb 100%);
+  color: var(--fg);
+}
+
+.about-hero__inner {
+  max-width: var(--container);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+  gap: var(--s5);
+  align-items: center;
+}
+
+.about-hero__text .eyebrow {
+  display: inline-flex;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  background: rgba(99,102,241,0.09);
+  color: var(--accent1);
+  margin-bottom: var(--s2);
+}
+
+.about-hero__text h1 {
+  font-size: clamp(28px, 3.2vw, 38px);
+  margin-bottom: var(--s3);
+  line-height: 1.15;
+  color: var(--fg);
+}
+
+.about-hero__text p {
+  max-width: 520px;
+  color: var(--muted);
+  margin-bottom: var(--s4);
+}
+
+.about-hero__stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--s3);
+}
+
+.about-hero__stats div {
+  padding: 14px 16px;
+  border-radius: 18px;
+  background: rgba(15,23,42,0.96);
+  border: 1px solid rgba(148,163,184,0.35);
+  color: #e5e7eb;
+  box-shadow: 0 18px 40px rgba(15,23,42,0.45);
+}
+
+.about-hero__stats strong {
+  display: block;
+  font-size: 22px;
+  margin-bottom: 4px;
+  color: #f9fafb;
+}
+
+.about-hero__stats span {
+  font-size: 13px;
+  color: #cbd5f5;
+}
+
+.about-hero__lottie {
+  min-height: 260px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.about-hero__lottie #lottieAbout {
+  width: 100%;
+  max-width: 360px;
+  height: 320px;
+}
+
+/* ===================================== */
+/* VİZYON & MİSYON                       */
+/* ===================================== */
+
+.vision {
+  padding: var(--s6) var(--gutter) var(--s7);
+  background: linear-gradient(
+    180deg,
+    #f9fafb 0%,
+    #eef2ff 40%,
+    #f9fafb 100%
+  );
+}
+
+.vision .container {
+  max-width: var(--container);
+  margin: 0 auto;
+}
+
+.vision .section-title {
+  text-align: center;
+  margin-bottom: var(--s4);
+  color: var(--fg);
+}
+
+.vision-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: var(--s3);
+}
+
+.vision-card {
+  padding: var(--s4);
+  border-radius: 22px;
+  background: radial-gradient(circle at top left, rgba(148,163,253,0.18), transparent 60%),
+              rgba(15,23,42,0.96);
+  border: 1px solid rgba(148,163,184,0.45);
+  color: #f9fafb;
+  box-shadow: 0 22px 50px rgba(15,23,42,0.55);
+}
+
+.vision-card h3 {
+  margin-bottom: var(--s2);
+  font-size: 18px;
+  color: #e5e7eb;
+}
+
+.vision-card p {
+  color: #cbd5f5;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* ===================================== */
+/* AJANS DNA                             */
+/* ===================================== */
+
+.dna {
+  padding: var(--s6) var(--gutter) var(--s7);
+  background: linear-gradient(
+    135deg,
+    rgba(99,102,241,0.10),
+    rgba(233,14,47,0.06)
+  );
+}
+
+.dna .container {
+  max-width: var(--container);
+  margin: 0 auto;
+}
+
+.dna .section-title {
+  text-align: center;
+  margin-bottom: var(--s4);
+  color: var(--fg);
+}
+
+.dna-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--s3);
+}
+
+.dna-item {
+  padding: var(--s4);
+  border-radius: 20px;
+  background: radial-gradient(circle at top center, rgba(129,140,248,0.25), transparent 62%),
+              rgba(15,23,42,0.98);
+  border: 1px solid rgba(148,163,184,0.55);
+  text-align: center;
+  color: #e5e7eb;
+  box-shadow: 0 22px 50px rgba(15,23,42,0.6);
+}
+
+.dna-lottie {
+  width: 10px;
+  height: 10px;
+  margin: 0 auto var(--s2);
+}
+
+.dna-item h3 {
+  margin-bottom: var(--s1);
+  font-size: 16px;
+  color: #f9fafb;
+}
+
+.dna-item p {
+  color: #cbd5f5;
+  font-size: 14px;
+}
+
+/* ===================================== */
+/* DEĞERLER (Bizimle çalışınca…)        */
+/* ===================================== */
+
+.values {
+  padding: var(--s6) var(--gutter) var(--s7);
+  background: linear-gradient(to bottom, #f9fafb 0%, #eef2ff 55%, #f9fafb 100%);
+}
+
+.values .container {
+  max-width: 820px;
+  margin: 0 auto;
+}
+
+.values .section-title {
+  text-align: center;
+  margin-bottom: var(--s3);
+   color: #000 !important;
+}
+
+.values-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: var(--s2);
+}
+
+.values-list li {
+  padding: 14px 18px;
+  border-radius: 16px;
+  background: rgba(15,23,42,0.97);
+  border: 1px dashed rgba(148,163,184,0.55);
+  font-size: 14px;
+  color: #e5e7eb;
+  box-shadow: 0 18px 40px rgba(15,23,42,0.5);
+}
+
+/* ===================================== */
+/* MOBİL UYUM                           */
+/* ===================================== */
+
+@media (max-width: 900px) {
+  .about-hero__inner {
+    grid-template-columns: 1fr;
+    text-align: left;
+  }
+
+  .about-hero__lottie {
+    order: -1;
+  }
+
+  .about-hero__stats {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .about-hero {
+    padding-top: var(--s5);
+  }
+
+  .about-hero__stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+
+/* ===================================== */
+/* NEDEN MORPHERA + SSS BLOĞU           */
+/* ===================================== */
+
+.morphera-section {
+  padding: var(--s6) var(--gutter) var(--s5);
+  margin-top: var(--s6);
+  background:
+    radial-gradient(circle at top, rgba(99,102,241,0.16), transparent 55%),
+    var(--bg);
+  position: relative;
+}
+
+.morphera-section .container {
+  max-width: var(--container);
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+.morph-title {
+  text-align: center;
+  font-size: clamp(24px, 2.5vw, 32px);
+  margin-bottom: var(--s4);
+}
+
+.morph-grid {
+  counter-reset: morphera;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: var(--s3);
+}
+
+.morph-card {
+  position: relative;
+  background: linear-gradient(
+    145deg,
+    rgba(15,23,42,0.98),
+    rgba(15,23,42,0.94)
+  );
+  border-radius: 20px;
+  padding: 24px 22px 22px;
+  border: 1px solid rgba(148,163,184,0.45);
+  box-shadow: 0 18px 35px rgba(15,23,42,0.85);
+  overflow: hidden;
+  transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+}
+
+.morph-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at top left, rgba(99,102,241,0.22), transparent 60%);
+  opacity: 0;
+  transition: opacity .25s ease;
+}
+
+.morph-card::after {
+  counter-increment: morphera;
+  content: "0" counter(morphera);
+  position: absolute;
+  top: 14px;
+  right: 18px;
+  font-size: 11px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: rgba(148,163,184,0.85);
+}
+
+.morph-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 24px 60px rgba(15,23,42,0.95);
+  border-color: rgba(99,102,241,0.8);
+}
+
+.morph-card:hover::before {
+  opacity: 1;
+}
+
+.morph-card h3 {
+  position: relative;
+  margin-bottom: var(--s2);
+  font-size: 17px;
+}
+
+.morph-card p {
+  position: relative;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+/* FAQ */
+
+.faq-section {
+  padding: var(--s5) var(--gutter) var(--s7);
+}
+
+.faq-section .container {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.faq-section .morph-title {
+  margin-bottom: var(--s3);
+}
+
+.faq-item {
+  position: relative;
+  border-radius: 18px;
+  background: linear-gradient(
+    135deg,
+    rgba(15,23,42,0.98),
+    rgba(15,23,42,0.94)
+  );
+  border: 1px solid rgba(148,163,184,0.5);
+  margin-bottom: 12px;
+  overflow: hidden;
+  box-shadow: 0 14px 28px rgba(15,23,42,0.85);
+  transition: border-color .25s ease, box-shadow .25s ease, transform .2s ease;
+}
+
+.faq-item::before {
+  content: "";
+  position: absolute;
+  inset-inline-start: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: linear-gradient(180deg, var(--accent1), var(--accent2));
+  opacity: .25;
+  transition: opacity .25s ease, width .25s ease;
+}
+
+.faq-item.open {
+  transform: translateY(-2px);
+  box-shadow: 0 18px 40px rgba(15,23,42,0.95);
+}
+
+.faq-item.open::before {
+  opacity: 1;
+  width: 4px;
+}
+
+.faq-q {
+  width: 100%;
+  padding: 16px 22px;
+  text-align: left;
+  background: transparent;
+  color: inherit;
+  border: none;
+  outline: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.faq-q::after {
+  content: "+";
+  font-size: 18px;
+  opacity: 0.7;
+  transition: transform .25s, opacity .25s;
+}
+
+.faq-item.open .faq-q::after {
+  transform: rotate(45deg);
+  opacity: 1;
+}
+
+.faq-a {
+  max-height: 0;
+  padding: 0 22px;
+  opacity: 0;
+  overflow: hidden;
+  line-height: 1.6;
+  font-size: 14px;
+  color: var(--muted);
+  transition: max-height .25s ease, opacity .25s ease, padding-bottom .25s ease;
+}
+
+.faq-item.open .faq-a {
+  padding-bottom: 18px;
+  max-height: 200px;
+  opacity: 0.9;
+}
+/* ===================================== */
+/* ABOUT + NEDEN MORPHERA + SSS RENK FIX */
+/* ===================================== */
+
+/* Kartların iç yazıları koyu zeminlerde beyaz olsun */
+.vision-card,
+.dna-item,
+.values-list li,
+.morph-card,
+.faq-item {
+  color: #e5e7eb; /* genel metin */
+}
+
+/* Başlıklar daha parlak */
+.vision-card h3,
+.dna-item h3,
+.morph-card h3,
+.values .section-title,
+.values .section-title h2,
+.morph-title,
+.faq-section .morph-title {
+  color: #f9fafb;
+}
+
+/* ============================= */
+/* HAKKIMIZDA HERO  - YAN YANA KARTLAR */
+/* ============================= */
+
+.about-hero__inner {
+  max-width: 1300px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 40px;
+  align-items: stretch;
+  padding-top: 40px;
+}
+
+.about-hero__cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+  align-items: stretch;
+}
+
+/* SOL ana kart */
+.about-hero__text {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 26px;
+  border-radius: 32px;
+  background: linear-gradient(145deg, #ffffffee, #f7f9ffde);
+  border: 1px solid rgba(200,210,230,0.65);
+  box-shadow: 0 20px 60px rgba(15,23,42,0.18);
+}
+
+/* SAĞ slogan kartı */
+/* ============================= */
+/* SLOGAN KUTUSU – PREMIUM TASARIM */
+/* ============================= */
+
+.about-hero__quote {
+  height: 100%;
+  padding: 42px;
+  border-radius: 32px;
+
+  background: radial-gradient(circle at top left, #141c2b, #0a0f19 70%);
+  border: 1px solid rgba(160, 175, 255, 0.35);
+
+  box-shadow:
+    0 0 25px rgba(125, 140, 255, 0.25),
+    inset 0 0 18px rgba(55, 65, 115, 0.3),
+    0 25px 60px rgba(0, 0, 0, 0.45);
+
+  color: #e8ecff;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  position: relative;
+  overflow: hidden;
+}
+
+/* Hafif hareketli ışıltı efekti */
+.about-hero__quote::before {
+  content: "";
+  position: absolute;
+  top: -55%;
+  left: -30%;
+  width: 160%;
+  height: 160%;
+  background: conic-gradient(
+    rgba(1410,170,255,9.15),
+    rgba(255,255,255,0.05),
+    rgba(140,170,255,5.15)
+  );
+  animation: rotateGlow 9s linear infinite;
+  filter: blur(90px);
+  z-index: 0;
+}
+
+@keyframes rotateGlow {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* “Sözümüz” etiketi */
+.quote-badge {
+  align-self: flex-start;
+  display: inline-block;
+  padding: 8px 18px;
+  border-radius: 12px;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+
+  background: rgba(160,175,255,0.17);
+  border: 1px solid rgba(180,195,255,0.3);
+  color: #d7ddff;
+  backdrop-filter: blur(6px);
+
+  position: relative;
+  z-index: 2;
+}
+
+/* Metin */
+.about-hero__quote-text {
+  font-size: 18px;
+  line-height: 1.6;
+  color: #f1f5f9;
+  min-height: 60px; /* Yazı yazılırken alan zıplamasın */
+  white-space: pre-line;
+}
+
+.about-hero__quote-text span {
+  color: #ffffff;
+  font-weight: 600;
+  text-shadow: 0 0 8px rgba(255,255,255,0.25);
+}
+
+/* İmza */
+.about-hero__signature {
+  margin-top: 24px;
+  font-size: 14px;
+  letter-spacing: 0.25em;
+  text-align: right;
+  color: #bfc8ff;
+  opacity: 0.9;
+  position: relative;
+  z-index: 2;
+}
+
+
+/* Mobil uyum */
+@media(max-width: 950px) {
+  .about-hero__cards {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+/* Kart arkaplanlarını daha premium gradient yapalım */
+.vision-card,
+.dna-item,
+.values-list li,
+.morph-card,
+.faq-item {
+  background: radial-gradient(circle at top left, rgba(148,163,184,0.25), transparent 55%),
+              linear-gradient(135deg, #020617, #0b1120);
+  border: 1px solid rgba(148,163,184,0.55);
+  box-shadow: 0 22px 45px rgba(15,23,42,0.7);
+}
+
+/* DNA bölüm başlığı koyu zeminde kaybolmasın */
+.dna {
+  color: #e5e7eb;
+}
+
+.dna .section-title
+.dna .section-title h2 {
+  color:#92400e;
+}
+
+/* "Bizimle Çalışınca..." satırlarını chip gibi gösterelim */
+.values-list li {
+  font-size: 14px;
+  position: relative;
+  padding-left: 40px;
+}
+
+.values-list li::before {
+  content: "◆";
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 10px;
+  color: var(--accent1);
+  text-shadow: 0 0 8px rgba(129,140,248,0.9);
+}
+
+/* Neden Morphera başlığı ve kartlar */
+.morphera-section {
+  padding: var(--s6) var(--gutter) var(--s5);
+  color: #e5e7eb;
+}
+
+.morph-title {
+  text-align: center;
+  font-size: clamp(24px, 2.4vw, 30px);
+  margin-bottom: var(--s4);
+  color: #000 !important;
+}
+
+/* SSS kartlarının iç yazı renkleri */
+.faq-q {
+  color: #e5e7eb;
+}
+
+.faq-a {
+  color: #cbd5f5;
+}
+
+/* Artı ikon daha net görünsün */
+.faq-q::after {
+  color: #f9fafb;
+}
+
+/* Hem .open hem .active için aynı görünüm (her ihtimale karşı) */
+.faq-item.open .faq-a,
+.faq-item.active .faq-a {
+  display: block;
+}
+
+.faq-item.open .faq-q::after,
+.faq-item.active .faq-q::after {
+  transform: rotate(45deg);
+  opacity: 1;
+}
+/* === ABOUT SAYFASI DİKEY BOŞLUK AYARLARI === */
+
+/* En üstteki iki büyük kartın sayfanın üstüne daha yaklaşması */
+.about-hero {
+  padding-top: 40px;      /* önce muhtemelen 80-120 civarıydı */
+  padding-bottom: 32px;   /* alta da biraz küçültme */
+}
+
+/* Vizyon – DNA – Değerler blokları arasındaki boşluğu kısalt */
+.vision,
+.dna,
+.values {
+  padding-top: 36px;
+  padding-bottom: 36px;
+  margin-top: 0;          /* ekstra margin varsa sıfırla */
+}
+
+/* Başlık–kart arası boşluğu da küçültelim (sadece bu sayfada) */
+.vision .section-title,
+.dna .section-title,
+.values .section-title {
+  margin-bottom: 18px;
+}
+
+/* Kart gruplarının kendi iç boşluklarını biraz sıklaştır */
+.vision .vision-grid,
+.dna .dna-grid,
+.values .values-list {
+  row-gap: 20px;
+  gap: 20px;
+}
+/* ==== ABOUT SAYFASI ÜST İKİ KART ARASI BOŞLUĞU TAM SIKIŞTIRMA ==== */
+
+/* Hero bölümünün alt boşluğunu minimum yap */
+.about-hero {
+  padding-bottom: 10px !important;
+  margin-bottom: 0 !important;
+}
+
+/* Sonraki bölüm olan vizyon alanının üst boşluğunu yok et */
+.vision {
+  padding-top: 10px !important;
+  margin-top: 0 !important;
+}
+
+/* Genel container içi boşluk kontrolü */
+.vision .container {
+  padding-top: 0 !important;
 }
