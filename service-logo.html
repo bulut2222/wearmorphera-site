@@ -1,0 +1,853 @@
+<!doctype html>
+<html lang="tr" data-theme="light">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Logo & Marka Kimliği Tasarımı — WeAreMorphera</title>
+
+  <link rel="stylesheet" href="assets/css/styles.css?v=3" />
+
+  <!-- Sayfaya özel küçük stiller -->
+  <style>
+    /* HERO */
+    .service-hero {
+      padding: var(--s6) var(--gutter) var(--s6);
+      background: radial-gradient(circle at 0% 0%, #4f46e5 0, #111827 45%, #020617 100%);
+      color: #e5e7eb;
+      
+    }
+    .service-hero__inner {
+      max-width: var(--container);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+      gap: var(--s5);
+      align-items: center;
+    }
+    .service-hero__eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      background: rgba(15,23,42,0.7);
+      border: 1px solid rgba(148,163,184,0.5);
+      color: #c7d2fe;
+    }
+    .service-hero__title {
+      margin-top: var(--s3);
+      font-size: clamp(32px, 4vw, 44px);
+      line-height: 1.1;
+      color: #f9fafb;
+    }
+    .service-hero__subtitle {
+      margin-top: var(--s3);
+      font-size: 15px;
+      max-width: 520px;
+      color: #e5e7eb;
+      opacity: 0.9;
+    }
+    .service-hero__badges {
+      margin-top: var(--s4);
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--s2);
+    }
+    .service-hero__badge {
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-size: 12px;
+      background: rgba(15,23,42,0.85);
+      border: 1px solid rgba(129,140,248,0.7);
+      color: #e0e7ff;
+    }
+    .service-hero__cta {
+      margin-top: var(--s4);
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--s2);
+    }
+    .btn--ghost-light {
+      background: transparent;
+      border: 1px solid rgba(199,210,254,0.6);
+      color: #e5e7eb;
+    }
+  
+    /* HERO görsel kartını sağa al ve büyüt */
+.service-hero__image {
+  position: relative;
+  display: flex;
+  justify-content: flex-end;   /* sağa yasla */
+}
+
+.service-hero__mockup {
+  width: 190%;                 /* kartı biraz büyüt */
+  max-width: 520px;            /* masaüstünde üst limit */
+  margin-left: auto;           /* kolon içinde sağa yasla */
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 32px 80px rgba(31, 174, 214, 0.8);
+  border: 0px solid #c4d5f0;
+}
+
+.service-hero__mockup img {
+  width: 100%;
+  display: block;
+}
+
+    .service-hero__floating {
+      position: absolute;
+      right: 5%;
+      bottom: -18%;
+      padding: 10px 16px;
+      border-radius: 18px;
+      background: radial-gradient(circle at 0 0, #22d3ee, #4f46e5);
+      color: #0f172a;
+      font-size: 13px;
+      box-shadow: 0 20px 55px rgba(15,23,42,0.9);
+    }
+    
+
+    /* GENEL LAYOUT */
+    .section {
+      padding: var(--s6) var(--gutter);
+      background: radial-gradient(circle at 0 0, #fdf2ff 0, #f9fafb 45%, #eef2ff 100%);
+    }
+    .section:nth-of-type(even) {
+      background: radial-gradient(circle at 100% 0, #dbeafe 0, #f9fafb 45%, #fdf2ff 100%);
+    }
+    .section__inner {
+      max-width: var(--container);
+      margin: 0 auto;
+    }
+    .section-title {
+      text-align: left;
+      color: #58084f;
+    }
+
+    /* İÇERİK / DETAY BLOĞU */
+    .detail-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+      gap: var(--s5);
+      align-items: flex-start;
+    }
+    .detail-grid__image img {
+      width: 70%;
+      border-radius: 22px;
+      box-shadow: 0 26px 60px rgb(301, 1159, 228);
+    }
+    .bullet-list {
+      margin-top: var(--s3);
+      display: grid;
+      gap: 8px;
+      padding-left: 0;
+      list-style: none;
+    }
+    .bullet-list li {
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 13px;
+      background: rgba(15,23,42,0.03);
+      border: 1px dashed rgba(148,163,184,0.5);
+    }
+
+    /* FİYAT TABLOSU */
+    .pricing {
+      margin-top: var(--s4);
+      background: rgba(15,23,42,0.92);
+      padding: var(--s4);
+      border-radius: 28px;
+      box-shadow: 0 26px 60px rgba(15,23,42,0.7);
+      color: #e5e7eb;
+    }
+    .pricing__header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: var(--s2);
+      margin-bottom: var(--s3);
+    }
+    .pricing__header span {
+      font-size: 13px;
+      opacity: 0.85;
+    }
+    .pricing-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    .pricing-table th,
+    .pricing-table td {
+      padding: 10px 12px;
+      border-bottom: 1px solid rgba(30,64,175,0.55);
+    }
+    .pricing-table th {
+      text-align: left;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: #a5b4fc;
+    }
+    .pricing-table tr:last-child td {
+      border-bottom: none;
+    }
+    .pricing-table .pricing-old {
+      text-decoration: line-through;
+      opacity: 0.7;
+      font-size: 12px;
+    }
+    .pricing-table .pricing-new {
+      font-weight: 600;
+      color: #4ade80;
+    }
+    .pricing-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-size: 11px;
+      background: rgba(22,163,74,0.15);
+      border: 1px solid rgba(74,222,128,0.6);
+      color: #bbf7d0;
+    }
+
+    /* ÖRNEK LOGOLAR */
+    .logo-gallery {
+      margin-top: var(--s4);
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: var(--s3);
+    }
+    .logo-gallery__item {
+      padding: 14px;
+      border-radius: 18px;
+      background: rgba(15,23,42,0.96);
+      box-shadow: 0 18px 40px rgba(15,23,42,0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .logo-gallery__item img {
+      max-width: 100%;
+      max-height: 160px;
+      object-fit: contain;
+      filter: drop-shadow(0 10px 10px rgba(121,2222,242,1.9));
+    }
+
+    /* SİMÜLASYON */
+    .simulator {
+      margin-top: var(--s5);
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+      gap: var(--s4);
+    }
+    .simulator__panel {
+      padding: var(--s4);
+      border-radius: 24px;
+      background: rgba(15,23,42,0.97);
+      color: #e5e7eb;
+      box-shadow: 0 24px 60px rgba(15,23,42,0.9);
+    }
+    .simulator__panel h3 {
+      color: #e0f2fe;
+    }
+    .simulator__grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0,1fr));
+      gap: var(--s3);
+      margin-top: var(--s3);
+    }
+    .field-label {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      color: #a5b4fc;
+      margin-bottom: 6px;
+      display: block;
+    }
+    .sim-input,
+    .sim-select {
+      width: 100%;
+      padding: 9px 11px;
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.7);
+      background: rgba(15,23,42,0.7);
+      color: #f9fafb;
+      font-size: 13px;
+    }
+    .sim-input:focus,
+    .sim-select:focus {
+      outline: none;
+      border-color: #6366f1;
+      box-shadow: 0 0 0 1px rgba(99,102,241,0.8);
+    }
+    .sim-radio-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .sim-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.7);
+      font-size: 12px;
+      cursor: pointer;
+      background: rgba(15,23,42,0.7);
+    }
+    .sim-chip input {
+      display: none;
+    }
+    .sim-chip--active {
+      border-color: #a855f7;
+      background: radial-gradient(circle at 0 0, #4f46e5, #0f172a);
+      color: #e5e7eb;
+    }
+    .simulator__summary {
+      margin-top: var(--s3);
+      padding-top: var(--s3);
+      border-top: 1px dashed rgba(148,163,184,0.7);
+      font-size: 13px;
+    }
+    .simulator__summary-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 6px;
+    }
+    .simulator__summary-row strong {
+      font-weight: 600;
+    }
+    .simulator__note {
+      margin-top: var(--s2);
+      font-size: 12px;
+      opacity: .85;
+    }
+
+    .simulator__aside {
+      padding: var(--s4);
+      border-radius: 24px;
+      background: rgba(15,23,42,0.03);
+      border: 1px dashed rgba(148,163,184,0.5);
+      font-size: 14px;
+    }
+    .simulator__aside h3 {
+      margin-bottom: var(--s2);
+    }
+    .simulator__aside ul {
+      padding-left: 18px;
+      margin: 0;
+      display: grid;
+      gap: 6px;
+      font-size: 13px;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 1500px) {
+      .service-hero__inner,
+      .detail-grid,
+      .simulator {
+        grid-template-columns: minmax(0,1fr);
+      }
+      .logo-gallery {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+    @media (max-width: 640px) {
+      .logo-gallery {
+        grid-template-columns: repeat(2, minmax(0,1fr));
+      }
+      .pricing {
+        padding: var(--s3);
+      }
+      .simulator__grid {
+        grid-template-columns: minmax(0,1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER (diğer sayfalarla aynı yapı) -->
+  <header class="header">
+    <div class="container header__inner">
+      <div class="header__row header__row--top">
+        <a class="brand brand--pill" href="index.html#top" aria-label="WeAreMorphera anasayfa">
+          <img src="assets/img/logo/morphera.png" alt="WeAreMorphera Logo" class="brand__logo" loading="lazy" />
+          <span class="brand__text">WeAreMorphera</span>
+        </a>
+
+        <div class="header__cta only-desktop" id="socials">
+          <!-- sosyal ikonlar (mevcut json lottie ikonlarını aynen kullanabilirsin) -->
+        </div>
+
+        <button class="quote-btn" id="openQuote" type="button" aria-label="Hızlı Teklif Formu Aç">
+          <img src="assets/img/logo/teklif.png" alt="Teklif Al" class="quote-btn__icon" loading="lazy" />
+        </button>
+      </div>
+
+      <div class="header__row header__row--bottom">
+        <nav class="nav" id="nav">
+          <a href="index.html#services">Hizmetler</a>
+          <a href="index.html#resultsTable">Başarı Tablomuz</a>
+          <a href="team.html">Ekibimiz</a>
+          <a href="index.html#process">Süreç</a>
+          <a href="index.html#plans">Paketler</a>
+          <a href="index.html#work">Portföy</a>
+          <a href="index.html#blog">Blog</a>
+          <a href="contact.html" class="btn btn--ghost">İletişim</a>
+          <a href="notes.html">Morpheradan Notlar</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="service-hero">
+    <div class="service-hero__inner">
+      <div>
+        <div class="service-hero__eyebrow">
+          <span>LOGO & MARKA KİMLİĞİ</span>
+          <span>2025 Kampanyası</span>
+        </div>
+
+        <h1 class="service-hero__title">
+          Markanız için tek seferde<br />
+          <span style="color:#a5b4fc;">akılda kalıcı logo ve kurumsal kimlik</span> tasarlıyoruz.
+        </h1>
+
+        <p class="service-hero__subtitle">
+          Sadece bir logo değil; renk paletinden tipografiye, kartvizitten sosyal medya kitine kadar
+          markanızın dışarıya bakan tüm yüzünü birlikte kurguluyoruz. Tümü, tek elde, bütünlüklü tasarım.
+        </p>
+
+        <div class="service-hero__badges">
+          <span class="service-hero__badge">Strateji + Tasarım + Uygulama</span>
+          <span class="service-hero__badge">Sınırsız revizeye yakın esnek çalışma</span>
+          <span class="service-hero__badge">%30 açılış indirimi</span>
+        </div>
+
+        <div class="service-hero__cta">
+          <a href="#logo-packages" class="btn">Paketleri Gör</a>
+          <a href="#logo-simulator" class="btn btn--ghost-light">Kendin Paket Hesapla</a>
+        </div>
+      </div>
+
+      <div class="service-hero__image">
+        <div class="service-hero__mockup">
+          <!-- 1. GÖRSEL -->
+          <img src="assets/img/logo/logo-hero-preview.webp" alt="Logo tasarım süreci örnek çalışmaları" loading="lazy" />
+        </div>
+        
+      </div>
+    </div>
+  </section>
+
+  <!-- DETAY: LOGO ÇALIŞMASI NELER İÇERİR -->
+  <section class="section" id="logo-detail">
+    <div class="section__inner">
+      <h2 class="section-title">Logo tasarımı sadece bir görsel değil, <br>markanızın ilk cümlesidir.</h2>
+
+      <div class="detail-grid">
+        <div>
+          <p>
+            Çalışmaya markanızı ve hedef kitlenizi anlamakla başlıyoruz. Birlikte kısa bir
+            briefing yapıyoruz; hangi kelimeler sizi anlatıyor, hangi renkler markanıza
+            yakışır, rakiplerinizden nasıl ayrışmak istiyorsunuz… Tüm bunları netleştirdikten
+            sonra tasarım ekibimiz birden fazla alternatif hazırlıyor.
+          </p>
+
+          <p>
+            Seçtiğiniz logo üzerine revizyonlar yapıyor, ardından kurumsal kimlik kitine
+            dönüştürüyoruz. Böylece web sitenizde, sosyal medyada, faturada, kartvizitte,
+            mağaza tabelasında hep aynı premium görünüm devam ediyor.
+          </p>
+
+          <ul class="bullet-list">
+            <li>• Logo ana tasarımı (en az 3 alternatif ile başlangıç)</li>
+            <li>• Renk paleti + tipografi (markaya özel yazı ve renk sistemi)</li>
+            <li>• Kartvizit, antetli kağıt, zarf ve dosya tasarımları</li>
+            <li>• Sosyal medya profil & kapak görselleri</li>
+            <li>• Logo kullanım kılavuzu (PDF)</li>
+            <li>• Web sitesi ve e-ticaret için hazır logo dosyaları (PNG, SVG, PDF)</li>
+          </ul>
+        </div>
+
+        <div class="detail-grid__image">
+          <!-- 2. GÖRSEL -->
+          <img src="assets/img/logo/logo-workspace.webp" alt="Logo tasarım çalışma alanı" loading="lazy" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PAKETLER & İNDİRİMLİ FİYATLAR -->
+  <section class="section" id="logo-packages">
+    <div class="section__inner">
+      <h2 class="section-title">Paketler &amp; İndirimli Fiyatlar</h2>
+
+      <div class="pricing">
+        <div class="pricing__header">
+          <div>
+            <strong>2025 Açılış Kampanyası</strong><br />
+            <span>Liste fiyatları üzerinden <strong>%30 indirim</strong> uygulanmıştır. Tüm fiyatlar KDV hariçtir.</span>
+          </div>
+          <div class="pricing-tag">
+            <span>🔥 Sınırlı Süre</span>
+            <span>%50 İNDİRİM</span>
+          </div>
+        </div>
+
+       <table class="pricing-table">
+  <thead>
+  <tr>
+    <th>Ürün / Paket</th>
+    <th>İçerik</th>
+    <th>Liste Fiyatı</th>
+    <th>Kampanyalı</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr>
+    <td>Logo Tasarım Standart Paket</td>
+    <td>3 alternatif logo + 3 revize + temel renk paleti</td>
+    <td><span class="pricing-old">6.000 TL</span></td>
+    <td><span class="pricing-new">3.000 TL</span></td>
+  </tr>
+  <tr>
+    <td>Logo Tasarım Elit Paket</td>
+    <td>5 alternatif logo + sınıra çok yakın revize + geniş renk paleti</td>
+    <td><span class="pricing-old">9.000 TL</span></td>
+    <td><span class="pricing-new">4.500 TL</span></td>
+  </tr>
+  <tr>
+    <td>Logo Tasarım Premium Paket</td>
+    <td>Premium logo + icon set + tam tipografi sistemi</td>
+    <td><span class="pricing-old">15.000 TL</span></td>
+    <td><span class="pricing-new">7.500 TL</span></td>
+  </tr>
+  <tr>
+    <td>Kurumsal Kimlik Standart Paket</td>
+    <td>Logo + kartvizit + antetli + zarf + dosya + mail imzası</td>
+    <td><span class="pricing-old">9.900 TL</span></td>
+    <td><span class="pricing-new">4.950 TL</span></td>
+  </tr>
+  <tr>
+    <td>Logo + Kurumsal Kimlik Tam Set</td>
+    <td>Premium logo paketi + tam kurumsal kimlik dosyası</td>
+    <td><span class="pricing-old">15.000 TL</span></td>
+    <td><span class="pricing-new">7.500 TL</span></td>
+  </tr>
+  <tr>
+    <td>Sosyal Medya Banner Paketi (10 Adet)</td>
+    <td>Logo ile uyumlu 10 adet kampanya / post banner tasarımı</td>
+    <td><span class="pricing-old">6.000 TL</span></td>
+    <td><span class="pricing-new">3.000 TL</span></td>
+  </tr>
+  <tr>
+    <td>Sosyal Medya Banner Paketi (20 Adet)</td>
+    <td>Story + post miks, kampanya takviminize göre planlanır</td>
+    <td><span class="pricing-old">9.000 TL</span></td>
+    <td><span class="pricing-new">4.500 TL</span></td>
+  </tr>
+  </tbody>
+</table>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ÖRNEK LOGO TASARIMLARI -->
+  <section class="section" id="logo-samples">
+    <div class="section__inner">
+      <h2 class="section-title">Örnek Logo Tasarımları</h2>
+      <p>
+        Aşağıdaki çalışmalar; minimal, modern ve kurumsal çizgide hazırladığımız farklı sektörlerden örneklerdir.
+        Her yeni markada sıfırdan özgün bir tasarım sürecine başlıyoruz.
+      </p>
+
+      <div class="logo-gallery">
+        <!-- 3–7. GÖRSELLER -->
+        <div class="logo-gallery__item">
+          <img src="assets/img/logo/sample-logo-1.webp" alt="Örnek logo tasarımı 1" loading="lazy" />
+        </div>
+        <div class="logo-gallery__item">
+          <img src="assets/img/logo/sample-logo-2.webp" alt="Örnek logo tasarımı 2" loading="lazy" />
+        </div>
+        <div class="logo-gallery__item">
+          <img src="assets/img/logo/sample-logo-3.webp" alt="Örnek logo tasarımı 3" loading="lazy" />
+        </div>
+        <div class="logo-gallery__item">
+          <img src="assets/img/logo/sample-logo-4.webp" alt="Örnek logo tasarımı 4" loading="lazy" />
+        </div>
+        <div class="logo-gallery__item">
+          <img src="assets/img/logo/sample-logo-5.webp" alt="Örnek logo tasarımı 5" loading="lazy" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SİMÜLASYON / LOGO PAKET HESAPLAMA -->
+  <section class="section" id="logo-simulator">
+    <div class="section__inner">
+      <h2 class="section-title">Kendi Logo Paketini Hesapla</h2>
+      <p>
+        Aşağıdaki simülasyon, logo ve kurumsal kimlik paketinizin yaklaşık bütçesini görmeniz için hazırlanmıştır.
+        Seçenekleri değiştirerek farklı senaryoları test edebilirsiniz. Net fiyat, birlikte yapacağımız
+        kısa toplantı sonrası netleştirilir.
+      </p>
+
+      <div class="simulator">
+        <div class="simulator__panel">
+          <h3>Logo Paketi Simülasyonu</h3>
+
+          <div class="simulator__grid">
+            <!-- Hedef -->
+            <div>
+              <label class="field-label">Marka Tipi</label>
+              <div class="sim-radio-group" id="brandTypeGroup">
+                <label class="sim-chip sim-chip--active">
+                  <input type="radio" name="brandType" value="bireysel" checked />
+                  Bireysel / Kişisel Marka
+                </label>
+                <label class="sim-chip">
+                  <input type="radio" name="brandType" value="girisim" />
+                  Girişim / Küçük İşletme
+                </label>
+                <label class="sim-chip">
+                  <input type="radio" name="brandType" value="kurumsal" />
+                  Kurumsal / Holding
+                </label>
+              </div>
+            </div>
+
+            <!-- Logo Adedi -->
+            <div>
+              <label class="field-label">Kaç adet logo konsepti üretelim?</label>
+              <select class="sim-select" id="logoCount">
+                <option value="10">10 adet (minimum paket)</option>
+                <option value="15">15 adet</option>
+                <option value="20">20 adet</option>
+                <option value="30">30 adet</option>
+                <option value="40">40 adet</option>
+              </select>
+            </div>
+
+            <!-- Revizyon -->
+            <div>
+              <label class="field-label">Revizyon esnekliği</label>
+              <select class="sim-select" id="revisionLevel">
+                <option value="standart">Standart (3 tur)</option>
+                <option value="genis">Geniş (5 tur)</option>
+                <option value="limitsiz">Sınıra yakın (ihtiyaç oldukça)</option>
+              </select>
+            </div>
+
+            <!-- Teslim Süresi -->
+            <div>
+              <label class="field-label">Teslim süresi</label>
+              <select class="sim-select" id="deliverySpeed">
+                <option value="normal">Normal (10–14 iş günü)</option>
+                <option value="hizli">Hızlı (7 iş günü)</option>
+                <option value="express">Express (3–5 iş günü)</option>
+              </select>
+            </div>
+
+            <!-- Kurumsal set ekle? -->
+            <div>
+              <label class="field-label">Kurumsal kimlik seti eklensin mi?</label>
+              <select class="sim-select" id="identityAddon">
+                <option value="none">Hayır, sadece logo</option>
+                <option value="basic">Evet, temel set</option>
+                <option value="full">Evet, tam kurumsal set</option>
+              </select>
+            </div>
+
+            <!-- Kullanım alanı -->
+            <div>
+              <label class="field-label">Logo ağırlıklı nerede kullanılacak?</label>
+              <select class="sim-select" id="usage">
+                <option value="digital">Dijital (web + sosyal medya)</option>
+                <option value="physical">Fiziksel (mağaza, tabela, araç giydirme)</option>
+                <option value="both">Hem dijital hem fiziksel</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="simulator__summary">
+           <div class="simulator__summary-row">
+  <span>Liste fiyatı (yaklaşık)</span>
+  <strong id="simListPrice">-</strong>
+</div>
+<div class="simulator__summary-row">
+  <span>Kampanyalı fiyat (%50 indirimli)</span>
+  <strong id="simDiscountPrice">-</strong>
+</div>
+
+            <div class="simulator__summary-row">
+              <span>Seçilen paket tipi</span>
+              <strong id="simLabel">Bireysel marka / 10 adet logo</strong>
+            </div>
+
+            <p class="simulator__note">
+              Bu hesaplama ön bilgilendirme amaçlıdır. Markanızın sektörüne ve ihtiyaçlarına göre
+              net teklif için kısa bir online toplantı planlıyoruz.
+            </p>
+
+            <a href="contact.html" class="btn" style="margin-top:var(--s3);">
+              Satın alma ve detaylı teklif için iletişime geçin
+            </a>
+          </div>
+        </div>
+
+        <aside class="simulator__aside">
+          <h3>Simülasyon neye göre hesaplıyor?</h3>
+          <ul>
+            <li>Bireysel markalar için daha uygun, kurumsal yapılar için daha yüksek birim fiyat kullanıyoruz.</li>
+            <li>Logo konsept adedi arttıkça, tasarım için ayrılan süre ve bütçe yükseliyor.</li>
+            <li>Revizyon tur sayısı ve teslim süresi, toplam bütçeyi %10–25 arası etkiliyor.</li>
+            <li>Kurumsal kimlik seti seçenekleri (basic / full) ekstra kalemler olarak ekleniyor.</li>
+            <li>Tüm senaryolarda, ekranda gördüğünüz bütçenin üzerine <strong>%30 </strong> uygulanıyor.</li>
+          </ul>
+kampanya indirimi
+          <!-- 8–10. GÖRSELLER -->
+          <div style="margin-top:var(--s3); display:grid; gap:var(--s2); grid-template-columns:repeat(3,minmax(0,1fr));">
+            <img src="assets/img/logo/logo-detail-1.webp" alt="Logo kullanım örneği 1" loading="lazy" style="border-radius:14px;">
+            <img src="assets/img/logo/logo-detail-2.webp" alt="Logo kullanım örneği 2" loading="lazy" style="border-radius:14px;">
+            <img src="assets/img/logo/logo-detail-3.webp" alt="Logo kullanım örneği 3" loading="lazy" style="border-radius:14px;">
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer__links">
+      <a href="#">KVKK</a>
+      <a href="#">Çerez Politikası</a>
+      <a href="#">Hizmet Koşulları</a>
+      <a href="about.html">Hakkımızda</a>
+      <span>© <span id="year"></span> WeAreMorphera</span>
+    </div>
+  </footer>
+
+  <script src="assets/js/main.js" defer></script>
+
+  <!-- Simülasyon hesaplama scripti -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const brandRadios = document.querySelectorAll('input[name="brandType"]');
+      const logoCountEl = document.getElementById("logoCount");
+      const revisionEl = document.getElementById("revisionLevel");
+      const deliveryEl = document.getElementById("deliverySpeed");
+      const identityEl = document.getElementById("identityAddon");
+
+      const listPriceEl = document.getElementById("simListPrice");
+      const discountPriceEl = document.getElementById("simDiscountPrice");
+      const labelEl = document.getElementById("simLabel");
+
+      const chipLabels = document.querySelectorAll(".sim-chip");
+
+      function formatTL(value) {
+        return value.toLocaleString("tr-TR") + " TL";
+      }
+
+      function getSelectedBrandType() {
+        let value = "bireysel";
+        brandRadios.forEach(r => { if (r.checked) value = r.value; });
+        return value;
+      }
+
+      function calc() {
+        const brandType = getSelectedBrandType();
+        const logoCount = parseInt(logoCountEl.value, 10);
+
+        // Birim fiyatlar (logo başına)
+        const unitMap = {
+          bireysel: 350,
+          girisim: 450,
+          kurumsal: 600
+        };
+        let unitPrice = unitMap[brandType] || unitMap.bireysel;
+
+        let base = logoCount * unitPrice;
+
+        // Revizyon etkisi
+        const rev = revisionEl.value;
+        if (rev === "genis") base *= 1.15;
+        if (rev === "limitsiz") base *= 1.25;
+
+        // Teslim süresi etkisi
+        const speed = deliveryEl.value;
+        if (speed === "hizli") base *= 1.15;
+        if (speed === "express") base *= 1.25;
+
+        // Kurumsal kimlik ekleri
+        const idAddon = identityEl.value;
+        if (idAddon === "basic") base += 3500;
+        if (idAddon === "full") base += 6500;
+
+        // Liste fiyatı
+        const listPrice = Math.round(base);
+
+        // %30 indirimli
+       const discountPrice = Math.round(listPrice * 0.5);
+
+        listPriceEl.textContent = formatTL(listPrice);
+        discountPriceEl.textContent = formatTL(discountPrice);
+
+        const labelText =
+          (brandType === "bireysel" ? "Bireysel marka" :
+           brandType === "girisim" ? "Girişim / küçük işletme" : "Kurumsal yapı") +
+          " / " + logoCount + " adet logo konsepti";
+        labelEl.textContent = labelText;
+      }
+
+      // Radio chip görsel state
+      chipLabels.forEach(label => {
+        label.addEventListener("click", () => {
+          chipLabels.forEach(l => l.classList.remove("sim-chip--active"));
+          label.classList.add("sim-chip--active");
+          calc();
+        });
+      });
+
+      [logoCountEl, revisionEl, deliveryEl, identityEl].forEach(el => {
+        el.addEventListener("change", calc);
+      });
+
+      calc();
+    });
+     // HEADER SCROLL: aşağı inerken kaybol, yukarı çıkarken gelsin
+(function () {
+  const header = document.querySelector('.header');
+  if (!header) return; // bazı sayfalarda header yoksa patlamasın
+
+  let lastScrollY = window.scrollY;
+  const THRESHOLD = 80; // 80px aşağı inmeden animasyonu başlatma
+
+  window.addEventListener('scroll', () => {
+    const currentY = window.scrollY;
+
+    // Aşağı doğru kayıyorsa ve belli bir yüksekliği geçtiyse gizle
+    if (currentY > lastScrollY && currentY > THRESHOLD) {
+      header.classList.add('header--hidden');
+    } else {
+      // Yukarı çıkarken veya en üstteyken tekrar göster
+      header.classList.remove('header--hidden');
+    }
+
+    lastScrollY = currentY;
+  });
+})();
+  </script>
+  
+</body>
+</html>
