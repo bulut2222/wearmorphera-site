@@ -1374,8 +1374,7 @@ chatMessagesEl.addEventListener("click", (e) => {
 
   const nameMap = {
     bulutkeles: "Bulut Keleş",
-    busrakaraca: "Büşra Karaca",
-    eminekaraca: "Emine Karaca"
+
   };
 
   const pretty = readers.map(r => nameMap[r] || r).join(", ");
@@ -1460,7 +1459,7 @@ let chatStatus = "online";
   }
   // 🔥 Sohbet için varsayılan üyeler
   async function ensureDefaultChatMembers() {
-  const baseUsers = ["bulutkeles","busrakaraca","eminekaraca"];
+  const baseUsers = ["bulutkeles"];
 
   await Promise.all(
     baseUsers.map(async (u) => {
